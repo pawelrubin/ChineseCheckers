@@ -3,8 +3,11 @@ package kitajce;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import layout.Board;
 import layout.Field;
+import layout.Player;
+import layout.Pone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,33 +18,51 @@ public class MainController {
     @FXML public Board board;
 
     private static List<Field> fields = new ArrayList<>();
+    private static List<Player> players = new ArrayList<>();
+    private static Field fieldsTab[][] = new Field[17][17];
 
     private FXMLLoader loader;
-    
-    public void exitButton() {
-        System.exit(0);
-    }
 
     @FXML
     public void drawBoard() {
-        double posX = 0;
-
         for (int i = 0; i < board.height; i++) {
             double posY = ((i * 40) * sqrt(3)/2 + 50);
             int offset = 0;
             for (int j = 0; j < board.widths[i]; j++) {
                 if (j == 0) {
-                    for (int k = 0; k < board.offset[i]; k++) {
+                    for (int k = 0; k < board.offsetDraw[i]; k++) {
                         offset = k * 40;
                     }
                 }
-                posX = j * 40 + 50;
+                int posX = j * 40 + 50;
                 if ((i % 2) == 1) {
-                    fields.add(new Field(posX + offset + 20, posY, 10, Color.GRAY));
+                    fieldsTab[i][j + board.offset[i]] = new Field(posX + offset + 20, posY, 10, Color.GRAY);
+                    //fields.add(new Field(posX + offset + 20, posY, 10, Color.GRAY));
                 } else {
-                    fields.add(new Field(posX + offset, posY, 10, Color.GRAY));
+                    fieldsTab[i][j + board.offset[i]] = new Field(posX + offset, posY, 10, Color.GRAY);
+                    //fields.add(new Field(posX + offset, posY, 10, Color.GRAY));
                 }
-                board.getChildren().addAll(fields.get(fields.size()-1));
+                //board.getChildren().addAll(fields.get(fields.size()-1));
+                board.getChildren().addAll(fieldsTab[i][j + board.offset[i]]);
+            }
+        }
+        addPones("GREEN");
+    }
+
+    public void addPones(String color) {
+        switch(color) {
+            case "GREEN": {
+                Player greenPlayer = new Player();
+                players.add(greenPlayer);
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < board.widths[i]; j++) {
+                        double x = fieldsTab[i][j + board.offset[i]].getCenterX();
+                        double y = fieldsTab[i][j + board.offset[i]].getCenterY();
+                        players.get(0).pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.GREEN);
+                        board.getChildren().addAll(players.get(0).pones[i][j + board.offset[i]]);
+                    }
+                }
+                break;
             }
         }
     }
