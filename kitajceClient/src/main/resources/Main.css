@@ -1,6 +1,5 @@
 #gridPane {
-    -fx-background-image: url("background.jpg");
-    -fx-background-size: cover, auto;
+
 }
 
 #menu {
@@ -9,6 +8,13 @@
 }
 
 .button {
-    -fx-fit-to-width: true;
-    -fx-min-width: inherit;
+    -fx-text-fill: white;
+    -fx-font-family: "arial";
+  //-fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2a5058);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#2a5058, #61a2b1);
 }

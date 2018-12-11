@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import layout.Board?>
 
-<BorderPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kitajce.MainController">
-
+<?import java.net.URL?>
+<BorderPane fx:controller="kitajce.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <VBox fx:id="menu" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-            <Button onAction="#summonGameMenu" styleClass="button" text="Host Game" />
-            <Button styleClass="button" text="Join Game" />
-            <Button styleClass="button" text="Settings" onAction="#summonSettingsMenu" />
-            <Button onAction="#exitButton" styleClass="button" text="Exit" />
-        </VBox>
+        <Board fx:id="board" />
     </center>
+    <right>
+        <VBox>
+         <children>
+            <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game" />
+         </children></VBox>
+    </right>
 
     <stylesheets>
-        <URL value="@Main.css" />
+        <URL value="@Main.css"/>
     </stylesheets>
-
 </BorderPane>

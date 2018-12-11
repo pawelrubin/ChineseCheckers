@@ -1,21 +1,20 @@
 package kitajce;
 
-import game.GameMenuController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
+import javafx.scene.paint.Color;
+import layout.Board;
+import layout.Field;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.sqrt;
 
 public class MainController {
-    @FXML private TextFlow textFlow;
-    @FXML public VBox menu;
+    @FXML public Board board;
+
+    private static List<Field> fields = new ArrayList<>();
 
     private FXMLLoader loader;
     
@@ -23,15 +22,27 @@ public class MainController {
         System.exit(0);
     }
 
-    public void summonGameMenu() throws IOException {
-        loader = new FXMLLoader(getClass().getResource("../Game.fxml"));
-        BorderPane elo = (BorderPane) Main.root;
-        elo.setCenter((VBox)loader.load());
-    }
+    @FXML
+    public void drawBoard() {
+        double posX = 0;
 
-    public void summonSettingsMenu() throws IOException {
-        loader = new FXMLLoader(getClass().getResource("../Settings.fxml"));
-        BorderPane elo = (BorderPane) Main.root;
-        elo.setCenter((VBox)loader.load());
+        for (int i = 0; i < board.height; i++) {
+            double posY = ((i * 40) * sqrt(3)/2 + 50);
+            int offset = 0;
+            for (int j = 0; j < board.widths[i]; j++) {
+                if (j == 0) {
+                    for (int k = 0; k < board.offset[i]; k++) {
+                        offset = k * 40;
+                    }
+                }
+                posX = j * 40 + 50;
+                if ((i % 2) == 1) {
+                    fields.add(new Field(posX + offset + 20, posY, 10, Color.GRAY));
+                } else {
+                    fields.add(new Field(posX + offset, posY, 10, Color.GRAY));
+                }
+                board.getChildren().addAll(fields.get(fields.size()-1));
+            }
+        }
     }
 }
