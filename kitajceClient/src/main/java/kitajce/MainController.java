@@ -17,7 +17,6 @@ import static java.lang.Math.sqrt;
 public class MainController {
     @FXML public Board board;
 
-    private static List<Field> fields = new ArrayList<>();
     private static List<Player> players = new ArrayList<>();
     private static Field fieldsTab[][] = new Field[17][17];
 
@@ -37,12 +36,9 @@ public class MainController {
                 int posX = j * 40 + 50;
                 if ((i % 2) == 1) {
                     fieldsTab[i][j + board.offset[i]] = new Field(posX + offset + 20, posY, 10, Color.GRAY);
-                    //fields.add(new Field(posX + offset + 20, posY, 10, Color.GRAY));
                 } else {
                     fieldsTab[i][j + board.offset[i]] = new Field(posX + offset, posY, 10, Color.GRAY);
-                    //fields.add(new Field(posX + offset, posY, 10, Color.GRAY));
                 }
-                //board.getChildren().addAll(fields.get(fields.size()-1));
                 board.getChildren().addAll(fieldsTab[i][j + board.offset[i]]);
             }
         }
@@ -58,8 +54,8 @@ public class MainController {
                     for (int j = 0; j < board.widths[i]; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        players.get(0).pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.GREEN);
-                        board.getChildren().addAll(players.get(0).pones[i][j + board.offset[i]]);
+                        greenPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.GREEN);
+                        board.getChildren().addAll(greenPlayer.pones[i][j + board.offset[i]]);
                     }
                 }
                 break;
