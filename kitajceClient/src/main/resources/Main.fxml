@@ -14,6 +14,7 @@
         <VBox>
          <children>
             <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game" />
+             <Button onAction="#startClient" text="startClient"/>
          </children></VBox>
     </right>
 
