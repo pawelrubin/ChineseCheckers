@@ -1,0 +1,14 @@
+#gridPane {
+    -fx-background-image: url("background.jpg");
+    -fx-background-size: cover, auto;
+}
+
+#menu {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.button {
+    -fx-fit-to-width: true;
+    -fx-min-width: inherit;
+}

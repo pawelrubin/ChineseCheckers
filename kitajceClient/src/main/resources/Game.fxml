@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import layout.Board?>
+<VBox fx:id="menu" fx:controller="game.GameMenuController" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+      xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+
+    <Button styleClass="button" text="elo mordo" />
+    <Button styleClass="button" text="co tam"/>
+    <Button styleClass="button" text="Settings"/>
+    <Button styleClass="button" text="Exit" />
+
+    <stylesheets>
+        <URL value="@Main.css"/>
+    </stylesheets>
+</VBox>
