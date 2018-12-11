@@ -12,13 +12,9 @@ public class Field extends Circle {
     super(centerX, centerY, radius, fill);
     setOnMousePressed(event -> {
       this.setStroke(Color.BLACK);
-      this.setStrokeWidth(2);
+      this.setStrokeWidth(12);
     });
 
-    setOnMouseReleased(event -> {
-      this.setStrokeWidth(0);
-    });
+    setOnMouseReleased(event -> this.setStrokeWidth(0));
   }
-
-
 }

@@ -62,4 +62,19 @@ public class MainController {
             }
         }
     }
+
+    @FXML
+    private void startClient() {
+        // create new thread to handle network communication
+        new Thread(() -> {
+            System.out.println("Kitajce client started.");
+            String serverAddress =  "localhost";
+            try {
+                Client client = new Client(serverAddress);
+                client.play();
+            } catch (Exception ex) {
+                System.out.println("Connection Error: " + ex);
+            }
+        }).start();
+    }
 }
