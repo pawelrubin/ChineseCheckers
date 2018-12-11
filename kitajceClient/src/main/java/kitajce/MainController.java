@@ -37,9 +37,9 @@ public class MainController {
                 }
                 posX = j * 40 + 50;
                 if ((i % 2) == 1) {
-                    fields.add(new Field(posX + offset + 20, posY, 10, Color.GRAY));
+                    fields.add(new Field(posX + offset + 20, posY, 15, Color.GRAY));
                 } else {
-                    fields.add(new Field(posX + offset, posY, 10, Color.GRAY));
+                    fields.add(new Field(posX + offset, posY, 15, Color.GRAY));
                 }
                 board.getChildren().addAll(fields.get(fields.size()-1));
             }
