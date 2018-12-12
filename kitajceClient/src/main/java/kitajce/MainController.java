@@ -50,7 +50,7 @@ public class MainController {
         addPones("BLACK");
     }
 
-    public void addPones(String color) {
+    private void addPones(String color) {
         switch(color) {
             //top triangle
             case "GREEN": {
@@ -60,7 +60,7 @@ public class MainController {
                     for (int j = 0; j < board.widths[i]; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        greenPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.GREEN);
+                        greenPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.GREEN);
                         board.getChildren().addAll(greenPlayer.pones[i][j + board.offset[i]]);
                     }
                 }
@@ -74,7 +74,7 @@ public class MainController {
                     for (int j = 0; j < 8 - i; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        bluePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.BLUE);
+                        bluePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.BLUE);
                         board.getChildren().addAll(bluePlayer.pones[i][j + board.offset[i]]);
                     }
                 }
@@ -88,7 +88,7 @@ public class MainController {
                     for (int j = 9; j <= 16 - i; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        whitePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.WHITE);
+                        whitePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.WHITE);
                         board.getChildren().addAll(whitePlayer.pones[i][j + board.offset[i]]);
                     }
                 }
@@ -102,7 +102,7 @@ public class MainController {
                     for (int j = 9; j < board.widths[i]; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        redPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.RED);
+                        redPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.RED);
                         board.getChildren().addAll(redPlayer.pones[i][j + board.offset[i]]);
                     }
                 }
@@ -116,7 +116,7 @@ public class MainController {
                     for (int j = 0; j < board.widths[i]; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        yellowPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.YELLOW);
+                        yellowPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.YELLOW);
                         board.getChildren().addAll(yellowPlayer.pones[i][j + board.offset[i]]);
                     }
                 }
@@ -130,7 +130,7 @@ public class MainController {
                     for (int j = 0; j < board.widths[i - 9]; j++) {
                         double x = fieldsTab[i][j + board.offset[i]].getCenterX();
                         double y = fieldsTab[i][j + board.offset[i]].getCenterY();
-                        blackPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, 9, Color.BLACK);
+                        blackPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.BLACK);
                         board.getChildren().addAll(blackPlayer.pones[i][j + board.offset[i]]);
                     }
                 }

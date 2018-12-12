@@ -28,3 +28,7 @@ kitajceClient/.idea
 **/.idea/
 **/target
 kitajceServer/src/main/java/.vscode/launch.json
+**/.idea/workspace.xml 
+**/.idea/tasks.xml
+*.xml
+*.json
