@@ -13,7 +13,6 @@ public class KitajceServer {
   private int numOfPlayers;
   private int numOfPlayersConnected = 0;
   private Player players[];
-  private Player currentPlayer;
 
   public static void main(String[] args) throws Exception {
     KitajceServer server = new KitajceServer();
