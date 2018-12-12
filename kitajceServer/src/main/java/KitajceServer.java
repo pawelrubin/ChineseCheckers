@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class KitajceServer {
 
-  private static final int port = 8902;
+  private static final int port = 2137;
   private static final String[] colors = {
           "Green", "Red", "Blue",
           "Yellow", "Orange", "Purple"
@@ -13,6 +13,7 @@ public class KitajceServer {
   private int numOfPlayers;
   private int numOfPlayersConnected = 0;
   private Player players[];
+  private Player currentPlayer;
 
   public static void main(String[] args) throws Exception {
     KitajceServer server = new KitajceServer();
@@ -31,7 +32,7 @@ public class KitajceServer {
     }
   }
 
-  public void setPlayers() throws IOException {
+  private void setPlayers() throws IOException {
     players = new Player[numOfPlayers];
     for (int i = 0; i < numOfPlayers; i++) {
       System.out.println("waiting for " + i + "player");

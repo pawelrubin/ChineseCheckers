@@ -1,6 +1,9 @@
-public class MovementController {
-  public boolean isValid(int startX, int startY, int endX, int endY) {
-
+class MovementController {
+  static boolean isValid(int poneX, int poneY, int targetX, int targetY) {
     return true;
+  }
+
+  static void move() {
+
   }
 }

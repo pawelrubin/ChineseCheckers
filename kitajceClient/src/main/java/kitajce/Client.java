@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 class Client  {
-  private static final int port = 8902;
+  private static final int port = 2137;
   private Socket socket;
   private BufferedReader in;
   private PrintWriter out;
@@ -30,7 +30,9 @@ class Client  {
       while (true) {
         response = in.readLine();
         System.out.println("response from server: " + response);
-        if (response.startsWith("QUIT")) {
+        if (response.startsWith("VALID_MOVE")) {
+          System.out.println("dobry ruch kolego.");
+        } else if (response.startsWith("QUIT")) {
           break;
         }
       }

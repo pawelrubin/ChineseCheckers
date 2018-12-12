@@ -9,7 +9,7 @@
     <center>
     </center>
     <right>
-        <VBox>
+        <VBox styleClass="vBox">
             <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
             <Button onAction="#startClient" text="startClient"/>
         </VBox>
