@@ -27,3 +27,4 @@ kitajceClient/.idea
 **/.idea/ 
 **/.idea/
 **/target
+kitajceServer/src/main/java/.vscode/launch.json
