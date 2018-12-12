@@ -10,10 +10,13 @@ public class Player extends Thread {
   private BufferedReader input;
   private PrintWriter output;
   private Player opponent;
+  private Pone pones[] = new Pone[10];
 
   Player(String color, Socket socket) {
     this.color = color;
     this.socket = socket;
+
+    setPones(color);
 
     try {
       input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -35,6 +38,15 @@ public class Player extends Thread {
     this.opponent = opponent;
   }
 
+  void setPones(String color) {
+    for (int i = 0; i < pones.length; i++) {
+      // setting pones depending on color
+    }
+  }
+
+  void handleCommands() {
+
+  }
   @Override
   public void run() {
     try {
@@ -43,7 +55,13 @@ public class Player extends Thread {
       while (true) {
         String command = input.readLine();
         if (command.startsWith("MOVE")) {
-
+          int poneX = command.charAt(6);
+          int poneY = command.charAt(8);
+          int targetX = command.charAt(10);
+          int targetY = command.charAt(11);
+          if (MovementController.isValid(poneX, poneY, targetX, targetY)) {
+            output.println("VALID_MOVE");
+          }
         }
         else if (command.startsWith("QUIT")) {
           return;
