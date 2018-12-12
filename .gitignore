@@ -27,11 +27,10 @@ hs_err_pid*
 
 # idea files
 kitajceClient/.idea
-**/.idea/ 
 **/.idea/
-**/target
+**/.idea/
 kitajceServer/src/main/java/.vscode/launch.json
-**/.idea/workspace.xml 
+**/.idea/workspace.xml
 **/.idea/tasks.xml
 *.xml
 *.json
