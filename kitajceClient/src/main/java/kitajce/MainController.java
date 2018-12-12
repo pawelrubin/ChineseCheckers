@@ -19,7 +19,7 @@ public class MainController {
   private Board board;
 
   private static List<Player> players = new ArrayList<>();
-  private static Field fields[][] = new Field[17][17];
+  //private static Field fields[][] = new Field[17][17];
   public BorderPane borderPane;
 
   private FXMLLoader loader;
@@ -28,7 +28,8 @@ public class MainController {
   public void drawBoard() {
     board = new Board(2);
     borderPane.setCenter(board);
-    for (int i = 0; i < board.height; i++) {
+
+    for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
       for (int j = 0; j < board.widths[i]; j++) {
@@ -39,26 +40,32 @@ public class MainController {
         }
         int posX = j * 40 + 50;
         if ((i % 2) == 1) {
-          fields[i][j + board.offset[i]] = new Field(posX + offset + 20, posY, 10, Color.GRAY);
+          board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset + 20);
+          //fields[i][j + board.offset[i]] = new Field(posX + offset + 20, posY, 10, Color.GRAY);
         } else {
-          fields[i][j + board.offset[i]] = new Field(posX + offset, posY, 10, Color.GRAY);
+          board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset);
+          //fields[i][j + board.offset[i]] = new Field(posX + offset, posY, 10, Color.GRAY);
         }
-        board.getChildren().addAll(fields[i][j + board.offset[i]]);
+        board.getField(i, j + board.getOffset(i)).setCenterY(posY);
+        board.getField(i, j + board.getOffset(i)).setRadius(10);
+        board.getField(i, j + board.getOffset(i)).setFill(Color.GRAY);
+
+        board.getChildren().addAll(board.getField(i, j + board.getOffset(i)));
       }
     }
-    addPones("GREEN");
-    addPones("BLUE");
-    addPones("WHITE");
-    addPones("RED");
-    addPones("YELLOW");
-    addPones("BLACK");
+//    addPones("GREEN");
+//    addPones("BLUE");
+//    addPones("WHITE");
+//    addPones("RED");
+//    addPones("YELLOW");
+//    addPones("BLACK");
   }
 
   private void createPone() {
 
 
   }
-
+/*
   private void addPones(String color) {
     switch (color) {
       //top triangle
@@ -147,7 +154,7 @@ public class MainController {
       }
     }
   }
-
+*/
   @FXML
   private void startClient() {
     // create new thread to handle network communication

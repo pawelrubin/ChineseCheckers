@@ -18,3 +18,8 @@
 .button:hover {
     -fx-background-color: linear-gradient(#2a5058, #61a2b1);
 }
+
+VBox {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
