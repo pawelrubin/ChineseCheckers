@@ -24,5 +24,6 @@ hs_err_pid*
 
 # idea files
 kitajceClient/.idea
-**/.idea/workspace.xml 
-**/.idea/tasks.xml
+**/.idea/ 
+**/.idea/
+**/target
