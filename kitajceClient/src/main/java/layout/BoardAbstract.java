@@ -12,7 +12,7 @@ public abstract class BoardAbstract extends Group {
   //widths of particular rows
   private int widths[];
   //array that holds fields
-  private int fields[][];
+  private Field fields[][];
 
   public int getHeight() {
     return height;
@@ -30,7 +30,7 @@ public abstract class BoardAbstract extends Group {
     return widths[i];
   }
 
-  public int getFields(int x, int y) {
+  public Field getField(int x, int y) {
     return fields[x][y];
   }
 }

@@ -15,8 +15,10 @@ public class Field extends Circle {
     this.x = x;
     this.y = y;
 
-    setOnMousePressed(event -> this.setStroke(Color.BLACK));
-    setOnMousePressed(event -> this.setStrokeWidth(5));
+    setOnMousePressed(event -> {
+      this.setStroke(Color.BLACK);
+      this.setStrokeWidth(5);
+    });
     setOnMouseReleased(event -> this.setStrokeWidth(0));
   }
 
