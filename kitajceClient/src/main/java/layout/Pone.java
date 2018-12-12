@@ -7,15 +7,24 @@ import javafx.scene.shape.Circle;
 
 public class Pone extends Circle {
 
-  private static final int radius = 15;
+  private static final int radius = 9;
   // (X,Y) on board
-  private int X;
-  private int Y;
+  private int x;
+  private int y;
+  private String color;
 
   // TODO: no pionki musza byc tworzone na konktretnych wspolrzednych na planszy
-  public Pone(double centerX, double centerY) {
-    super(centerX, centerY, radius);
+
+  public Pone(int x, int y, String color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
   }
+
+  public String getColor() {
+    return color;
+  }
+
 
   public Pone(double centerX, double centerY, Paint fill) {
     super(centerX, centerY, radius, fill);

@@ -3,6 +3,25 @@ package layout;
 import javafx.scene.Group;
 
 public class Board extends Group {
+
+  private int numOfPlayers;
+  private Field fields[][];
+  private Pone pones[][];
+
+  public Board(int numOfPlayers) {
+    super();
+    this.numOfPlayers = numOfPlayers;
+
+    for (int i = 0; i < 17; i ++) {
+      // creating fields
+    }
+
+    for (int i = 0; i < numOfPlayers; i++) {
+      //creating pones
+    }
+  }
+
+
   public int height = 17;
   public int width = 13;
   //public int offset[] = {6,5,5,4,0,0,1,1,2,1,1,0,0,4,5,5,6};

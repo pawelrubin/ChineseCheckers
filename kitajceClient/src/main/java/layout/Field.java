@@ -8,6 +8,18 @@ import java.awt.event.MouseEvent;
 
 public class Field extends Circle {
 
+  private int x;
+  private int y;
+
+  public Field(int x, int y) {
+    this.x = x;
+    this.y = y;
+
+    setOnMousePressed(event -> this.setStroke(Color.BLACK));
+    setOnMousePressed(event -> this.setStrokeWidth(5));
+    setOnMouseReleased(event -> this.setStrokeWidth(0));
+  }
+
   public Field(double centerX, double centerY, double radius, Paint fill) {
     super(centerX, centerY, radius, fill);
     
