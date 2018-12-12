@@ -18,9 +18,11 @@ public class MainController {
   @FXML
   private Board board;
 
+  @FXML
+  private BorderPane borderPane;
+
   private static List<Player> players = new ArrayList<>();
   //private static Field fields[][] = new Field[17][17];
-  public BorderPane borderPane;
 
   private FXMLLoader loader;
 
