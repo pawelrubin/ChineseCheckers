@@ -8,7 +8,7 @@ public class Board extends Group {
   //public int offset[] = {6,5,5,4,0,0,1,1,2,1,1,0,0,4,5,5,6};
   public int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
   //offset for storing the board
-  public int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
+  private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
   public int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   private int numOfPlayers;
   private Field fields[][];
@@ -24,6 +24,7 @@ public class Board extends Group {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < height; j++) {
         fields[i][j] = null;
+        pones[i][j] = null;
       }
     }
 
@@ -50,14 +51,14 @@ public class Board extends Group {
       case 4: {
         addBluePones();
         addWhitePones();
-        addBluePones();
+        addBlackPones();
         addRedPones();
         break;
       }
       case 6: {
         addBluePones();
         addWhitePones();
-        addBluePones();
+        addBlackPones();
         addRedPones();
         addGreenPones();
         addYellowPones();
@@ -124,5 +125,9 @@ public class Board extends Group {
 
   public Field getField(int x, int y) {
     return fields[x][y];
+  }
+
+  public Pone getPone(int x, int y) {
+    return pones[x][y];
   }
 }

@@ -21,14 +21,9 @@ public class MainController {
   @FXML
   private BorderPane borderPane;
 
-  private static List<Player> players = new ArrayList<>();
-  //private static Field fields[][] = new Field[17][17];
-
-  private FXMLLoader loader;
-
   @FXML
   public void drawBoard() {
-    board = new Board(2);
+    board = new Board(6);
     borderPane.setCenter(board);
 
     for (int i = 0; i < board.getHeight(); i++) {
@@ -43,10 +38,8 @@ public class MainController {
         int posX = j * 40 + 50;
         if ((i % 2) == 1) {
           board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset + 20);
-          //fields[i][j + board.offset[i]] = new Field(posX + offset + 20, posY, 10, Color.GRAY);
         } else {
           board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset);
-          //fields[i][j + board.offset[i]] = new Field(posX + offset, posY, 10, Color.GRAY);
         }
         board.getField(i, j + board.getOffset(i)).setCenterY(posY);
         board.getField(i, j + board.getOffset(i)).setRadius(10);
@@ -55,108 +48,52 @@ public class MainController {
         board.getChildren().addAll(board.getField(i, j + board.getOffset(i)));
       }
     }
-//    addPones("GREEN");
-//    addPones("BLUE");
-//    addPones("WHITE");
-//    addPones("RED");
-//    addPones("YELLOW");
-//    addPones("BLACK");
+    drawPones();
   }
 
-  private void createPone() {
+  private void drawPones() {
+    for (int i = 0; i < board.getHeight(); i++) {
+      for (int j = 0; j < board.getHeight(); j++) {
+        if (board.getPone(i, j) != null) {
+          double x = board.getField(i, j).getCenterX();
+          double y = board.getField(i, j).getCenterY();
+          board.getPone(i, j).setCenterX(x);
+          board.getPone(i, j).setCenterY(y);
+          board.getPone(i, j).setRadius(9);
 
-
-  }
-/*
-  private void addPones(String color) {
-    switch (color) {
-      //top triangle
-      case "GREEN": {
-        Player greenPlayer = new Player();
-        players.add(greenPlayer);
-        for (int i = 0; i < 4; i++) {
-          for (int j = 0; j < board.widths[i]; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            greenPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.GREEN);
-            board.getChildren().addAll(greenPlayer.pones[i][j + board.offset[i]]);
+          //choosing color
+          switch (board.getPone(i, j).getColor()) {
+            case "GREEN": {
+              board.getPone(i, j).setFill(Color.GREEN);
+              break;
+            }
+            case "RED": {
+              board.getPone(i, j).setFill(Color.RED);
+              break;
+            }
+            case "BLUE": {
+              board.getPone(i, j).setFill(Color.BLUE);
+              break;
+            }
+            case "WHITE": {
+              board.getPone(i, j).setFill(Color.WHITE);
+              break;
+            }
+            case "BLACK": {
+              board.getPone(i, j).setFill(Color.BLACK);
+              break;
+            }
+            case "YELLOW": {
+              board.getPone(i, j).setFill(Color.YELLOW);
+              break;
+            }
           }
+          board.getChildren().addAll(board.getPone(i, j));
         }
-        break;
-      }
-      //top left triangle
-      case "BLUE": {
-        Player bluePlayer = new Player();
-        players.add(bluePlayer);
-        for (int i = 4; i < 8; i++) {
-          for (int j = 0; j < 8 - i; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            bluePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.BLUE);
-            board.getChildren().addAll(bluePlayer.pones[i][j + board.offset[i]]);
-          }
-        }
-        break;
-      }
-      //top right triangle
-      case "WHITE": {
-        Player whitePlayer = new Player();
-        players.add(whitePlayer);
-        for (int i = 4; i < 8; i++) {
-          for (int j = 9; j <= 16 - i; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            whitePlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.WHITE);
-            board.getChildren().addAll(whitePlayer.pones[i][j + board.offset[i]]);
-          }
-        }
-        break;
-      }
-      //bottom right triangle
-      case "RED": {
-        Player redPlayer = new Player();
-        players.add(redPlayer);
-        for (int i = 9; i < 13; i++) {
-          for (int j = 9; j < board.widths[i]; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            redPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.RED);
-            board.getChildren().addAll(redPlayer.pones[i][j + board.offset[i]]);
-          }
-        }
-        break;
-      }
-      //bottom triangle
-      case "YELLOW": {
-        Player yellowPlayer = new Player();
-        players.add(yellowPlayer);
-        for (int i = 13; i < 17; i++) {
-          for (int j = 0; j < board.widths[i]; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            yellowPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.YELLOW);
-            board.getChildren().addAll(yellowPlayer.pones[i][j + board.offset[i]]);
-          }
-        }
-        break;
-      }
-      //bottom left triangle
-      case "BLACK": {
-        Player blackPlayer = new Player();
-        players.add(blackPlayer);
-        for (int i = 9; i < 13; i++) {
-          for (int j = 0; j < board.widths[i - 9]; j++) {
-            double x = fields[i][j + board.offset[i]].getCenterX();
-            double y = fields[i][j + board.offset[i]].getCenterY();
-            blackPlayer.pones[i][j + board.offset[i]] = new Pone(x, y, Color.BLACK);
-            board.getChildren().addAll(blackPlayer.pones[i][j + board.offset[i]]);
-          }
-        }
-        break;
       }
     }
   }
-*/
+
   @FXML
   private void startClient() {
     // create new thread to handle network communication
