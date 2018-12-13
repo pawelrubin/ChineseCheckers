@@ -20,12 +20,13 @@ public class Pone extends Circle {
     this.y = y;
     this.color = color;
 
-    setOnMousePressed(event -> {
-      this.setStroke(Color.PURPLE);
-      this.setStrokeWidth(5);
-    });
+//    setOnMousePressed(event -> {
+//      this.setStroke(Color.PURPLE);
+//      this.setStrokeWidth(5);
+//    });
 
-    setOnMouseReleased(event -> this.setStrokeWidth(0));
+    //setOnMouseReleased(event -> this.setStrokeWidth(0));
+
   }
 
   public String getColor() {

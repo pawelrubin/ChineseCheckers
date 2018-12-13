@@ -49,6 +49,7 @@ public class MainController {
       }
     }
     drawPones();
+    board.movePone("YELLOW");
   }
 
   private void drawPones() {

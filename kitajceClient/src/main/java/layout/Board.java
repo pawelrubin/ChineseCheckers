@@ -1,6 +1,7 @@
 package layout;
 
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 
 public class Board extends Group {
   private final int height = 17;
@@ -63,6 +64,38 @@ public class Board extends Group {
         addGreenPones();
         addYellowPones();
         break;
+      }
+    }
+  }
+
+  public void movePone(String color) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < height; j++) {
+        if (pones[i][j] != null) {
+          final int a = i;
+          final int b = j;
+          pones[i][j].setOnMouseClicked(e -> {
+            pones[a][b].setStroke(Color.PURPLE);
+            pones[a][b].setStrokeWidth(5);
+            setOnMousePressed(ee -> {
+              for (int k = 0; k < height; k++) {
+                for (int m = 0; m < height; m++) {
+                  if (fields[k][m] != null && pones[k][m] == null && color.equals(pones[a][b].getColor())) {
+                    double x = fields[k][m].getCenterX();
+                    double y = fields[k][m].getCenterY();
+                    //moving pone physically
+                    pones[a][b].setCenterX(x);
+                    pones[a][b].setCenterY(y);
+                    //moving pone algorithmically
+                    pones[k][m] = pones[a][b];
+                    pones[a][b] = null;
+                  }
+                }
+              }
+            });
+            pones[a][b].setStrokeWidth(0);
+          });
+        }
       }
     }
   }
