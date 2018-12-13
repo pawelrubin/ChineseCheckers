@@ -67,7 +67,7 @@ public class Board extends Group {
       }
     }
   }
-
+//TODO make it work
   public void movePone(String color) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < height; j++) {
@@ -89,11 +89,11 @@ public class Board extends Group {
                     //moving pone algorithmically
                     pones[k][m] = pones[a][b];
                     pones[a][b] = null;
+                    pones[a][b].setStrokeWidth(0);
                   }
                 }
               }
             });
-            pones[a][b].setStrokeWidth(0);
           });
         }
       }
