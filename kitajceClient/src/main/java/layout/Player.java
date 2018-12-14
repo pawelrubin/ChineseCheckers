@@ -1,9 +1,9 @@
 package layout;
 
 public class Player {
-  public Pone pones[][];
+  private Pawn pawns[][];
 
   public Player() {
-    pones = new Pone[17][17];
+    pawns = new Pawn[17][17];
   }
 }

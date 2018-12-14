@@ -1,25 +1,21 @@
 package kitajce;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import layout.Board;
-import layout.Field;
-import layout.Player;
-import layout.Pone;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Math.sqrt;
 
 public class MainController {
   @FXML
-  private Board board;
+  public static Board board;
 
   @FXML
   private BorderPane borderPane;
+
+  public static int xOfChosenPawn = 0;
+  public static int yOfChosenPawn = 0;
 
   @FXML
   public void drawBoard() {
@@ -48,52 +44,54 @@ public class MainController {
         board.getChildren().addAll(board.getField(i, j + board.getOffset(i)));
       }
     }
-    drawPones();
-    board.movePone("YELLOW");
+    drawPawns();
+//    board.movePone("YELLOW");
   }
 
-  private void drawPones() {
+  private void drawPawns() {
     for (int i = 0; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getHeight(); j++) {
-        if (board.getPone(i, j) != null) {
+        if (board.getPawn(i, j) != null) {
           double x = board.getField(i, j).getCenterX();
           double y = board.getField(i, j).getCenterY();
-          board.getPone(i, j).setCenterX(x);
-          board.getPone(i, j).setCenterY(y);
-          board.getPone(i, j).setRadius(9);
+          board.getPawn(i, j).setCenterX(x);
+          board.getPawn(i, j).setCenterY(y);
+          board.getPawn(i, j).setRadius(9);
 
           //choosing color
-          switch (board.getPone(i, j).getColor()) {
+          switch (board.getPawn(i, j).getColor()) {
             case "GREEN": {
-              board.getPone(i, j).setFill(Color.GREEN);
+              board.getPawn(i, j).setFill(Color.GREEN);
               break;
             }
             case "RED": {
-              board.getPone(i, j).setFill(Color.RED);
+              board.getPawn(i, j).setFill(Color.RED);
               break;
             }
             case "BLUE": {
-              board.getPone(i, j).setFill(Color.BLUE);
+              board.getPawn(i, j).setFill(Color.BLUE);
               break;
             }
             case "WHITE": {
-              board.getPone(i, j).setFill(Color.WHITE);
+              board.getPawn(i, j).setFill(Color.WHITE);
               break;
             }
             case "BLACK": {
-              board.getPone(i, j).setFill(Color.BLACK);
+              board.getPawn(i, j).setFill(Color.BLACK);
               break;
             }
             case "YELLOW": {
-              board.getPone(i, j).setFill(Color.YELLOW);
+              board.getPawn(i, j).setFill(Color.YELLOW);
               break;
             }
           }
-          board.getChildren().addAll(board.getPone(i, j));
+          board.getChildren().addAll(board.getPawn(i, j));
         }
       }
     }
   }
+
+
 
   @FXML
   private void startClient() {

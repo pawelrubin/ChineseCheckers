@@ -9,21 +9,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static Stage primaryStage;
-    public static Parent root;
+  private static Stage primaryStage;
+  private static Parent root;
 
-    public void start(Stage primaryStage) throws Exception {
-        Main.primaryStage = primaryStage;
-        root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
-        primaryStage.setTitle("Kitajce");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setMaximized(true);
-        primaryStage.setResizable(true);
-        primaryStage.show();
-    }
+  public void start(Stage primaryStage) throws Exception {
+    Main.primaryStage = primaryStage;
+    root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
+    primaryStage.setTitle("Kitajce");
+    primaryStage.setScene(new Scene(root));
+    primaryStage.setMaximized(true);
+    primaryStage.setResizable(true);
+    primaryStage.show();
+  }
 
 
-    public static void main(String[] args) throws Exception {
-        launch();
-    }
+  public static void main(String[] args) {
+    launch();
+  }
 }
