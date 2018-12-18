@@ -1,29 +1,35 @@
 package kitajce;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import layout.Board;
+import layout.Field;
+import layout.Pawn;
 
 import static java.lang.Math.sqrt;
 
 public class MainController {
   @FXML
-  public static Board board;
-
+  private static Board board;
   @FXML
   private BorderPane borderPane;
-
-  public static int xOfChosenPawn = 0;
-  public static int yOfChosenPawn = 0;
-  public static String currentPlayer = "GREEN";//= ;
-  private static int moveCount = 0;
-  private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   @FXML
-  public void drawBoard() {
-    board = new Board(6);
-    borderPane.setCenter(board);
+  private Label label;
 
+  private int xOfChosenPawn = 0;
+  private int yOfChosenPawn = 0;
+  private String currentPlayer;
+  private int moveCount = 0;
+  private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+
+  @FXML
+  private void drawBoard() {
+    board = new Board(6);
+    currentPlayer = "GREEN";
+    borderPane.setCenter(board);
+    label.setText(currentPlayer);
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -34,20 +40,44 @@ public class MainController {
           }
         }
         int posX = j * 40 + 50;
-        if ((i % 2) == 1) {
-          board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset + 20);
-        } else {
-          board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset);
-        }
-        board.getField(i, j + board.getOffset(i)).setCenterY(posY);
-        board.getField(i, j + board.getOffset(i)).setRadius(15);
-        board.getField(i, j + board.getOffset(i)).setFill(Color.GRAY);
 
-        board.getChildren().addAll(board.getField(i, j + board.getOffset(i)));
+        Field field = board.getField(i, j + board.getOffset(i));
+
+        if ((i % 2) == 1) {
+          field.setCenterX(posX + offset + 20);
+        } else {
+          field.setCenterX(posX + offset);
+        }
+
+        field.setCenterY(posY);
+        field.setRadius(15);
+        field.setFill(Color.GRAY);
+
+        field.setOnMouseClicked(event -> {
+          System.out.println("a field has been clicked.");
+          System.out.println("x: " + field.getX() + ", y: " + field.getY());
+          System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
+          if (!(xOfChosenPawn == 0 && yOfChosenPawn == 0)) {
+            int tempX = xOfChosenPawn;
+            int tempY = yOfChosenPawn;
+            System.out.println("temp: x y : " + tempX + " | " + tempY);
+            Pawn pawn = board.getPawn(tempX, tempY);
+
+            pawn.setXY(field.getX(), field.getY());
+            pawn.repaint(field);
+            pawn.setChosen(false);
+
+            board.movePawn(tempX, tempY, field.getX(), field.getY());
+            nextPlayer();
+            xOfChosenPawn = 0;
+            yOfChosenPawn = 0;
+          }
+        });
+
+        board.getChildren().addAll(field);
       }
     }
     drawPawns();
-//    board.movePone("YELLOW");
   }
 
   private void drawPawns() {
@@ -56,38 +86,70 @@ public class MainController {
         if (board.getPawn(i, j) != null) {
           double x = board.getField(i, j).getCenterX();
           double y = board.getField(i, j).getCenterY();
-          board.getPawn(i, j).setCenterX(x);
-          board.getPawn(i, j).setCenterY(y);
-          board.getPawn(i, j).setRadius(14);
+          Pawn pawn = board.getPawn(i, j);
+          pawn.setCenterX(x);
+          pawn.setCenterY(y);
+          pawn.setRadius(14);
 
           //choosing color
-          switch (board.getPawn(i, j).getColor()) {
+          switch (pawn.getColor()) {
             case "GREEN": {
-              board.getPawn(i, j).setFill(Color.GREEN);
+              pawn.setFill(Color.GREEN);
               break;
             }
             case "RED": {
-              board.getPawn(i, j).setFill(Color.RED);
+              pawn.setFill(Color.RED);
               break;
             }
             case "BLUE": {
-              board.getPawn(i, j).setFill(Color.BLUE);
+              pawn.setFill(Color.BLUE);
               break;
             }
             case "WHITE": {
-              board.getPawn(i, j).setFill(Color.WHITE);
+              pawn.setFill(Color.WHITE);
               break;
             }
             case "BLACK": {
-              board.getPawn(i, j).setFill(Color.BLACK);
+              pawn.setFill(Color.BLACK);
               break;
             }
             case "YELLOW": {
-              board.getPawn(i, j).setFill(Color.YELLOW);
+              pawn.setFill(Color.YELLOW);
               break;
             }
           }
-          board.getChildren().addAll(board.getPawn(i, j));
+
+          pawn.setOnMouseClicked(event -> {
+            if (currentPlayer.equals(pawn.getColor())) {
+              pawn.setChosen(!pawn.isChosen());
+              if (pawn.isChosen()) {
+                int oldX = xOfChosenPawn;
+                int oldY = yOfChosenPawn;
+                Pawn oldPawn = board.getPawn(oldX, oldY);
+
+                if (oldPawn != null) {
+                  oldPawn.setChosen(false);
+                  oldPawn.setStrokeWidth(0);
+                }
+
+                xOfChosenPawn = pawn.getX();
+                yOfChosenPawn = pawn.getY();
+                pawn.setStrokeWidth(5);
+                pawn.setStroke(Color.PINK);
+                System.out.println("a pawn has been chosen.");
+                System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
+                System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
+              } else {
+                System.out.println("the pawn is no longer the chosen one.");
+                pawn.setStrokeWidth(0);
+                xOfChosenPawn = 0;
+                yOfChosenPawn = 0;
+                System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
+                System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
+              }
+            }
+          });
+          board.getChildren().addAll(pawn);
         }
       }
     }
@@ -108,8 +170,9 @@ public class MainController {
     }).start();
   }
 
-  public static String nextPlayer() {
+  private void nextPlayer() {
     moveCount++;
-    return colors[moveCount%6];
+    currentPlayer = colors[moveCount%6];
+    label.setText(currentPlayer);
   }
 }

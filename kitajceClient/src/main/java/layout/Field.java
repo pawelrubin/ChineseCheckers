@@ -19,26 +19,21 @@ public class Field extends Circle {
       this.setStrokeWidth(5);
     });
     setOnMouseReleased(event -> this.setStrokeWidth(0));
+  }
 
-    setOnMouseClicked(event -> {
-      System.out.println("a field has been clicked.");
-      System.out.println("x: " + this.x + ", y: " + this.y);
-      System.out.println(MainController.xOfChosenPawn + " --- " + MainController.yOfChosenPawn);
-      if (!(MainController.xOfChosenPawn == 0 && MainController.yOfChosenPawn == 0)) {
-        int tempX = MainController.xOfChosenPawn;
-        int tempY = MainController.yOfChosenPawn;
-        System.out.println("temp: x y : " + tempX + " | " + tempY);
-        Pawn pawn = MainController.board.getPawn(tempX, tempY);
+  public int getX() {
+    return x;
+  }
 
-        pawn.setXY(this.x, this.y);
-        pawn.repaint(this);
-        pawn.setChosen(false);
+  public void setX(int x) {
+    this.x = x;
+  }
 
-        MainController.board.movePawn(tempX, tempY, this.x, this.y);
-        MainController.currentPlayer = MainController.nextPlayer();
-        MainController.xOfChosenPawn = 0;
-        MainController.yOfChosenPawn = 0;
-      }
-    });
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
   }
 }

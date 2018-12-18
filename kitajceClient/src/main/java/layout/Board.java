@@ -164,7 +164,7 @@ public class Board extends Group {
     return pawns[x][y];
   }
 
-  void movePawn(int oldX, int oldY, int newX, int newY) {
+  public void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
   }
