@@ -273,7 +273,7 @@ public class MainController {
           return true;
         }
       }
-      if (newX - oldX == 2) {
+      if (newX - oldX == 0) {
         if (board.getPawn(oldX, oldY + 1) != null) {
           return true;
         }
