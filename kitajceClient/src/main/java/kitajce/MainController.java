@@ -185,6 +185,19 @@ public class MainController {
   }
 
   private boolean isValid(int oldX, int oldY, Field field) {
+
+    if (moveValidation(oldX, oldY, field)) {
+      return true;
+    }
+
+    if (jumpValidation(oldX, oldY, field)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private boolean moveValidation(int oldX, int oldY, Field field) {
     int newX = field.getX();
     int newY = field.getY();
 
@@ -215,6 +228,55 @@ public class MainController {
       }
       if (newX - oldX == 0) {
         return true;
+      }
+    }
+
+    return false;
+  }
+
+  private boolean jumpValidation(int oldX, int oldY, Field field) {
+    int newX = field.getX();
+    int newY = field.getY();
+
+    //jumping right [2, 0] and left [-2, 0]
+    if (newY - oldY == 0) {
+      if (newX - oldX == 2) {
+        if (board.getPawn(oldX + 1, oldY) != null) {
+          return true;
+        }
+      }
+      if (newX - oldX == -2) {
+        if (board.getPawn(oldX - 1, oldY) != null) {
+          return true;
+        }
+      }
+    }
+
+    //jumping top right [0, -2] and top left [-2, -2]
+    if (newY - oldY == -2) {
+      if (newX - oldX == 0) {
+        if (board.getPawn(oldX, oldY - 1) != null) {
+          return true;
+        }
+      }
+      if (newX - oldX == -2) {
+        if (board.getPawn(oldX - 1, oldY - 1) != null) {
+          return true;
+        }
+      }
+    }
+
+    //jumping bottom right [2, 2] and bottom left [0, 2]
+    if (newY - oldY == 2) {
+      if (newX - oldX == 2) {
+        if (board.getPawn(oldX + 1, oldY + 1) != null) {
+          return true;
+        }
+      }
+      if (newX - oldX == 2) {
+        if (board.getPawn(oldX, oldY + 1) != null) {
+          return true;
+        }
       }
     }
 
