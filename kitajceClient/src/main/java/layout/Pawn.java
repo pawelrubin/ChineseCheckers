@@ -31,11 +31,6 @@ public class Pawn extends Circle {
     return color;
   }
 
-  public void setXY(int x, int y) {
-    this.x = x;
-    this.y = y;
-  }
-
   public void setChosen(boolean chosen) {
     isChosen = chosen;
     if (!chosen) {

@@ -18,6 +18,7 @@ public class MainController {
   @FXML
   private Label label;
 
+  private Client client;
   private int xOfChosenPawn = 0;
   private int yOfChosenPawn = 0;
   private String currentPlayer;
@@ -28,6 +29,7 @@ public class MainController {
   private void drawBoard() {
     board = new Board(6);
     currentPlayer = "GREEN";
+    moveCount = 0;
     borderPane.setCenter(board);
     label.setText(currentPlayer);
     for (int i = 0; i < board.getHeight(); i++) {
@@ -63,7 +65,8 @@ public class MainController {
             System.out.println("temp: x y : " + tempX + " | " + tempY);
             Pawn pawn = board.getPawn(tempX, tempY);
 
-            pawn.setXY(field.getX(), field.getY());
+            pawn.setX(field.getX());
+            pawn.setY(field.getY());
             pawn.repaint(field);
             pawn.setChosen(false);
 
@@ -162,7 +165,7 @@ public class MainController {
       System.out.println("Kitajce client started.");
       String serverAddress = "localhost";
       try {
-        Client client = new Client(serverAddress);
+        client = new Client(serverAddress);
         client.play();
       } catch (Exception ex) {
         System.out.println("Connection Error: " + ex);
@@ -175,4 +178,6 @@ public class MainController {
     currentPlayer = colors[moveCount%6];
     label.setText(currentPlayer);
   }
+
+
 }
