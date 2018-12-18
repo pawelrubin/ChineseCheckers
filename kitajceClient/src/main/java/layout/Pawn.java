@@ -23,32 +23,33 @@ public class Pawn extends Circle {
 
     // choosing the pawn
     setOnMouseClicked(event -> {
-      isChosen ^= true;
-      if (isChosen) {
-        int oldX = MainController.xOfChosenPawn;
-        int oldY = MainController.yOfChosenPawn;
-        Pawn oldPawn = MainController.board.getPawn(oldX, oldY);
+      if (MainController.currentPlayer.equals(color)) {
+        isChosen ^= true;
+        if (isChosen) {
+          int oldX = MainController.xOfChosenPawn;
+          int oldY = MainController.yOfChosenPawn;
+          Pawn oldPawn = MainController.board.getPawn(oldX, oldY);
 
-        if (oldPawn != null) {
-          oldPawn.setChosen(false);
-          oldPawn.setStrokeWidth(0);
+          if (oldPawn != null) {
+            oldPawn.setChosen(false);
+            oldPawn.setStrokeWidth(0);
+          }
+
+          MainController.xOfChosenPawn = this.x;
+          MainController.yOfChosenPawn = this.y;
+          this.setStrokeWidth(5);
+          this.setStroke(Color.PINK);
+          System.out.println("a pawn has been chosen.");
+          System.out.println("x: " + this.x + ", y: " + this.y);
+          System.out.println(MainController.xOfChosenPawn + " --- " + MainController.yOfChosenPawn);
+        } else {
+          System.out.println("the pawn is no longer the chosen one.");
+          this.setStrokeWidth(0);
+          MainController.xOfChosenPawn = 0;
+          MainController.yOfChosenPawn = 0;
+          System.out.println("x: " + this.x + ", y: " + this.y);
+          System.out.println(MainController.xOfChosenPawn + " --- " + MainController.yOfChosenPawn);
         }
-
-        MainController.xOfChosenPawn = this.x;
-        MainController.yOfChosenPawn = this.y;
-        this.setStrokeWidth(5);
-        this.setStroke(Color.PINK);
-        System.out.println("a pawn has been chosen.");
-        System.out.println("x: " + this.x + ", y: " + this.y);
-        System.out.println(MainController.xOfChosenPawn + " --- " + MainController.yOfChosenPawn);
-      } else {
-        System.out.println("the pawn is no longer the chosen one.");
-        this.setStrokeWidth(0);
-        MainController.xOfChosenPawn = 0;
-        MainController.yOfChosenPawn = 0;
-        System.out.println("x: " + this.x + ", y: " + this.y);
-        System.out.println(MainController.xOfChosenPawn + " --- " + MainController.yOfChosenPawn);
-
       }
     });
   }

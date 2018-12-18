@@ -17,7 +17,7 @@ public class Main extends Application {
     root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
     primaryStage.setTitle("Kitajce");
     primaryStage.setScene(new Scene(root));
-    primaryStage.setMaximized(true);
+    primaryStage.setMaximized(false);
     primaryStage.setResizable(true);
     primaryStage.show();
   }

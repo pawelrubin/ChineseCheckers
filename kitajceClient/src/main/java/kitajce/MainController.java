@@ -16,7 +16,9 @@ public class MainController {
 
   public static int xOfChosenPawn = 0;
   public static int yOfChosenPawn = 0;
-
+  public static String currentPlayer = "GREEN";//= ;
+  private static int moveCount = 0;
+  private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   @FXML
   public void drawBoard() {
     board = new Board(6);
@@ -91,8 +93,6 @@ public class MainController {
     }
   }
 
-
-
   @FXML
   private void startClient() {
     // create new thread to handle network communication
@@ -106,5 +106,10 @@ public class MainController {
         System.out.println("Connection Error: " + ex);
       }
     }).start();
+  }
+
+  public static String nextPlayer() {
+    moveCount++;
+    return colors[moveCount%6];
   }
 }

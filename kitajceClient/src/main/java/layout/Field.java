@@ -35,7 +35,7 @@ public class Field extends Circle {
         pawn.setChosen(false);
 
         MainController.board.movePawn(tempX, tempY, this.x, this.y);
-
+        MainController.currentPlayer = MainController.nextPlayer();
         MainController.xOfChosenPawn = 0;
         MainController.yOfChosenPawn = 0;
       }
