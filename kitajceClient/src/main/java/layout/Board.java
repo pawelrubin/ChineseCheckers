@@ -67,39 +67,6 @@ public class Board extends Group {
     }
   }
 
-//TODO make it worth
-//  public void movePone(String color) {
-//    for (int i = 0; i < height; i++) {
-//      for (int j = 0; j < height; j++) {
-//        if (pawns[i][j] != null) {
-//          final int a = i;
-//          final int b = j;
-//          pawns[i][j].setOnMouseClicked(e -> {
-//            pawns[a][b].setStroke(Color.PURPLE);
-//            pawns[a][b].setStrokeWidth(5);
-//            setOnMousePressed(ee -> {
-//              for (int k = 0; k < height; k++) {
-//                for (int m = 0; m < height; m++) {
-//                  if (fields[k][m] != null && pawns[k][m] == null && color.equals(pawns[a][b].getColor())) {
-//                    double x = fields[k][m].getCenterX();
-//                    double y = fields[k][m].getCenterY();
-//                    //moving pone physically
-//                    pawns[a][b].setCenterX(x);
-//                    pawns[a][b].setCenterY(y);
-//                    //moving pone algorithmically
-//                    pawns[k][m] = pawns[a][b];
-//                    pawns[a][b] = null;
-//                    pawns[a][b].setStrokeWidth(0);
-//                  }
-//                }
-//              }
-//            });
-//          });
-//        }
-//      }
-//    }
-//  }
-
   private void addGreenPawns() {
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < widths[i]; j++) {

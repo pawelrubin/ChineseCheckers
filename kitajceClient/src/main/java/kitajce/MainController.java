@@ -63,17 +63,19 @@ public class MainController {
             int tempX = xOfChosenPawn;
             int tempY = yOfChosenPawn;
             System.out.println("temp: x y : " + tempX + " | " + tempY);
-            Pawn pawn = board.getPawn(tempX, tempY);
+            if (isValid(tempX, tempY, field)) {
+              Pawn pawn = board.getPawn(tempX, tempY);
 
-            pawn.setX(field.getX());
-            pawn.setY(field.getY());
-            pawn.repaint(field);
-            pawn.setChosen(false);
+              pawn.setX(field.getX());
+              pawn.setY(field.getY());
+              pawn.repaint(field);
+              pawn.setChosen(false);
 
-            board.movePawn(tempX, tempY, field.getX(), field.getY());
-            nextPlayer();
-            xOfChosenPawn = 0;
-            yOfChosenPawn = 0;
+              board.movePawn(tempX, tempY, field.getX(), field.getY());
+              nextPlayer();
+              xOfChosenPawn = 0;
+              yOfChosenPawn = 0;
+            }
           }
         });
 
@@ -93,6 +95,8 @@ public class MainController {
           pawn.setCenterX(x);
           pawn.setCenterY(y);
           pawn.setRadius(14);
+          pawn.setStroke(Color.GRAY);
+          pawn.setStrokeWidth(1);
 
           //choosing color
           switch (pawn.getColor()) {
@@ -137,14 +141,15 @@ public class MainController {
 
                 xOfChosenPawn = pawn.getX();
                 yOfChosenPawn = pawn.getY();
-                pawn.setStrokeWidth(5);
+                pawn.setStrokeWidth(3);
                 pawn.setStroke(Color.PINK);
                 System.out.println("a pawn has been chosen.");
                 System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               } else {
                 System.out.println("the pawn is no longer the chosen one.");
-                pawn.setStrokeWidth(0);
+                pawn.setStroke(Color.GRAY);
+                pawn.setStrokeWidth(1);
                 xOfChosenPawn = 0;
                 yOfChosenPawn = 0;
                 System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
@@ -175,9 +180,44 @@ public class MainController {
 
   private void nextPlayer() {
     moveCount++;
-    currentPlayer = colors[moveCount%6];
+    currentPlayer = colors[moveCount % 6];
     label.setText(currentPlayer);
   }
 
+  private boolean isValid(int oldX, int oldY, Field field) {
+    int newX = field.getX();
+    int newY = field.getY();
 
+    //moving right [1, 0] and left[-1, 0]
+    if (newY - oldY == 0) {
+      if (newX - oldX == 1) {
+        return true;
+      }
+      if (newX - oldX == -1) {
+        return true;
+      }
+    }
+
+    //moving top right [0, -1] and top left [-1, -1]
+    if (newY - oldY == -1) {
+      if (newX - oldX == 0) {
+        return true;
+      }
+      if (newX - oldX == -1) {
+        return true;
+      }
+    }
+
+    //moving bottom right [1, 1] or bottom left [0, 1]
+    if (newY - oldY == 1) {
+      if (newX - oldX == 1) {
+        return true;
+      }
+      if (newX - oldX == 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
