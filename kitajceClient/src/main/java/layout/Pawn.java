@@ -7,7 +7,7 @@ import kitajce.MainController;
 
 public class Pawn extends Circle {
 
-  private static final int radius = 9;
+  private static final int radius = 14;
   // (X,Y) on board
   private int x;
   private int y;

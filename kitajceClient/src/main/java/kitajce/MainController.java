@@ -38,7 +38,7 @@ public class MainController {
           board.getField(i, j + board.getOffset(i)).setCenterX(posX + offset);
         }
         board.getField(i, j + board.getOffset(i)).setCenterY(posY);
-        board.getField(i, j + board.getOffset(i)).setRadius(10);
+        board.getField(i, j + board.getOffset(i)).setRadius(15);
         board.getField(i, j + board.getOffset(i)).setFill(Color.GRAY);
 
         board.getChildren().addAll(board.getField(i, j + board.getOffset(i)));
@@ -56,7 +56,7 @@ public class MainController {
           double y = board.getField(i, j).getCenterY();
           board.getPawn(i, j).setCenterX(x);
           board.getPawn(i, j).setCenterY(y);
-          board.getPawn(i, j).setRadius(9);
+          board.getPawn(i, j).setRadius(14);
 
           //choosing color
           switch (board.getPawn(i, j).getColor()) {
