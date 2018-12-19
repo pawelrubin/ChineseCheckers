@@ -9,7 +9,8 @@ public class Board extends Group {
   public int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
   //offset for storing the board
   private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-  public int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+  //widths of each row
+  private int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   private int numOfPlayers;
   private Field fields[][];
   private Pawn pawns[][];
@@ -76,7 +77,7 @@ public class Board extends Group {
   }
 
   private void addYellowPawns() {
-    for (int i = 13; i < 17; i++) {
+    for (int i = 13; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[3]);
       }
@@ -129,6 +130,10 @@ public class Board extends Group {
 
   public Pawn getPawn(int x, int y) {
     return pawns[x][y];
+  }
+
+  public int getWidth(int i) {
+    return widths[i];
   }
 
   public void movePawn(int oldX, int oldY, int newX, int newY) {
