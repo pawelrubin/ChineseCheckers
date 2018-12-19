@@ -34,9 +34,8 @@ public class Pawn extends Circle {
   public void setChosen(boolean chosen) {
     isChosen = chosen;
     if (!chosen) {
-      this.setStrokeWidth(0);
-//      MainController.xOfChosenPawn = 0;
-//      MainController.yOfChosenPawn = 0;
+      this.setStrokeWidth(1);
+      this.setStroke(Color.BLACK);
     }
   }
 

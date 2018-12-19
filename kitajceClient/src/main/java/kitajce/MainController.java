@@ -96,7 +96,7 @@ public class MainController {
           pawn.setCenterX(x);
           pawn.setCenterY(y);
           pawn.setRadius(14);
-          pawn.setStroke(Color.GRAY);
+          pawn.setStroke(Color.BLACK);
           pawn.setStrokeWidth(1);
 
           //choosing color
@@ -137,7 +137,8 @@ public class MainController {
 
                 if (oldPawn != null) {
                   oldPawn.setChosen(false);
-                  oldPawn.setStrokeWidth(0);
+                  oldPawn.setStroke(Color.BLACK);
+                  oldPawn.setStrokeWidth(1);
                 }
 
                 xOfChosenPawn = pawn.getX();
@@ -149,7 +150,7 @@ public class MainController {
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               } else {
                 System.out.println("the pawn is no longer the chosen one.");
-                pawn.setStroke(Color.GRAY);
+                pawn.setStroke(Color.BLACK);
                 pawn.setStrokeWidth(1);
                 xOfChosenPawn = 0;
                 yOfChosenPawn = 0;
@@ -187,16 +188,11 @@ public class MainController {
 
   private boolean isValid(int oldX, int oldY, Field field) {
 
-    if (moveValidation(oldX, oldY, field) && firstMove) {
-      firstMove = false;
+    if (moveValidation(oldX, oldY, field)) {
       return true;
     }
 
-    if (jumpRecursiveValidation(oldX, oldY, field)) {
-      return true;
-    }
-
-    return false;
+    return jumpRecursiveValidation(oldX, oldY, field);
   }
 
   private boolean moveValidation(int oldX, int oldY, Field field) {
