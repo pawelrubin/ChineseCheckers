@@ -24,6 +24,7 @@ public class MainController {
   private String currentPlayer;
   private int moveCount = 0;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+  private boolean firstMove = true;
 
   @FXML
   private void drawBoard() {
@@ -186,7 +187,8 @@ public class MainController {
 
   private boolean isValid(int oldX, int oldY, Field field) {
 
-    if (moveValidation(oldX, oldY, field)) {
+    if (moveValidation(oldX, oldY, field) && firstMove) {
+      firstMove = false;
       return true;
     }
 
