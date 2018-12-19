@@ -397,7 +397,7 @@ public class MainController {
     for (int i = 13; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getWidth(i); j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("GREEN")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("GREEN")) {
           counter++;
         }
         if (counter == 10) {
@@ -412,7 +412,7 @@ public class MainController {
     for (int i = 9; i < 13; i++) {
       for (int j = 0; j < board.getWidth(i - 9); j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("WHITE")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("WHITE")) {
           counter++;
         }
         if (counter == 10) {
@@ -427,7 +427,7 @@ public class MainController {
     for (int i = 4; i < 8; i++) {
       for (int j = 0; j < 8 - i; j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("RED")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("RED")) {
           counter++;
         }
         if (counter == 10) {
@@ -442,7 +442,7 @@ public class MainController {
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < board.getWidth(i); j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("YELLOW")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("YELLOW")) {
           counter++;
         }
         if (counter == 10) {
@@ -457,7 +457,7 @@ public class MainController {
     for (int i = 4; i < 8; i++) {
       for (int j = 9; j <= 16 - i; j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("BLACK")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLACK")) {
           counter++;
         }
         if (counter == 10) {
@@ -472,7 +472,7 @@ public class MainController {
     for (int i = 9; i < 13; i++) {
       for (int j = 9; j < board.getWidth(i); j++) {
         int counter = 0;
-        if (board.getPawn(i, j).getColor().equals("BLUE")) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLUE")) {
           counter++;
         }
         if (counter == 10) {
