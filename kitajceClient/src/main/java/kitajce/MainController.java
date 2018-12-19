@@ -23,6 +23,7 @@ public class MainController {
   private int yOfChosenPawn = 0;
   private String currentPlayer;
   private int moveCount = 0;
+  private String winner;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
 
   @FXML
@@ -35,7 +36,7 @@ public class MainController {
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
-      for (int j = 0; j < board.widths[i]; j++) {
+      for (int j = 0; j < board.getWidth(i); j++) {
         if (j == 0) {
           for (int k = 0; k < board.offsetDraw[i]; k++) {
             offset = k * 40;
@@ -72,9 +73,12 @@ public class MainController {
               pawn.setChosen(false);
 
               board.movePawn(tempX, tempY, field.getX(), field.getY());
-              //nextPlayer();
+              nextPlayer();
               xOfChosenPawn = 0;
               yOfChosenPawn = 0;
+              if (gameOver()) {
+                System.out.println(winner + "player has won!");
+              }
             }
           }
         });
@@ -386,6 +390,148 @@ public class MainController {
       }
     }
 
+    return false;
+  }
+
+  private boolean greenWinningCondition() {
+    for (int i = 13; i < board.getHeight(); i++) {
+      for (int j = 0; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("GREEN")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean whiteWinningCondition() {
+    for (int i = 9; i < 13; i++) {
+      for (int j = 0; j < board.getWidth(i - 9); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("WHITE")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean redWinningCondition() {
+    for (int i = 4; i < 8; i++) {
+      for (int j = 0; j < 8 - i; j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("RED")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean yellowWinningCondition() {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("YELLOW")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean blackWinningCondition() {
+    for (int i = 4; i < 8; i++) {
+      for (int j = 9; j <= 16 - i; j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("BLACK")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean blueWinningCondition() {
+    for (int i = 9; i < 13; i++) {
+      for (int j = 9; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j).getColor().equals("BLUE")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+/*
+  private boolean gameOver(int numberOfPlayers) {
+    switch (numberOfPlayers) {
+      case 2: {
+        if (greenWinningCondition()) {
+          winner = "GREEN";
+          return true;
+        }
+        if (yellowWinningCondition()) {
+          winner = "YELLOw";
+          return true;
+        }
+        break;
+      }
+      case 3: {
+        if (greenWinningCondition()) {
+          winner = "GREEN";
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+*/
+  private boolean gameOver() {
+    if (greenWinningCondition()) {
+      winner = "GREEN";
+      return true;
+    }
+    if (yellowWinningCondition()) {
+      winner = "YELLOw";
+      return true;
+    }
+    if (blackWinningCondition()) {
+      winner = "BLACK";
+      return true;
+    }
+    if (whiteWinningCondition()) {
+      winner = "WHITE";
+      return true;
+    }
+    if (redWinningCondition()) {
+      winner = "RED";
+      return true;
+    }
+    if (blueWinningCondition()) {
+      winner = "BLUE";
+      return true;
+    }
     return false;
   }
 }
