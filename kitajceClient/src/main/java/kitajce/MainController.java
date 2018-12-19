@@ -56,13 +56,13 @@ public class MainController {
         field.setFill(Color.GRAY);
 
         field.setOnMouseClicked(event -> {
-          System.out.println("a field has been clicked.");
-          System.out.println("x: " + field.getX() + ", y: " + field.getY());
+          System.out.println("A field has been clicked.");
+          System.out.println("X: " + field.getX() + ", Y: " + field.getY());
           System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
           if (!(xOfChosenPawn == 0 && yOfChosenPawn == 0)) {
             int tempX = xOfChosenPawn;
             int tempY = yOfChosenPawn;
-            System.out.println("temp: x y : " + tempX + " | " + tempY);
+            System.out.println("Temp: x y : " + tempX + " | " + tempY);
             if (isValid(tempX, tempY, field)) {
               Pawn pawn = board.getPawn(tempX, tempY);
 
@@ -72,7 +72,7 @@ public class MainController {
               pawn.setChosen(false);
 
               board.movePawn(tempX, tempY, field.getX(), field.getY());
-              nextPlayer();
+              //nextPlayer();
               xOfChosenPawn = 0;
               yOfChosenPawn = 0;
             }
@@ -144,16 +144,16 @@ public class MainController {
                 yOfChosenPawn = pawn.getY();
                 pawn.setStrokeWidth(3);
                 pawn.setStroke(Color.PINK);
-                System.out.println("a pawn has been chosen.");
-                System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
+                System.out.println("A pawn has been chosen.");
+                System.out.println("X: " + pawn.getX() + ", Y: " + pawn.getY());
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               } else {
-                System.out.println("the pawn is no longer the chosen one.");
+                System.out.println("The pawn is no longer the chosen one");
                 pawn.setStroke(Color.BLACK);
                 pawn.setStrokeWidth(1);
                 xOfChosenPawn = 0;
                 yOfChosenPawn = 0;
-                System.out.println("x: " + pawn.getX() + ", y: " + pawn.getY());
+                System.out.println("X: " + pawn.getX() + ", Y: " + pawn.getY());
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               }
             }
@@ -191,7 +191,7 @@ public class MainController {
       return true;
     }
 
-    if (jumpRecursiveValidation(oldX, oldY, 0, 0, field)) {
+    if (jumpRecursiveValidation(oldX, oldY, 0, 0, oldX, oldY, field)) {
       return true;
     }
 
@@ -284,12 +284,16 @@ public class MainController {
     return false;
   }
 
-  private boolean jumpRecursiveValidation(int oldX, int oldY, int offsetX, int offsetY, Field field) {
+  private boolean jumpRecursiveValidation(int oldX, int oldY, int offsetX, int offsetY, int originalX, int originalY, Field field) {
     int newX = field.getX();
     int newY = field.getY();
 
     if (oldX == newX && oldY == newY) {
       return true;
+    }
+
+    if (oldX == originalX && oldY == originalY && (offsetX != 0 || offsetY != 0)) {
+      return false;
     }
 
     //jumping right [2, 0]
@@ -298,7 +302,7 @@ public class MainController {
         if (board.getField(oldX + 2, oldY) != null) {
           if (board.getPawn(oldX + 2, oldY) == null) {
             if (board.getPawn(oldX + 1, oldY) != null) {
-              if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, field)) {
+              if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
                 return true;
               }
             }
@@ -313,7 +317,7 @@ public class MainController {
         if (board.getField(oldX - 2, oldY) != null) {
           if (board.getPawn(oldX - 2, oldY) == null) {
             if (board.getPawn(oldX - 1, oldY) != null) {
-              if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, field)) {
+              if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, originalX, originalY, field)) {
                 return true;
               }
             }
@@ -328,7 +332,7 @@ public class MainController {
         if (board.getField(oldX, oldY - 2) != null) {
           if (board.getPawn(oldX, oldY - 2) == null) {
             if (board.getPawn(oldX, oldY - 1) != null) {
-              if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, field)) {
+              if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, originalX, originalY, field)) {
                 return true;
               }
             }
@@ -343,7 +347,7 @@ public class MainController {
         if (board.getField(oldX - 2, oldY - 2) != null) {
           if (board.getPawn(oldX - 2, oldY - 2) == null) {
             if (board.getPawn(oldX - 1, oldY - 1) != null) {
-              if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, field)) {
+              if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, originalX, originalY, field)) {
                 return true;
               }
             }
@@ -358,7 +362,7 @@ public class MainController {
         if (board.getField(oldX + 2, oldY + 2) != null) {
           if (board.getPawn(oldX + 2, oldY + 2) == null) {
             if (board.getPawn(oldX + 1, oldY + 1) != null) {
-              if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, field)) {
+              if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, originalX, originalY, field)) {
                 return true;
               }
             }
@@ -373,7 +377,7 @@ public class MainController {
         if (board.getField(oldX, oldY + 2) != null) {
           if (board.getPawn(oldX, oldY + 2) == null) {
             if (board.getPawn(oldX, oldY + 1) != null) {
-              if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, field)) {
+              if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, originalX, originalY, field)) {
                 return true;
               }
             }
