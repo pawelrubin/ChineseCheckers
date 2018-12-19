@@ -291,61 +291,79 @@ public class MainController {
       return true;
     }
 
-    //jumping right [2, 0] and left [-2, 0]
+    //jumping right [2, 0]
     if (oldX <= 14) {
       if (board.getField(oldX + 2, oldY) != null) {
         if (board.getPawn(oldX + 2, oldY) == null) {
           if (board.getPawn(oldX + 1, oldY) != null) {
-            return jumpRecursiveValidation(oldX + 2, oldY, field);
+            if (jumpRecursiveValidation(oldX + 2, oldY, field)) {
+              return true;
+            }
           }
         }
       }
     }
+
+    //jumping left [-2, 0]
     if (oldX >= 2) {
       if (board.getField(oldX - 2, oldY) != null) {
         if (board.getPawn(oldX - 2, oldY) == null) {
           if (board.getPawn(oldX - 1, oldY) != null) {
-            return jumpRecursiveValidation(oldX - 2, oldY, field);
+            if (jumpRecursiveValidation(oldX - 2, oldY, field)) {
+              return true;
+            }
           }
         }
       }
     }
 
-    //jumping top right [0, -2] and top left [-2, -2]
+    //jumping top right [0, -2]
     if (oldY >= 2) {
       if (board.getField(oldX, oldY - 2) != null) {
         if (board.getPawn(oldX, oldY - 2) == null) {
           if (board.getPawn(oldX, oldY - 1) != null) {
-            return jumpRecursiveValidation(oldX, oldY - 2, field);
-          }
-        }
-      }
-    }
-    if (oldX >=2 && oldY >=2) {
-      if (board.getField(oldX - 2, oldY - 2) != null) {
-        if (board.getPawn(oldX - 2, oldY - 2) == null) {
-          if (board.getPawn(oldX - 1, oldY - 1) != null) {
-            return jumpRecursiveValidation(oldX - 2, oldY - 2, field);
+            if (jumpRecursiveValidation(oldX, oldY - 2, field)) {
+              return true;
+            }
           }
         }
       }
     }
 
-    //jumping bottom right [2, 2] and bottom left [0, 2]
-    if (oldX <=14 && oldY <= 14) {
-      if (board.getField(oldX + 2, oldY + 2) != null) {
-        if (board.getPawn(oldX + 2, oldY + 2) == null) {
-          if (board.getPawn(oldX + 1, oldY + 1) != null) {
-            return jumpRecursiveValidation(oldX + 2, oldY + 2, field);
+    //jumping top left [-2, -2]
+    if (oldX >=2 && oldY >=2) {
+      if (board.getField(oldX - 2, oldY - 2) != null) {
+        if (board.getPawn(oldX - 2, oldY - 2) == null) {
+          if (board.getPawn(oldX - 1, oldY - 1) != null) {
+            if (jumpRecursiveValidation(oldX - 2, oldY -2, field)) {
+              return true;
+            }
           }
         }
       }
     }
+
+    //jumping bottom right [2, 2]
+    if (oldX <=14 && oldY <= 14) {
+      if (board.getField(oldX + 2, oldY + 2) != null) {
+        if (board.getPawn(oldX + 2, oldY + 2) == null) {
+          if (board.getPawn(oldX + 1, oldY + 1) != null) {
+            if (jumpRecursiveValidation(oldX + 2, oldY + 2, field)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    //jumping bottom left [0, 2]
     if (oldY <= 14)
     if (board.getField(oldX, oldY + 2) != null) {
       if (board.getPawn(oldX, oldY + 2) == null) {
         if (board.getPawn(oldX, oldY + 1) != null) {
-          return jumpRecursiveValidation(oldX, oldY + 2, field);
+          if (jumpRecursiveValidation(oldX, oldY + 2, field)) {
+            return true;
+          }
         }
       }
     }
