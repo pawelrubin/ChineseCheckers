@@ -11,6 +11,7 @@ import layout.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.sqrt;
 
@@ -30,11 +31,12 @@ public class MainController {
   private String winner;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> nodes = new ArrayList<>();
+  private Random random = new Random();
 
   @FXML
   private void drawBoard() {
     board = new Board(6);
-    currentPlayer = "GREEN";
+    currentPlayer = colors[0];
     moveCount = 0;
     borderPane.setCenter(board);
     label.setText(currentPlayer);
@@ -192,6 +194,10 @@ public class MainController {
     moveCount++;
     currentPlayer = colors[moveCount % 6];
     label.setText(currentPlayer);
+  }
+
+  private int randomPlayer(int numberOfPlayers) {
+    return random.nextInt(numberOfPlayers);
   }
 
   private boolean isValid(int oldX, int oldY, Field field) {
