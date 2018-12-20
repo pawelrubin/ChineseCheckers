@@ -7,6 +7,10 @@ import javafx.scene.paint.Color;
 import layout.Board;
 import layout.Field;
 import layout.Pawn;
+import layout.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.sqrt;
 
@@ -25,6 +29,7 @@ public class MainController {
   private int moveCount = 0;
   private String winner;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+  private List<Point> nodes = new ArrayList<>();
 
   @FXML
   private void drawBoard() {
@@ -296,6 +301,17 @@ public class MainController {
       return true;
     }
 
+    for (Point i : nodes) {
+      for (Point j : nodes) {
+        if (i != j) {
+          if (i.equals(j)) {
+            nodes.remove(nodes.size() - 1);
+            return false;
+          }
+        }
+      }
+    }
+
     if (oldX == originalX && oldY == originalY && (offsetX != 0 || offsetY != 0)) {
       return false;
     }
@@ -306,6 +322,7 @@ public class MainController {
         if (board.getField(oldX + 2, oldY) != null) {
           if (board.getPawn(oldX + 2, oldY) == null) {
             if (board.getPawn(oldX + 1, oldY) != null) {
+              nodes.add(new Point(oldX + 1, oldY));
               if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
                 return true;
               }
@@ -321,6 +338,7 @@ public class MainController {
         if (board.getField(oldX - 2, oldY) != null) {
           if (board.getPawn(oldX - 2, oldY) == null) {
             if (board.getPawn(oldX - 1, oldY) != null) {
+              nodes.add(new Point(oldX - 2, oldY));
               if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, originalX, originalY, field)) {
                 return true;
               }
@@ -336,6 +354,7 @@ public class MainController {
         if (board.getField(oldX, oldY - 2) != null) {
           if (board.getPawn(oldX, oldY - 2) == null) {
             if (board.getPawn(oldX, oldY - 1) != null) {
+              nodes.add(new Point(oldX, oldY - 2));
               if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, originalX, originalY, field)) {
                 return true;
               }
@@ -351,6 +370,7 @@ public class MainController {
         if (board.getField(oldX - 2, oldY - 2) != null) {
           if (board.getPawn(oldX - 2, oldY - 2) == null) {
             if (board.getPawn(oldX - 1, oldY - 1) != null) {
+              nodes.add(new Point(oldX - 2, oldY - 2));
               if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, originalX, originalY, field)) {
                 return true;
               }
@@ -366,6 +386,7 @@ public class MainController {
         if (board.getField(oldX + 2, oldY + 2) != null) {
           if (board.getPawn(oldX + 2, oldY + 2) == null) {
             if (board.getPawn(oldX + 1, oldY + 1) != null) {
+              nodes.add(new Point(oldX + 2, oldY + 2));
               if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, originalX, originalY, field)) {
                 return true;
               }
@@ -381,6 +402,7 @@ public class MainController {
         if (board.getField(oldX, oldY + 2) != null) {
           if (board.getPawn(oldX, oldY + 2) == null) {
             if (board.getPawn(oldX, oldY + 1) != null) {
+              nodes.add(new Point(oldX, oldY + 2));
               if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, originalX, originalY, field)) {
                 return true;
               }
