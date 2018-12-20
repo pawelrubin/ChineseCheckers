@@ -1,10 +1,5 @@
-#gridPane {
-
-}
-
-#menu {
-    -fx-padding: 10;
-    -fx-spacing: 10;
+* {
+    -pref-width: 120px;
 }
 
 .button {
@@ -22,4 +17,20 @@
 VBox {
     -fx-padding: 10;
     -fx-spacing: 10;
+}
+
+Button {
+    -fx-pref-width: -pref-width;
+}
+
+Label {
+    -fx-pref-width: -pref-width;
+}
+
+ComboBox {
+    -fx-pref-width: -pref-width;
+}
+
+Separator {
+    -fx-pref-width: -pref-width;
 }

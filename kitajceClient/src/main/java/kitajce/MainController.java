@@ -39,7 +39,7 @@ public class MainController {
     currentPlayer = colors[0];
     moveCount = 0;
     borderPane.setCenter(board);
-    label.setText(currentPlayer);
+    label.setText(currentPlayer + "'s turn");
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -190,10 +190,11 @@ public class MainController {
     }).start();
   }
 
+  @FXML
   private void nextPlayer() {
     moveCount++;
     currentPlayer = colors[moveCount % 6];
-    label.setText(currentPlayer);
+    label.setText(currentPlayer + "'s turn");
   }
 
   private int randomPlayer(int numberOfPlayers) {
