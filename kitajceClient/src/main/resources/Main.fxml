@@ -2,22 +2,37 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kitajce.MainController">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.Integer?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="kitajce.MainController">
     <center>
     </center>
     <right>
         <VBox>
-            <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game" />
-            <Button onAction="#startClient" text="startClient" />
-            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" />
+            <Button prefWidth="100" mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
+            <Button prefWidth="100" onAction="#startClient" text="startClient"/>
+            <ChoiceBox prefWidth="100.0" value="2">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <Integer fx:value="2"/>
+                        <Integer fx:value="3"/>
+                        <Integer fx:value="4"/>
+                        <Integer fx:value="6"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <Label prefWidth="100" fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER"/>
         </VBox>
     </right>
 
     <stylesheets>
-        <URL value="@Main.css" />
+        <URL value="@Main.css"/>
     </stylesheets>
 </BorderPane>
