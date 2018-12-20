@@ -196,6 +196,8 @@ public class MainController {
 
   private boolean isValid(int oldX, int oldY, Field field) {
 
+    nodes.clear();
+
     if (moveValidation(oldX, oldY, field)) {
       return true;
     }
@@ -244,55 +246,6 @@ public class MainController {
     return false;
   }
 
-  private boolean jumpValidation(int oldX, int oldY, Field field) {
-    int newX = field.getX();
-    int newY = field.getY();
-
-    //jumping right [2, 0] and left [-2, 0]
-    if (newY - oldY == 0) {
-      if (newX - oldX == 2) {
-        if (board.getPawn(oldX + 1, oldY) != null) {
-          return true;
-        }
-      }
-      if (newX - oldX == -2) {
-        if (board.getPawn(oldX - 1, oldY) != null) {
-          return true;
-        }
-      }
-    }
-
-    //jumping top right [0, -2] and top left [-2, -2]
-    if (newY - oldY == -2) {
-      if (newX - oldX == 0) {
-        if (board.getPawn(oldX, oldY - 1) != null) {
-          return true;
-        }
-      }
-      if (newX - oldX == -2) {
-        if (board.getPawn(oldX - 1, oldY - 1) != null) {
-          return true;
-        }
-      }
-    }
-
-    //jumping bottom right [2, 2] and bottom left [0, 2]
-    if (newY - oldY == 2) {
-      if (newX - oldX == 2) {
-        if (board.getPawn(oldX + 1, oldY + 1) != null) {
-          return true;
-        }
-      }
-      if (newX - oldX == 0) {
-        if (board.getPawn(oldX, oldY + 1) != null) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
   private boolean jumpRecursiveValidation(int oldX, int oldY, int offsetX, int offsetY, int originalX, int originalY, Field field) {
     int newX = field.getX();
     int newY = field.getY();
@@ -322,7 +275,7 @@ public class MainController {
         if (board.getField(oldX + 2, oldY) != null) {
           if (board.getPawn(oldX + 2, oldY) == null) {
             if (board.getPawn(oldX + 1, oldY) != null) {
-              nodes.add(new Point(oldX + 1, oldY));
+              nodes.add(new Point(oldX + 2, oldY));
               if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
                 return true;
               }
@@ -412,6 +365,7 @@ public class MainController {
       }
     }
 
+    nodes.remove(nodes.size() - 1);
     return false;
   }
 
@@ -504,31 +458,7 @@ public class MainController {
     }
     return false;
   }
-/*
-  private boolean gameOver(int numberOfPlayers) {
-    switch (numberOfPlayers) {
-      case 2: {
-        if (greenWinningCondition()) {
-          winner = "GREEN";
-          return true;
-        }
-        if (yellowWinningCondition()) {
-          winner = "YELLOw";
-          return true;
-        }
-        break;
-      }
-      case 3: {
-        if (greenWinningCondition()) {
-          winner = "GREEN";
-          return true;
-        }
-      }
-    }
 
-    return false;
-  }
-*/
   private boolean gameOver() {
     if (greenWinningCondition()) {
       winner = "GREEN";
