@@ -1,5 +1,5 @@
 * {
-    -pref-width: 150px;
+    -pref-width: 120px;
 }
 
 .button {
@@ -27,6 +27,10 @@ Label {
     -fx-pref-width: -pref-width;
 }
 
-Choice {
+ComboBox {
+    -fx-pref-width: -pref-width;
+}
+
+Separator {
     -fx-pref-width: -pref-width;
 }
