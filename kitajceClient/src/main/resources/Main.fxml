@@ -16,9 +16,10 @@
     </center>
     <right>
         <VBox>
-            <Button prefWidth="100" mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
-            <Button prefWidth="100" onAction="#startClient" text="startClient"/>
-            <ChoiceBox prefWidth="100.0" value="2">
+            <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
+            <Button onAction="#startClient" text="startClient"/>
+            <Label text="Number of players:"/>
+            <ChoiceBox value="2">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <Integer fx:value="2"/>
@@ -28,7 +29,7 @@
                     </FXCollections>
                 </items>
             </ChoiceBox>
-            <Label prefWidth="100" fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER"/>
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER"/>
         </VBox>
     </right>
 
