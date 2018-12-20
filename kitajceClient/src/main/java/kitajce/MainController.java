@@ -365,7 +365,10 @@ public class MainController {
       }
     }
 
-    nodes.remove(nodes.size() - 1);
+    if (nodes.size() > 0) {
+      nodes.remove(nodes.size() - 1);
+    }
+
     return false;
   }
 
