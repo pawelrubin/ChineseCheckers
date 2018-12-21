@@ -11,6 +11,7 @@ import layout.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.sqrt;
 
@@ -30,14 +31,15 @@ public class MainController {
   private String winner;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> nodes = new ArrayList<>();
+  private Random random = new Random();
 
   @FXML
   private void drawBoard() {
     board = new Board(6);
-    currentPlayer = "GREEN";
+    currentPlayer = colors[0];
     moveCount = 0;
     borderPane.setCenter(board);
-    label.setText(currentPlayer);
+    label.setText(currentPlayer + "'s turn");
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -192,10 +194,15 @@ public class MainController {
     }).start();
   }
 
+  @FXML
   private void nextPlayer() {
     moveCount++;
     currentPlayer = colors[moveCount % 6];
-    label.setText(currentPlayer);
+    label.setText(currentPlayer + "'s turn");
+  }
+
+  private int randomPlayer(int numberOfPlayers) {
+    return random.nextInt(numberOfPlayers);
   }
 
   private boolean isValid(int oldX, int oldY, Field field) {
@@ -274,98 +281,74 @@ public class MainController {
     }
 
     //jumping right [2, 0]
-    if (offsetX != -2 || offsetY != 0) {
-      if (oldX <= 14) {
-        if (board.getField(oldX + 2, oldY) != null) {
-          if (board.getPawn(oldX + 2, oldY) == null) {
-            if (board.getPawn(oldX + 1, oldY) != null) {
-              nodes.add(new Point(oldX + 2, oldY));
-              if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != -2 || offsetY != 0)
+      && oldX <= board.getHeight() - 3
+      && board.getField(oldX + 2, oldY) != null
+      && board.getPawn(oldX + 2, oldY) == null
+      && board.getPawn(oldX + 1, oldY) != null) {
+      nodes.add(new Point(oldX + 2, oldY));
+      if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
+        return true;
       }
     }
 
     //jumping left [-2, 0]
-    if (offsetX != 2 || offsetY != 0) {
-      if (oldX >= 2) {
-        if (board.getField(oldX - 2, oldY) != null) {
-          if (board.getPawn(oldX - 2, oldY) == null) {
-            if (board.getPawn(oldX - 1, oldY) != null) {
-              nodes.add(new Point(oldX - 2, oldY));
-              if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != 2 || offsetY != 0)
+      && oldX >= 2
+      && board.getField(oldX - 2, oldY) != null
+      && board.getPawn(oldX - 2, oldY) == null
+      && board.getPawn(oldX - 1, oldY) != null) {
+      nodes.add(new Point(oldX - 2, oldY));
+      if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, originalX, originalY, field)) {
+        return true;
       }
     }
 
     //jumping top right [0, -2]
-    if (offsetX != 0 || offsetY != 2) {
-      if (oldY >= 2) {
-        if (board.getField(oldX, oldY - 2) != null) {
-          if (board.getPawn(oldX, oldY - 2) == null) {
-            if (board.getPawn(oldX, oldY - 1) != null) {
-              nodes.add(new Point(oldX, oldY - 2));
-              if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != 0 || offsetY != 2)
+      && oldY >= 2
+      && board.getField(oldX, oldY - 2) != null
+      && board.getPawn(oldX, oldY - 2) == null
+      && board.getPawn(oldX, oldY - 1) != null) {
+      nodes.add(new Point(oldX, oldY - 2));
+      if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, originalX, originalY, field)) {
+        return true;
       }
     }
 
     //jumping top left [-2, -2]
-    if (offsetX != 2 || offsetY != 2) {
-      if (oldX >= 2 && oldY >= 2) {
-        if (board.getField(oldX - 2, oldY - 2) != null) {
-          if (board.getPawn(oldX - 2, oldY - 2) == null) {
-            if (board.getPawn(oldX - 1, oldY - 1) != null) {
-              nodes.add(new Point(oldX - 2, oldY - 2));
-              if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != 2 || offsetY != 2)
+      && oldX >= 2 && oldY >= 2
+      && board.getField(oldX - 2, oldY - 2) != null
+      && board.getPawn(oldX - 2, oldY - 2) == null
+      && board.getPawn(oldX - 1, oldY - 1) != null) {
+      nodes.add(new Point(oldX - 2, oldY - 2));
+      if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, originalX, originalY, field)) {
+        return true;
       }
     }
 
     //jumping bottom right [2, 2]
-    if (offsetX != -2 || offsetY != -2) {
-      if (oldX <= 14 && oldY <= 14) {
-        if (board.getField(oldX + 2, oldY + 2) != null) {
-          if (board.getPawn(oldX + 2, oldY + 2) == null) {
-            if (board.getPawn(oldX + 1, oldY + 1) != null) {
-              nodes.add(new Point(oldX + 2, oldY + 2));
-              if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != -2 || offsetY != -2)
+      && oldX <= board.getHeight() - 3 && oldY <= board.getHeight() - 3
+      && board.getField(oldX + 2, oldY + 2) != null
+      && board.getPawn(oldX + 2, oldY + 2) == null
+      && board.getPawn(oldX + 1, oldY + 1) != null) {
+      nodes.add(new Point(oldX + 2, oldY + 2));
+      if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, originalX, originalY, field)) {
+        return true;
       }
     }
 
     //jumping bottom left [0, 2]
-    if (offsetX != 0 || offsetY != -2) {
-      if (oldY <= 14) {
-        if (board.getField(oldX, oldY + 2) != null) {
-          if (board.getPawn(oldX, oldY + 2) == null) {
-            if (board.getPawn(oldX, oldY + 1) != null) {
-              nodes.add(new Point(oldX, oldY + 2));
-              if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, originalX, originalY, field)) {
-                return true;
-              }
-            }
-          }
-        }
+    if ((offsetX != 0 || offsetY != -2)
+      && oldY <= board.getHeight() - 3
+      && board.getField(oldX, oldY + 2) != null
+      && board.getPawn(oldX, oldY + 2) == null
+      && board.getPawn(oldX, oldY + 1) != null) {
+      nodes.add(new Point(oldX, oldY + 2));
+      if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, originalX, originalY, field)) {
+        return true;
       }
     }
 

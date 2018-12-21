@@ -1,10 +1,5 @@
-#gridPane {
-
-}
-
-#menu {
-    -fx-padding: 10;
-    -fx-spacing: 10;
+* {
+    -pref-width: 120px;
 }
 
 .button {
@@ -19,7 +14,28 @@
     -fx-background-color: linear-gradient(#2a5058, #61a2b1);
 }
 
+BoarderPane {
+    -fx-pref-width: 720;
+    -fx-pref-height: 1280;
+}
+
 VBox {
     -fx-padding: 10;
     -fx-spacing: 10;
+}
+
+Button {
+    -fx-pref-width: -pref-width;
+}
+
+Label {
+    -fx-pref-width: -pref-width;
+}
+
+ComboBox {
+    -fx-pref-width: -pref-width;
+}
+
+Separator {
+    -fx-pref-width: -pref-width;
 }
