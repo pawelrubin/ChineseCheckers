@@ -72,6 +72,9 @@ public class MainController {
             if (isValid(tempX, tempY, field)) {
               Pawn pawn = board.getPawn(tempX, tempY);
 
+              client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() + " " + pawn.getY() +
+                      " " + field.getX() + " " + field.getY());
+
               pawn.setX(field.getX());
               pawn.setY(field.getY());
               pawn.repaint(field);
@@ -84,6 +87,7 @@ public class MainController {
               if (gameOver()) {
                 System.out.println(winner + "player has won!");
               }
+
             }
           }
         });

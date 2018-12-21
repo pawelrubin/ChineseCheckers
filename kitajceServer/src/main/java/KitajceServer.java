@@ -10,9 +10,10 @@ public class KitajceServer {
           "Yellow", "Orange", "Purple"
   };
   private ServerSocket listener;
-  private int numOfPlayers;
+  private int numOfPlayers = 2;
   private int numOfPlayersConnected = 0;
-  private Player players[];
+  private Game.Player players[];
+  private Game game;
 
   public static void main(String[] args) throws Exception {
     KitajceServer server = new KitajceServer();
@@ -32,10 +33,10 @@ public class KitajceServer {
   }
 
   private void setPlayers() throws IOException {
-    players = new Player[numOfPlayers];
+    players = new Game.Player[numOfPlayers];
     for (int i = 0; i < numOfPlayers; i++) {
       System.out.println("waiting for " + i + "player");
-      players[i] = new Player(colors[i], listener.accept());
+      players[i] = game.new Player(colors[i], listener.accept());
       numOfPlayersConnected++;
     }
     for (int i = 0; i < numOfPlayers; i++) {
@@ -47,14 +48,11 @@ public class KitajceServer {
   private void start() throws IOException {
     listener = new ServerSocket(port);
     System.out.println("Kitajce Server is running.");
-    settings();
+//    settings();
     try {
-      while (true) {
-        Game game = new Game(numOfPlayers);
-        if (numOfPlayersConnected == 0) {
-          setPlayers();
-        }
-      }
+//      while (true) {
+        game = new Game(numOfPlayers, listener);
+//      }
     } finally {
       listener.close();
     }

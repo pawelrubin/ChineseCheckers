@@ -32,7 +32,10 @@ class Client  {
         System.out.println("response from server: " + response);
         if (response.startsWith("VALID_MOVE")) {
           System.out.println("dobry ruch kolego.");
-        } else if (response.startsWith("QUIT")) {
+        } else if (response.startsWith("PLAYER_MOVED")) {
+          System.out.println(response);
+        }
+        else if (response.startsWith("QUIT")) {
           break;
         }
       }
@@ -40,5 +43,9 @@ class Client  {
     } finally {
       socket.close();
     }
+  }
+
+  public void sendMessage(String message) {
+    out.println(message);
   }
 }
