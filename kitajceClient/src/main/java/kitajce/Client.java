@@ -1,5 +1,10 @@
 package kitajce;
 
+import layout.Board;
+import layout.Field;
+import layout.Pawn;
+import layout.Point;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -29,20 +34,30 @@ class Client  {
       }
       while (true) {
         response = in.readLine();
-        System.out.println("response from server: " + response);
-        if (response.startsWith("VALID_MOVE")) {
-          System.out.println("dobry ruch kolego.");
-        } else if (response.startsWith("PLAYER_MOVED")) {
-          System.out.println(response);
-        }
-        else if (response.startsWith("QUIT")) {
-          break;
+        if (response != null) {
+          System.out.println("response from server: " + response);
+          if (response.startsWith("VALID_MOVE")) {
+            System.out.println("dobry ruch kolego.");
+          } else if (response.startsWith("PLAYER_MOVED")) {
+            String words[] = response.split(" ");
+            MainController.movePawn(Integer.parseInt(words[1]),
+                    Integer.parseInt(words[2]), Integer.parseInt(words[3]),
+                    Integer.parseInt(words[4]));
+          } else if (response.startsWith("QUIT")) {
+            break;
+          }
         }
       }
       out.println("QUIT");
     } finally {
       socket.close();
     }
+  }
+
+  public void movePawn(Pawn pawn, Field field) {
+    pawn.setX(field.getX());
+    pawn.setY(field.getY());
+    pawn.repaint(field);
   }
 
   public void sendMessage(String message) {

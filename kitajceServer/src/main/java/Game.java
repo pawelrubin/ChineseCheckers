@@ -55,10 +55,11 @@ public class Game {
   public class Player extends Thread {
     private String color;
     private Socket socket;
-    private BufferedReader input;
-    private PrintWriter output;
+    public BufferedReader input;
+    public PrintWriter output;
     private Player opponent;
     private Pawn pawns[] = new Pawn[10];
+    public Protocol protocol;
 
     Player(String color, Socket socket) {
       this.color = color;
@@ -72,7 +73,9 @@ public class Game {
         // PrintWriter with automatic line flushing
         output = new PrintWriter(socket.getOutputStream(), true);
 
-        output.println("NO KURWA SIEMA");
+        protocol = new Protocol(this);
+
+        output.println("");
         output.println("Welcome my friend whose color is " + this.color);
         output.println("Waiting for your opponents to connect...");
       } catch (IOException ex) {
@@ -108,24 +111,41 @@ public class Game {
       }
     }
 
+    public Player getPlayer(int i) {
+      return players[i];
+    }
+
     @Override
     public void run() {
       try {
+        System.out.println("All players connected");
         output.println("MESSAGE All players connected.");
-        Protocol protocol = new Protocol();
         while (true) {
           String command = input.readLine();
-          if (command.startsWith("MOVE")) { // MOVE GREEN 0 4 5 4
-            String words[] = command.split(" ");
-            System.out.println("command: " + command);
-            Pawn pawn = new Pawn(Integer.parseInt(words[2]), Integer.parseInt(words[3]), words[1]);
-            Field field = new Field(Integer.parseInt(words[4]), Integer.parseInt(words[5]));
-            System.out.println(pawn.toString());
-            System.out.println(field.toString());
-            protocol.playerMoved(pawn, field);
-          }
-          else if (command.startsWith("QUIT")) {
-            return;
+          if (command != null) {
+            System.out.println("Command from a client: " + command);
+            if (command.startsWith("MOVE")) { // MOVE GREEN 0 4 5 4
+              String words[] = command.split(" ");
+              int pawnX = Integer.parseInt(words[2]);
+              int pawnY = Integer.parseInt(words[3]);
+              int fieldX = Integer.parseInt(words[4]);
+              int fieldY = Integer.parseInt(words[5]);
+              Pawn pawn = board.getPawn(pawnX, pawnY);
+              Field field = board.getField(fieldX, fieldY);
+              if (controller.isValid(pawnX, pawnY, field)) {
+                board.movePawn(pawnX, pawnY, fieldX, fieldY);
+                this.protocol.validMoveMessage();
+                for (Player player : players) {
+                  if (player != this) {
+                    player.protocol.playerMoved(pawn, field);
+                  }
+                }
+              } else {
+                this.protocol.invalidMoveMessage();
+              }
+            } else if (command.startsWith("QUIT")) {
+              return;
+            }
           }
         }
       } catch (IOException ex) {

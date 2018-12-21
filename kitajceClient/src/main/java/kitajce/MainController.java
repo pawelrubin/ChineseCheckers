@@ -89,7 +89,6 @@ public class MainController {
               if (gameOver()) {
                 System.out.println(winner + "player has won!");
               }
-
             }
           }
         });
@@ -475,5 +474,14 @@ public class MainController {
       return true;
     }
     return false;
+  }
+
+  public static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
+    Pawn pawn = board.getPawn(pawnX, pawnY);
+    Field field = board.getField(fieldX, fieldY);
+    board.movePawn(pawnX, pawnY, fieldX, fieldY);
+    pawn.setX(field.getX());
+    pawn.setY(field.getY());
+    pawn.repaint(field);
   }
 }

@@ -16,7 +16,7 @@ public class Pawn extends Circle {
 
   // TODO: no pionki musza byc tworzone na konktretnych wspolrzednych na planszy
 
-  Pawn(int x, int y, String color) {
+  public Pawn(int x, int y, String color) {
     this.x = x;
     this.y = y;
     this.color = color;
