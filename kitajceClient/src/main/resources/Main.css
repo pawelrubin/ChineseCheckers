@@ -14,6 +14,11 @@
     -fx-background-color: linear-gradient(#2a5058, #61a2b1);
 }
 
+BoarderPane {
+    -fx-pref-width: 720;
+    -fx-pref-height: 1280;
+}
+
 VBox {
     -fx-padding: 10;
     -fx-spacing: 10;
