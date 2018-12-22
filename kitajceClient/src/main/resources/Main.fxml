@@ -30,7 +30,7 @@
                 </items>
             </ComboBox>
             <Separator/>
-            <Button onAction="#nextPlayer" mnemonicParsing="false" text="End turn"/>
+            <!--<Button onAction="#nextPlayer" mnemonicParsing="false" text="End turn"/>-->
             <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER"/>
         </VBox>
     </right>

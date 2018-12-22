@@ -6,6 +6,7 @@ import layout.Pawn;
 import layout.Point;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,6 +16,7 @@ class Client  {
   private Socket socket;
   private BufferedReader in;
   private PrintWriter out;
+  private boolean isValid;
 
   Client(String serverAddress) throws Exception {
     // Setup networking
@@ -34,10 +36,17 @@ class Client  {
       }
       while (true) {
         response = in.readLine();
+        isValid = false;
         if (response != null) {
           System.out.println("response from server: " + response);
           if (response.startsWith("VALID_MOVE")) {
+            isValid = true;
             System.out.println("dobry ruch kolego.");
+            String words[] = response.split(" ");
+            MainController.movePawn(Integer.parseInt(words[1]),
+                    Integer.parseInt(words[2]), Integer.parseInt(words[3]),
+                    Integer.parseInt(words[4]));
+//            MainController.nextPlayer();
           } else if (response.startsWith("PLAYER_MOVED")) {
             String words[] = response.split(" ");
             MainController.movePawn(Integer.parseInt(words[1]),
@@ -45,6 +54,8 @@ class Client  {
                     Integer.parseInt(words[4]));
           } else if (response.startsWith("QUIT")) {
             break;
+          } else {
+            isValid = false;
           }
         }
       }
@@ -54,13 +65,15 @@ class Client  {
     }
   }
 
-  public void movePawn(Pawn pawn, Field field) {
-    pawn.setX(field.getX());
-    pawn.setY(field.getY());
-    pawn.repaint(field);
-  }
-
   public void sendMessage(String message) {
     out.println(message);
+  }
+
+  public String getResponse() throws IOException {
+    return in.readLine();
+  }
+
+  public  boolean isValid() {
+    return isValid;
   }
 }

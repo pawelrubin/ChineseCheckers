@@ -72,7 +72,7 @@ class Board {
   }
 
   private void addYellowPawns() {
-    for (int i = 13; i < 17; i++) {
+    for (int i = 13; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[3]);
       }
@@ -123,6 +123,8 @@ class Board {
   void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
+//    this.getPawn(newX, newY).setX(newX);
+//    this.getPawn(newX, newY).setY(newY);
   }
 
   int getHeight() {

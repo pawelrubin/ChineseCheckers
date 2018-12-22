@@ -9,6 +9,7 @@ import layout.Field;
 import layout.Pawn;
 import layout.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,12 +25,12 @@ public class MainController {
   private Label label;
 
   private Client client;
-  private int xOfChosenPawn = 0;
-  private int yOfChosenPawn = 0;
-  private String currentPlayer;
-  private int moveCount = 0;
+  private static int xOfChosenPawn = 0;
+  private static int yOfChosenPawn = 0;
+  private static String currentPlayer;
+  private static int moveCount = 0;
   private String winner;
-  private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+  private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> nodes = new ArrayList<>();
   private Random random = new Random();
 
@@ -71,21 +72,13 @@ public class MainController {
             int tempX = xOfChosenPawn;
             int tempY = yOfChosenPawn;
             System.out.println("Temp: x y : " + tempX + " | " + tempY);
-            if (isValid(tempX, tempY, field)) {
-              Pawn pawn = board.getPawn(tempX, tempY);
+            Pawn pawn = board.getPawn(tempX, tempY);
 
-              client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() + " " + pawn.getY() +
-                      " " + field.getX() + " " + field.getY());
+            client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() + " " + pawn.getY() +
+                    " " + field.getX() + " " + field.getY());
 
-              pawn.setX(field.getX());
-              pawn.setY(field.getY());
-              pawn.repaint(field);
-              pawn.setChosen(false);
-
-              board.movePawn(tempX, tempY, field.getX(), field.getY());
-              nextPlayer();
-              xOfChosenPawn = 0;
-              yOfChosenPawn = 0;
+            if (client.isValid()) {
+//              nextPlayer();
               if (gameOver()) {
                 System.out.println(winner + "player has won!");
               }
@@ -141,7 +134,7 @@ public class MainController {
           }
 
           pawn.setOnMouseClicked(event -> {
-            if (currentPlayer.equals(pawn.getColor())) {
+//            if (currentPlayer.equals(pawn.getColor())) {
               pawn.setChosen(!pawn.isChosen());
               if (pawn.isChosen()) {
                 int oldX = xOfChosenPawn;
@@ -170,7 +163,7 @@ public class MainController {
                 System.out.println("X: " + pawn.getX() + ", Y: " + pawn.getY());
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               }
-            }
+//            }
           });
           board.getChildren().addAll(pawn);
         }
@@ -194,29 +187,20 @@ public class MainController {
   }
 
   @FXML
-  private void nextPlayer() {
+  void nextPlayer() {
     moveCount++;
     currentPlayer = colors[moveCount % 6];
-    label.setText(currentPlayer + "'s turn");
+//    label.setText(currentPlayer + "'s turn");
   }
 
   private int randomPlayer(int numberOfPlayers) {
     return random.nextInt(numberOfPlayers);
   }
 
-  private boolean isValid(int oldX, int oldY, Field field) {
-
-    nodes.clear();
-
-    if (moveValidation(oldX, oldY, field)) {
-      return true;
-    }
-
-    if (jumpRecursiveValidation(oldX, oldY, 0, 0, oldX, oldY, field)) {
-      return true;
-    }
-
-    return false;
+  private boolean isValid(Pawn pawn, Field field) throws IOException {
+    client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() +
+            " " + pawn.getY() + " " + field.getX() + " " + field.getY());
+    return client.getResponse().startsWith("VALID_MOVE");
   }
 
   private boolean moveValidation(int oldX, int oldY, Field field) {
@@ -483,5 +467,8 @@ public class MainController {
     pawn.setX(field.getX());
     pawn.setY(field.getY());
     pawn.repaint(field);
+    pawn.setChosen(false);
+    xOfChosenPawn = 0;
+    yOfChosenPawn = 0;
   }
 }

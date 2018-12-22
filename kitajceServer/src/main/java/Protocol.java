@@ -18,9 +18,12 @@ public class Protocol {
   }
   /**
    * Sends "VALID_MOVE" message to a client.
+   * @param pawn
+   * @param field
    */
-  public void validMoveMessage() {
-    output.println("VALID_MOVE");
+  public void validMoveMessage(Pawn pawn, Field field) {
+    output.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
+      + field.getX() + " " + field.getY());
   }
 
 

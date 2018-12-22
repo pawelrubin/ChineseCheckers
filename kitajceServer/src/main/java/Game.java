@@ -95,19 +95,32 @@ public class Game {
       }
     }
 
-    void handleCommands(String command) {
-      String word = command.split(" ")[0];
-      switch (word) {
-        case "MOVE": {
-          int poneX = command.charAt(6);
-          int poneY = command.charAt(8);
-          int targetX = command.charAt(10);
-          int targetY = command.charAt(11);
-  //        if (MovementController.isValid(poneX, poneY, targetX, targetY)) {
-  //          output.println("VALID_MOVE");
-  //        }
-          break;
+    void handleCommand(String command) {
+      System.out.println("Command from a client: " + command);
+      if (command.startsWith("MOVE")) { // MOVE GREEN 0 4 5 4
+        String words[] = command.split(" ");
+        int pawnX = Integer.parseInt(words[2]);
+        int pawnY = Integer.parseInt(words[3]);
+        int fieldX = Integer.parseInt(words[4]);
+        int fieldY = Integer.parseInt(words[5]);
+        Pawn pawn = board.getPawn(pawnX, pawnY);
+        Field field = board.getField(fieldX, fieldY);
+        if (controller.isValid(pawnX, pawnY, field)) {
+          this.protocol.validMoveMessage(pawn, field);
+//          this.protocol.validMoveMessage(pawn, field);
+          for (Player player : players) {
+            if (player != this) {
+              player.protocol.playerMoved(pawn, field);
+            }
+          }
+          board.movePawn(pawnX, pawnY, fieldX, fieldY);
+          pawn.setX(fieldX);
+          pawn.setY(fieldY);
+        } else {
+          this.protocol.invalidMoveMessage();
         }
+      } else if (command.startsWith("QUIT")) {
+        return;
       }
     }
 
@@ -123,29 +136,7 @@ public class Game {
         while (true) {
           String command = input.readLine();
           if (command != null) {
-            System.out.println("Command from a client: " + command);
-            if (command.startsWith("MOVE")) { // MOVE GREEN 0 4 5 4
-              String words[] = command.split(" ");
-              int pawnX = Integer.parseInt(words[2]);
-              int pawnY = Integer.parseInt(words[3]);
-              int fieldX = Integer.parseInt(words[4]);
-              int fieldY = Integer.parseInt(words[5]);
-              Pawn pawn = board.getPawn(pawnX, pawnY);
-              Field field = board.getField(fieldX, fieldY);
-              if (controller.isValid(pawnX, pawnY, field)) {
-                board.movePawn(pawnX, pawnY, fieldX, fieldY);
-                this.protocol.validMoveMessage();
-                for (Player player : players) {
-                  if (player != this) {
-                    player.protocol.playerMoved(pawn, field);
-                  }
-                }
-              } else {
-                this.protocol.invalidMoveMessage();
-              }
-            } else if (command.startsWith("QUIT")) {
-              return;
-            }
+            handleCommand(command);
           }
         }
       } catch (IOException ex) {
