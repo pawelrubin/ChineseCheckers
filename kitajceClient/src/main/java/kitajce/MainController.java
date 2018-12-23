@@ -91,10 +91,6 @@ public class MainController {
     drawPawns();
   }
 
-  private void updateLabel() {
-
-  }
-
   private void drawPawns() {
     for (int i = 0; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getHeight(); j++) {

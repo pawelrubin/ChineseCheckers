@@ -1,6 +1,6 @@
 import javafx.scene.Group;
 
-public abstract class BoardAbstract extends Group {
+public abstract class BoardAbstract {
   //height of the board
   private int height;
   //offset for drawing the board
