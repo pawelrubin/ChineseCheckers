@@ -15,7 +15,7 @@
         <VBox>
             <Button onAction="#startClient" text="Connect"/>
             <Separator/>
-            <Button onAction="#nextPlayer" mnemonicParsing="false" text="End turn"/>
+            <Button onAction="#endTurn" mnemonicParsing="false" text="End turn"/>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
         </VBox>

@@ -1,7 +1,6 @@
 package kitajce;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -9,18 +8,15 @@ import layout.Board;
 import layout.Field;
 import layout.Pawn;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import static java.lang.Math.sqrt;
 
 public class MainController {
   @FXML
-  private static Board board;
+  private Board board;
   @FXML
   private Label colorLabel;
   @FXML
@@ -30,12 +26,12 @@ public class MainController {
   private Client client;
   private final String serverAddress = "localhost";
   private String winner;
-  private static String color;
-  private static int numOfPlayers;
-  private static List<String> winners = new ArrayList<>();
-  private static int xOfChosenPawn = 0;
-  private static int yOfChosenPawn = 0;
-  private static String currentPlayer;
+  private String color;
+  private int numOfPlayers;
+  private List<String> winners = new ArrayList<>();
+  private int xOfChosenPawn = 0;
+  private int yOfChosenPawn = 0;
+  private String currentPlayer;
 
   @FXML
   public void initialize() throws IOException {
@@ -43,8 +39,23 @@ public class MainController {
     client.setController(this);
   }
 
-  void addWinner(String s) {
-    winners.add(s);
+  @FXML
+  private void startClient() {
+    // create new thread to handle network communication
+    new Thread(() -> {
+      System.out.println("Kitajce client started.");
+      try {
+        client.setConnection();
+        client.play();
+      } catch (IOException ex) {
+        System.out.println("Connection Error: " + ex);
+      }
+    }).start();
+  }
+
+  @FXML
+  private void endTurn() {
+    client.sendMessage("END_TURN " + color);
   }
 
   void drawBoard() {
@@ -110,7 +121,7 @@ public class MainController {
           pawn.setStroke(Color.BLACK);
           pawn.setStrokeWidth(1);
 
-          //choosing color
+          //choosing currentPlayer
           switch (pawn.getColor()) {
             case "GREEN": {
               pawn.setFill(Color.GREEN);
@@ -176,22 +187,8 @@ public class MainController {
     }
   }
 
-  @FXML
-  private void startClient() {
-    // create new thread to handle network communication
-    new Thread(() -> {
-      System.out.println("Kitajce client started.");
-      try {
-        client.play();
-      } catch (IOException ex) {
-        System.out.println("Connection Error: " + ex);
-      }
-    }).start();
-  }
-
-  @FXML
-  private void nextPlayer() {
-    client.sendMessage("END_TURN " + color);
+  void addWinner(String s) {
+    winners.add(s);
   }
 
   void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
@@ -206,19 +203,19 @@ public class MainController {
     yOfChosenPawn = 0;
   }
 
-  void setColor(String colorToSet) {
-    color = colorToSet;
+  void setColor(String color) {
+    this.color = color;
   }
 
-  void setNumOfPlayers(int num) {
-    numOfPlayers = num;
+  void setNumOfPlayers(int numOfPlayers) {
+    this.numOfPlayers = numOfPlayers;
   }
 
-  void setCurrentPlayer(String color) {
-    currentPlayer = color;
+  void setCurrentPlayer(String currentPlayer) {
+    this.currentPlayer = currentPlayer;
   }
 
-  void setTurnLabel(String color) {
+  void updateTurnLabel(String color) {
     turnLabel.setText(color + "'s turn");
   }
 }

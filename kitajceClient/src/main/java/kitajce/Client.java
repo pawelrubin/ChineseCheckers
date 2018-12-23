@@ -15,8 +15,13 @@ class Client {
   private PrintWriter out;
   private boolean isValid;
   private MainController mainController;
+  private String serverAddress;
 
-  Client(String serverAddress) throws IOException {
+  Client(String serverAddress) {
+    this.serverAddress = serverAddress;
+  }
+
+  void setConnection() throws IOException {
     // Setup networking
     socket = new Socket(serverAddress, port);
     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,7 +33,6 @@ class Client {
   }
 
   void play() throws IOException {
-//    String response;
     try {
       while (true) {
         final String response = in.readLine();
@@ -57,7 +61,7 @@ class Client {
                     Integer.parseInt(words[4])));
           } else if (response.startsWith("NEXT")) {
             Platform.runLater(() -> {
-              mainController.setTurnLabel(response.split(" ")[1]);
+              mainController.updateTurnLabel(response.split(" ")[1]);
               mainController.setCurrentPlayer(response.split(" ")[1]);
             });
           } else if (response.startsWith("WINNER")) {
