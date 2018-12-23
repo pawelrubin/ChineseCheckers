@@ -111,7 +111,7 @@ class Game {
           Field field = board.getField(fieldX, fieldY);
           if (controller.isValid(pawnX, pawnY, field)) {
             moveCount++;
-            this.protocol.validMoveMessage(pawn, field);
+            this.protocol.validMove(pawn, field);
             for (Player player : players) {
               player.protocol.next(colors[moveCount % numOfPlayers]);
               currentPlayer = players[moveCount % numOfPlayers];
@@ -153,7 +153,8 @@ class Game {
     public void run() {
       try {
         System.out.println("All players connected");
-        output.println("MESSAGE All players connected.");
+        protocol.allConnected();
+        protocol.startGame();
         while (true) {
           String command = input.readLine();
           if (command != null) {

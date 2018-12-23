@@ -10,8 +10,11 @@ import layout.Field;
 import layout.Pawn;
 
 import java.awt.image.AreaAveragingScaleFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import static java.lang.Math.sqrt;
 
@@ -25,7 +28,7 @@ public class MainController {
   @FXML
   private Label turnLabel;
   private Client client;
-
+  private final String serverAddress = "localhost";
   private String winner;
   private static String color;
   private static int numOfPlayers;
@@ -34,11 +37,17 @@ public class MainController {
   private static int yOfChosenPawn = 0;
   private static String currentPlayer;
 
-  static void addWinner(String s) {
+  @FXML
+  public void initialize() throws IOException {
+    client = new Client(serverAddress);
+    client.setController(this);
+  }
+
+  void addWinner(String s) {
     winners.add(s);
   }
 
-  private void drawBoard() {
+  void drawBoard() {
     board = new Board(numOfPlayers);
     borderPane.setCenter(board);
     turnLabel.setText(currentPlayer + "'s turn");
@@ -172,15 +181,12 @@ public class MainController {
     // create new thread to handle network communication
     new Thread(() -> {
       System.out.println("Kitajce client started.");
-      String serverAddress = "localhost";
       try {
-        client = new Client(serverAddress);
         client.play();
-      } catch (Exception ex) {
+      } catch (IOException ex) {
         System.out.println("Connection Error: " + ex);
       }
     }).start();
-    drawBoard();
   }
 
   @FXML
@@ -188,7 +194,7 @@ public class MainController {
     client.sendMessage("END_TURN " + color);
   }
 
-  static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
+  void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
     Pawn pawn = board.getPawn(pawnX, pawnY);
     Field field = board.getField(fieldX, fieldY);
     board.movePawn(pawnX, pawnY, fieldX, fieldY);
@@ -200,15 +206,19 @@ public class MainController {
     yOfChosenPawn = 0;
   }
 
-  static void setColor(String colorToSet) {
+  void setColor(String colorToSet) {
     color = colorToSet;
   }
 
-  static void setNumOfPlayers(int num) {
+  void setNumOfPlayers(int num) {
     numOfPlayers = num;
   }
 
-  static void setCurrentPlayer(String color) {
+  void setCurrentPlayer(String color) {
     currentPlayer = color;
+  }
+
+  void setTurnLabel(String color) {
+    turnLabel.setText(color + "'s turn");
   }
 }
