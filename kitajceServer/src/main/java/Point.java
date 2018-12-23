@@ -1,33 +1,21 @@
-public class Point {
+class Point {
   private int x;
   private int y;
 
-  public Point(int x, int y) {
+  Point(int x, int y) {
     this.x = x;
     this.y = y;
   }
 
-  public int getX() {
+  private int getX() {
     return x;
   }
 
-  public void setX(int x) {
-    this.x = x;
-  }
-
-  public int getY() {
+  private int getY() {
     return y;
   }
 
-  public void setY(int y) {
-    this.y = y;
-  }
-
-  public boolean equals(Point point) {
-    if (this.x == point.getX() && this.y == point.getY()) {
-      return true;
-    } else {
-      return false;
-    }
+  boolean equals(Point point) {
+    return this.x == point.getX() && this.y == point.getY();
   }
 }

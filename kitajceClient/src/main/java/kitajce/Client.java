@@ -30,28 +30,32 @@ class Client  {
     String response;
     System.out.println("elo");
     try {
-      response = in.readLine();
-      if (response.startsWith("WELCOME")) {
-        System.out.println("ELO");
-      }
       while (true) {
         response = in.readLine();
         isValid = false;
         if (response != null) {
           System.out.println("response from server: " + response);
-          if (response.startsWith("VALID_MOVE")) {
+          if (response.startsWith("WELCOME")) {
+            MainController.setColor(response.split(" ")[1]);
+            MainController.setNumOfPlayers(Integer.parseInt(response.split(" ")[2]));
+            MainController.setCurrentPlayer(response.split(" ")[3]);
+            System.out.println("ELO");
+          } else if (response.startsWith("VALID_MOVE")) {
             isValid = true;
             System.out.println("dobry ruch kolego.");
             String words[] = response.split(" ");
             MainController.movePawn(Integer.parseInt(words[1]),
                     Integer.parseInt(words[2]), Integer.parseInt(words[3]),
                     Integer.parseInt(words[4]));
-//            MainController.nextPlayer();
           } else if (response.startsWith("PLAYER_MOVED")) {
             String words[] = response.split(" ");
             MainController.movePawn(Integer.parseInt(words[1]),
                     Integer.parseInt(words[2]), Integer.parseInt(words[3]),
                     Integer.parseInt(words[4]));
+          } else if (response.startsWith("NEXT")) {
+            MainController.setCurrentPlayer(response.split(" ")[1]);
+          } else if (response.startsWith("WINNER")) {
+            MainController.addWinner(response.split(" ")[1]);
           } else if (response.startsWith("QUIT")) {
             break;
           } else {

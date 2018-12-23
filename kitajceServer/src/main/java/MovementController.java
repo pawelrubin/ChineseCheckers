@@ -2,14 +2,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MovementController {
-  Board board;
+  private Board board;
   private List<Point> nodes = new ArrayList<>();
+  protected String winner;
 
   MovementController(Board board) {
     this.board = board;
   }
 
-  public boolean isValid(int oldX, int oldY, Field field) {
+  boolean isValid(int oldX, int oldY, Field field) {
 
     nodes.clear();
 
@@ -21,6 +22,34 @@ class MovementController {
       return true;
     }
 
+    return false;
+  }
+
+  boolean gameOver() {
+    if (greenWinningCondition()) {
+      winner = "GREEN";
+      return true;
+    }
+    if (yellowWinningCondition()) {
+      winner = "YELLOw";
+      return true;
+    }
+    if (blackWinningCondition()) {
+      winner = "BLACK";
+      return true;
+    }
+    if (whiteWinningCondition()) {
+      winner = "WHITE";
+      return true;
+    }
+    if (redWinningCondition()) {
+      winner = "RED";
+      return true;
+    }
+    if (blueWinningCondition()) {
+      winner = "BLUE";
+      return true;
+    }
     return false;
   }
 
@@ -162,5 +191,97 @@ class MovementController {
 
     return false;
   }
+
+  private boolean greenWinningCondition() {
+    for (int i = 13; i < board.getHeight(); i++) {
+      for (int j = 0; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("GREEN")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean whiteWinningCondition() {
+    for (int i = 9; i < 13; i++) {
+      for (int j = 0; j < board.getWidth(i - 9); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("WHITE")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean redWinningCondition() {
+    for (int i = 4; i < 8; i++) {
+      for (int j = 0; j < 8 - i; j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("RED")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean yellowWinningCondition() {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("YELLOW")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean blackWinningCondition() {
+    for (int i = 4; i < 8; i++) {
+      for (int j = 9; j <= 16 - i; j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLACK")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean blueWinningCondition() {
+    for (int i = 9; i < 13; i++) {
+      for (int j = 9; j < board.getWidth(i); j++) {
+        int counter = 0;
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLUE")) {
+          counter++;
+        }
+        if (counter == 10) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
 
 }

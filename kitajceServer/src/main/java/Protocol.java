@@ -1,42 +1,42 @@
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Protocol {
   private BufferedReader input;
   private PrintWriter output;
-  MovementController controller;
-  Board board;
 
-  Protocol(Game.Player player) throws IOException {
+  Protocol(Game.Player player) {
     input = player.input;
     output = player.output;
     System.out.println("New protocol created.");
   }
+
   /**
    * Sends "VALID_MOVE" message to a client.
    * @param pawn
    * @param field
    */
-  public void validMoveMessage(Pawn pawn, Field field) {
+  void validMoveMessage(Pawn pawn, Field field) {
+    System.out.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
+            + field.getX() + " " + field.getY());
     output.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
       + field.getX() + " " + field.getY());
   }
 
 
-  public void playerMoved(Pawn pawn, Field field) {
+  void playerMoved(Pawn pawn, Field field) {
     output.println("PLAYER_MOVED " + pawn.getX() + " " + pawn.getY() + " " + field.getX() + " " + field.getY());
   }
 
-  public void newTurn(String color) {
-    output.println("NEW_TURN " + color);
+  void invalidMoveMessage() {
+    output.println("INVALID_MOVE");
   }
 
+  void next(String color) {
+    output.println("NEXT " + color);
+  }
 
-  public void invalidMoveMessage() {
-    output.println("INVALID_MOVE");
+  void winnerMessage(String winner) {
+    output.println("WINNER " + winner);
   }
 }

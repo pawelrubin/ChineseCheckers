@@ -8,9 +8,9 @@ class Board {
   public int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
   //offset for storing the board
   private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-  public int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+  private int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
 
-  public Board(int numOfPlayers) {
+  Board(int numOfPlayers) {
     super();
     this.numOfPlayers = numOfPlayers;
     fields = new Field[height][height];
@@ -129,5 +129,9 @@ class Board {
 
   int getHeight() {
     return height;
+  }
+
+  int getWidth(int i) {
+    return widths[i];
   }
 }

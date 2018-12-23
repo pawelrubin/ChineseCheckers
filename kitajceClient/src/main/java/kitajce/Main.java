@@ -19,8 +19,8 @@ public class Main extends Application {
     primaryStage.setScene(new Scene(root));
     primaryStage.setMaximized(false);
     primaryStage.setResizable(true);
-    primaryStage.setMinHeight(720);
-    primaryStage.setMinWidth(1280);
+//    primaryStage.setMinHeight(720);
+//    primaryStage.setMinWidth(1280);
     primaryStage.show();
   }
 

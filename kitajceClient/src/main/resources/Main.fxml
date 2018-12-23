@@ -31,7 +31,9 @@
             </ComboBox>
             <Separator/>
             <!--<Button onAction="#nextPlayer" mnemonicParsing="false" text="End turn"/>-->
-            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER"/>
+            <Label fx:id="label"/>
+            <Separator/>
+            <Label fx:id="colorLabel"/>
         </VBox>
     </right>
 

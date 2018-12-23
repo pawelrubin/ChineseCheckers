@@ -20,6 +20,8 @@ public class MainController {
   @FXML
   private static Board board;
   @FXML
+  private Label colorLabel;
+  @FXML
   private BorderPane borderPane;
   @FXML
   private Label label;
@@ -33,14 +35,21 @@ public class MainController {
   private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> nodes = new ArrayList<>();
   private Random random = new Random();
+  public static String color;
+  private static int numOfPlayers;
+  private static List<String> winners;
+
+  public static void addWinner(String s) {
+    winners.add(s);
+  }
 
   @FXML
   private void drawBoard() {
-    board = new Board(6);
-    currentPlayer = colors[0];
+    board = new Board(numOfPlayers);
     moveCount = 0;
     borderPane.setCenter(board);
     label.setText(currentPlayer + "'s turn");
+    colorLabel.setText("Your color is: " + color);
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -76,13 +85,7 @@ public class MainController {
 
             client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() + " " + pawn.getY() +
                     " " + field.getX() + " " + field.getY());
-
-            if (client.isValid()) {
-//              nextPlayer();
-              if (gameOver()) {
-                System.out.println(winner + "player has won!");
-              }
-            }
+            label.setText(currentPlayer);
           }
         });
 
@@ -134,7 +137,7 @@ public class MainController {
           }
 
           pawn.setOnMouseClicked(event -> {
-//            if (currentPlayer.equals(pawn.getColor())) {
+            if (color.equals(pawn.getColor()) && currentPlayer.equals(pawn.getColor())) {
               pawn.setChosen(!pawn.isChosen());
               if (pawn.isChosen()) {
                 int oldX = xOfChosenPawn;
@@ -163,7 +166,7 @@ public class MainController {
                 System.out.println("X: " + pawn.getX() + ", Y: " + pawn.getY());
                 System.out.println(xOfChosenPawn + " --- " + yOfChosenPawn);
               }
-//            }
+            }
           });
           board.getChildren().addAll(pawn);
         }
@@ -186,281 +189,7 @@ public class MainController {
     }).start();
   }
 
-  @FXML
-  void nextPlayer() {
-    moveCount++;
-    currentPlayer = colors[moveCount % 6];
-//    label.setText(currentPlayer + "'s turn");
-  }
-
-  private int randomPlayer(int numberOfPlayers) {
-    return random.nextInt(numberOfPlayers);
-  }
-
-  private boolean isValid(Pawn pawn, Field field) throws IOException {
-    client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() +
-            " " + pawn.getY() + " " + field.getX() + " " + field.getY());
-    return client.getResponse().startsWith("VALID_MOVE");
-  }
-
-  private boolean moveValidation(int oldX, int oldY, Field field) {
-    int newX = field.getX();
-    int newY = field.getY();
-
-    //moving right [1, 0] and left[-1, 0]
-    if (newY - oldY == 0) {
-      if (newX - oldX == 1) {
-        return true;
-      }
-      if (newX - oldX == -1) {
-        return true;
-      }
-    }
-
-    //moving top right [0, -1] and top left [-1, -1]
-    if (newY - oldY == -1) {
-      if (newX - oldX == 0) {
-        return true;
-      }
-      if (newX - oldX == -1) {
-        return true;
-      }
-    }
-
-    //moving bottom right [1, 1] or bottom left [0, 1]
-    if (newY - oldY == 1) {
-      if (newX - oldX == 1) {
-        return true;
-      }
-      if (newX - oldX == 0) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private boolean jumpRecursiveValidation(int oldX, int oldY, int offsetX, int offsetY, int originalX, int originalY, Field field) {
-    int newX = field.getX();
-    int newY = field.getY();
-
-    if (oldX == newX && oldY == newY) {
-      return true;
-    }
-
-    for (Point i : nodes) {
-      for (Point j : nodes) {
-        if (i != j) {
-          if (i.equals(j)) {
-            nodes.remove(nodes.size() - 1);
-            return false;
-          }
-        }
-      }
-    }
-
-    if (oldX == originalX && oldY == originalY && (offsetX != 0 || offsetY != 0)) {
-      return false;
-    }
-
-    //jumping right [2, 0]
-    if ((offsetX != -2 || offsetY != 0)
-      && oldX <= board.getHeight() - 3
-      && board.getField(oldX + 2, oldY) != null
-      && board.getPawn(oldX + 2, oldY) == null
-      && board.getPawn(oldX + 1, oldY) != null) {
-      nodes.add(new Point(oldX + 2, oldY));
-      if (jumpRecursiveValidation(oldX + 2, oldY, 2, 0, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    //jumping left [-2, 0]
-    if ((offsetX != 2 || offsetY != 0)
-      && oldX >= 2
-      && board.getField(oldX - 2, oldY) != null
-      && board.getPawn(oldX - 2, oldY) == null
-      && board.getPawn(oldX - 1, oldY) != null) {
-      nodes.add(new Point(oldX - 2, oldY));
-      if (jumpRecursiveValidation(oldX - 2, oldY, -2, 0, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    //jumping top right [0, -2]
-    if ((offsetX != 0 || offsetY != 2)
-      && oldY >= 2
-      && board.getField(oldX, oldY - 2) != null
-      && board.getPawn(oldX, oldY - 2) == null
-      && board.getPawn(oldX, oldY - 1) != null) {
-      nodes.add(new Point(oldX, oldY - 2));
-      if (jumpRecursiveValidation(oldX, oldY - 2, 0, -2, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    //jumping top left [-2, -2]
-    if ((offsetX != 2 || offsetY != 2)
-      && oldX >= 2 && oldY >= 2
-      && board.getField(oldX - 2, oldY - 2) != null
-      && board.getPawn(oldX - 2, oldY - 2) == null
-      && board.getPawn(oldX - 1, oldY - 1) != null) {
-      nodes.add(new Point(oldX - 2, oldY - 2));
-      if (jumpRecursiveValidation(oldX - 2, oldY - 2, -2, -2, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    //jumping bottom right [2, 2]
-    if ((offsetX != -2 || offsetY != -2)
-      && oldX <= board.getHeight() - 3 && oldY <= board.getHeight() - 3
-      && board.getField(oldX + 2, oldY + 2) != null
-      && board.getPawn(oldX + 2, oldY + 2) == null
-      && board.getPawn(oldX + 1, oldY + 1) != null) {
-      nodes.add(new Point(oldX + 2, oldY + 2));
-      if (jumpRecursiveValidation(oldX + 2, oldY + 2, 2, 2, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    //jumping bottom left [0, 2]
-    if ((offsetX != 0 || offsetY != -2)
-      && oldY <= board.getHeight() - 3
-      && board.getField(oldX, oldY + 2) != null
-      && board.getPawn(oldX, oldY + 2) == null
-      && board.getPawn(oldX, oldY + 1) != null) {
-      nodes.add(new Point(oldX, oldY + 2));
-      if (jumpRecursiveValidation(oldX, oldY + 2, 0, 2, originalX, originalY, field)) {
-        return true;
-      }
-    }
-
-    if (nodes.size() > 0) {
-      nodes.remove(nodes.size() - 1);
-    }
-
-    return false;
-  }
-
-  private boolean greenWinningCondition() {
-    for (int i = 13; i < board.getHeight(); i++) {
-      for (int j = 0; j < board.getWidth(i); j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("GREEN")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean whiteWinningCondition() {
-    for (int i = 9; i < 13; i++) {
-      for (int j = 0; j < board.getWidth(i - 9); j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("WHITE")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean redWinningCondition() {
-    for (int i = 4; i < 8; i++) {
-      for (int j = 0; j < 8 - i; j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("RED")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean yellowWinningCondition() {
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < board.getWidth(i); j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("YELLOW")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean blackWinningCondition() {
-    for (int i = 4; i < 8; i++) {
-      for (int j = 9; j <= 16 - i; j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLACK")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean blueWinningCondition() {
-    for (int i = 9; i < 13; i++) {
-      for (int j = 9; j < board.getWidth(i); j++) {
-        int counter = 0;
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals("BLUE")) {
-          counter++;
-        }
-        if (counter == 10) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private boolean gameOver() {
-    if (greenWinningCondition()) {
-      winner = "GREEN";
-      return true;
-    }
-    if (yellowWinningCondition()) {
-      winner = "YELLOw";
-      return true;
-    }
-    if (blackWinningCondition()) {
-      winner = "BLACK";
-      return true;
-    }
-    if (whiteWinningCondition()) {
-      winner = "WHITE";
-      return true;
-    }
-    if (redWinningCondition()) {
-      winner = "RED";
-      return true;
-    }
-    if (blueWinningCondition()) {
-      winner = "BLUE";
-      return true;
-    }
-    return false;
-  }
-
-  public static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
+  static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
     Pawn pawn = board.getPawn(pawnX, pawnY);
     Field field = board.getField(fieldX, fieldY);
     board.movePawn(pawnX, pawnY, fieldX, fieldY);
@@ -470,5 +199,17 @@ public class MainController {
     pawn.setChosen(false);
     xOfChosenPawn = 0;
     yOfChosenPawn = 0;
+  }
+
+  static void setColor(String colorToSet) {
+    color = colorToSet;
+  }
+
+  public static void setNumOfPlayers(int num) {
+    numOfPlayers = num;
+  }
+
+  public static void setCurrentPlayer(String color) {
+    currentPlayer = color;
   }
 }

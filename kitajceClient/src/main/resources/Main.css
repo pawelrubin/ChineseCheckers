@@ -30,6 +30,9 @@ Button {
 
 Label {
     -fx-pref-width: -pref-width;
+    -fx-alignment: CENTER;
+    -fx-content-display: CENTER;
+    -fx-text-alignment: CENTER;
 }
 
 ComboBox {
