@@ -185,6 +185,11 @@ public class MainController {
     }).start();
   }
 
+  @FXML
+  private void nextPlayer() {
+    client.sendMessage("END_TURN");
+  }
+
   static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
     Pawn pawn = board.getPawn(pawnX, pawnY);
     Field field = board.getField(fieldX, fieldY);

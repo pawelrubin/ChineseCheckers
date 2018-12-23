@@ -48,7 +48,7 @@ class Game {
     controller = new MovementController(board);
     int randomIndex = new Random().nextInt(numOfPlayers);
     moveCount = randomIndex;
-    currentColor =  colors[randomIndex];
+    currentColor = colors[randomIndex];
     addPlayers();
     runPlayers();
     currentPlayer = players[randomIndex];
@@ -134,6 +134,10 @@ class Game {
           }
         } else {
           output.println("Mordziu nie ten pionek co ty");
+        }
+      } else if (command.startsWith("END_TURN")) {
+        for (Player player : players) {
+          player.protocol.next(colors[moveCount % numOfPlayers]);
         }
       } else if (command.startsWith("QUIT")) {
         return;
