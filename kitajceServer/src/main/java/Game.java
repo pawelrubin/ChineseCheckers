@@ -136,6 +136,8 @@ class Game {
           output.println("Mordziu nie ten pionek co ty");
         }
       } else if (command.startsWith("END_TURN")) {
+        moveCount++;
+        currentPlayer = players[moveCount % numOfPlayers];
         for (Player player : players) {
           player.protocol.next(colors[moveCount % numOfPlayers]);
         }

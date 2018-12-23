@@ -16,6 +16,7 @@ public class Main extends Application {
     primaryStage.setResizable(true);
     primaryStage.setMinHeight(768);
     primaryStage.setMinWidth(1024);
+    primaryStage.setOnCloseRequest(e -> System.exit(0));
     primaryStage.show();
   }
 
