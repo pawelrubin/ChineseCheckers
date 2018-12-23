@@ -4,7 +4,7 @@ import java.util.List;
 class MovementController {
   private Board board;
   private List<Point> nodes = new ArrayList<>();
-  protected String winner;
+  String winner;
 
   MovementController(Board board) {
     this.board = board;

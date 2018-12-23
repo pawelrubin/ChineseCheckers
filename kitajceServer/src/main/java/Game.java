@@ -48,7 +48,7 @@ class Game {
     controller = new MovementController(board);
     int randomIndex = new Random().nextInt(numOfPlayers);
     moveCount = randomIndex;
-    currentColor = colors[randomIndex];
+    currentColor =  colors[randomIndex];
     addPlayers();
     runPlayers();
     currentPlayer = players[randomIndex];

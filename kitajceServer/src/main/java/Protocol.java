@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-public class Protocol {
+class Protocol {
   private BufferedReader input;
   private PrintWriter output;
 
@@ -13,8 +13,6 @@ public class Protocol {
 
   /**
    * Sends "VALID_MOVE" message to a client.
-   * @param pawn
-   * @param field
    */
   void validMoveMessage(Pawn pawn, Field field) {
     System.out.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "

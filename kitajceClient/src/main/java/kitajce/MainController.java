@@ -27,26 +27,22 @@ public class MainController {
   private Label label;
 
   private Client client;
+
+  private String winner;
+  private static String color;
+  private static int numOfPlayers;
+  private static List<String> winners;
   private static int xOfChosenPawn = 0;
   private static int yOfChosenPawn = 0;
   private static String currentPlayer;
-  private static int moveCount = 0;
-  private String winner;
-  private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
-  private List<Point> nodes = new ArrayList<>();
-  private Random random = new Random();
-  public static String color;
-  private static int numOfPlayers;
-  private static List<String> winners;
 
-  public static void addWinner(String s) {
+  static void addWinner(String s) {
     winners.add(s);
   }
 
   @FXML
   private void drawBoard() {
     board = new Board(numOfPlayers);
-    moveCount = 0;
     borderPane.setCenter(board);
     label.setText(currentPlayer + "'s turn");
     colorLabel.setText("Your color is: " + color);
@@ -93,6 +89,10 @@ public class MainController {
       }
     }
     drawPawns();
+  }
+
+  private void updateLabel() {
+
   }
 
   private void drawPawns() {
@@ -205,11 +205,11 @@ public class MainController {
     color = colorToSet;
   }
 
-  public static void setNumOfPlayers(int num) {
+  static void setNumOfPlayers(int num) {
     numOfPlayers = num;
   }
 
-  public static void setCurrentPlayer(String color) {
+  static void setCurrentPlayer(String color) {
     currentPlayer = color;
   }
 }

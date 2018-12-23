@@ -1,12 +1,6 @@
 package kitajce;
 
-import layout.Board;
-import layout.Field;
-import layout.Pawn;
-import layout.Point;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -26,7 +20,7 @@ class Client  {
     out = new PrintWriter(socket.getOutputStream(), true);
   }
 
-  public void play() throws Exception {
+  void play() throws Exception {
     String response;
     System.out.println("elo");
     try {
@@ -69,15 +63,7 @@ class Client  {
     }
   }
 
-  public void sendMessage(String message) {
+  void sendMessage(String message) {
     out.println(message);
-  }
-
-  public String getResponse() throws IOException {
-    return in.readLine();
-  }
-
-  public  boolean isValid() {
-    return isValid;
   }
 }

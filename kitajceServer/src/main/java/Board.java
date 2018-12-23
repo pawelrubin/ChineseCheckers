@@ -111,7 +111,6 @@ class Board {
     }
   }
 
-
   Field getField(int x, int y) {
     return fields[x][y];
   }

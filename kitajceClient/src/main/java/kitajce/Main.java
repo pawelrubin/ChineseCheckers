@@ -9,12 +9,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  private static Stage primaryStage;
-  private static Parent root;
-
   public void start(Stage primaryStage) throws Exception {
-    Main.primaryStage = primaryStage;
-    root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
     primaryStage.setTitle("Kitajce");
     primaryStage.setScene(new Scene(root));
     primaryStage.setMaximized(false);
