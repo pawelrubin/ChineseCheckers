@@ -24,9 +24,6 @@ public class MainController {
   private BorderPane borderPane;
   @FXML
   private Label turnLabel;
-  @FXML
-  private Button startButton;
-
   private Client client;
 
   private String winner;
@@ -41,7 +38,6 @@ public class MainController {
     winners.add(s);
   }
 
-  @FXML
   private void drawBoard() {
     board = new Board(numOfPlayers);
     borderPane.setCenter(board);
@@ -184,7 +180,7 @@ public class MainController {
         System.out.println("Connection Error: " + ex);
       }
     }).start();
-    startButton.setDisable(false);
+    drawBoard();
   }
 
   @FXML
