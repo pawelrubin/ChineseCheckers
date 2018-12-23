@@ -11,16 +11,22 @@ class Protocol {
     System.out.println("New protocol created.");
   }
 
+  void allConnected() {
+    output.println("MESSAGE All players connected.");
+  }
+
+  void startGame() {
+    output.println("START_GAME");
+  }
   /**
    * Sends "VALID_MOVE" message to a client.
    */
-  void validMoveMessage(Pawn pawn, Field field) {
+  void validMove(Pawn pawn, Field field) {
     System.out.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
             + field.getX() + " " + field.getY());
     output.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
       + field.getX() + " " + field.getY());
   }
-
 
   void playerMoved(Pawn pawn, Field field) {
     output.println("PLAYER_MOVED " + pawn.getX() + " " + pawn.getY() + " " + field.getX() + " " + field.getY());
