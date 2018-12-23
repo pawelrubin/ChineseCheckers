@@ -109,7 +109,7 @@ class Game {
           int fieldY = Integer.parseInt(words[5]);
           Pawn pawn = board.getPawn(pawnX, pawnY);
           Field field = board.getField(fieldX, fieldY);
-          if (controller.isValid(pawnX, pawnY, field)) {
+          if (controller.isValid(pawnX, pawnY, field, currentPlayer.color)) {
             moveCount++;
             this.protocol.validMoveMessage(pawn, field);
             for (Player player : players) {

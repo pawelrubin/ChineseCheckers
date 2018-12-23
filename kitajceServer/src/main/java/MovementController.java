@@ -10,9 +10,60 @@ class MovementController {
     this.board = board;
   }
 
-  boolean isValid(int oldX, int oldY, Field field) {
+  boolean isValid(int oldX, int oldY, Field field, String color) {
 
     nodes.clear();
+
+    switch (color) {
+      case "GREEN": {
+        if (board.getBottomCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getBottomCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+      case "YELLOW": {
+        if (board.getTopCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getTopCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+      case "RED": {
+        if (board.getTopLeftCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getTopLeftCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+      case "WHITE": {
+        if (board.getBottomLeftCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getBottomLeftCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+      case "BLUE": {
+        if (board.getBottomRightCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getBottomRightCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+      case "BLACK": {
+        if (board.getTopRightCorner().contains(new Point(oldX, oldY))) {
+          if (!board.getTopRightCorner().contains(new Point(field.getX(), field.getY()))) {
+            return false;
+          }
+        }
+        break;
+      }
+    }
 
     if (moveValidation(oldX, oldY, field)) {
       return true;
