@@ -136,10 +136,13 @@ class Game {
           output.println("Mordziu nie ten pionek co ty");
         }
       } else if (command.startsWith("END_TURN")) {
-        moveCount++;
-        currentPlayer = players[moveCount % numOfPlayers];
-        for (Player player : players) {
-          player.protocol.next(colors[moveCount % numOfPlayers]);
+        String words[] = command.split(" ");
+        if (words[1].equals(currentPlayer.color)) {
+          moveCount++;
+          currentPlayer = players[moveCount % numOfPlayers];
+          for (Player player : players) {
+            player.protocol.next(colors[moveCount % numOfPlayers]);
+          }
         }
       } else if (command.startsWith("QUIT")) {
         return;

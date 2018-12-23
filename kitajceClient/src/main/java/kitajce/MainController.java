@@ -7,12 +7,8 @@ import javafx.scene.paint.Color;
 import layout.Board;
 import layout.Field;
 import layout.Pawn;
-import layout.Point;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static java.lang.Math.sqrt;
 
@@ -24,7 +20,7 @@ public class MainController {
   @FXML
   private BorderPane borderPane;
   @FXML
-  private Label label;
+  private Label turnLabel;
 
   private Client client;
 
@@ -44,8 +40,8 @@ public class MainController {
   private void drawBoard() {
     board = new Board(numOfPlayers);
     borderPane.setCenter(board);
-    label.setText(currentPlayer + "'s turn");
-    colorLabel.setText("Your color is: " + color);
+    turnLabel.setText(currentPlayer + "'s turn");
+    colorLabel.setText("You are " + color + " player");
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -81,7 +77,7 @@ public class MainController {
 
             client.sendMessage("MOVE " + pawn.getColor() + " " + pawn.getX() + " " + pawn.getY() +
                     " " + field.getX() + " " + field.getY());
-            label.setText(currentPlayer);
+            turnLabel.setText(currentPlayer);
           }
         });
 
@@ -187,7 +183,7 @@ public class MainController {
 
   @FXML
   private void nextPlayer() {
-    client.sendMessage("END_TURN");
+    client.sendMessage("END_TURN " + color);
   }
 
   static void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {

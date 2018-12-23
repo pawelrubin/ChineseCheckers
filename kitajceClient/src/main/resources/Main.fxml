@@ -18,6 +18,7 @@
         <VBox>
             <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
             <Button onAction="#startClient" text="Connect"/>
+            <!--
             <Label text="Number of players:"/>
             <ComboBox value="2">
                 <items>
@@ -29,11 +30,11 @@
                     </FXCollections>
                 </items>
             </ComboBox>
+            -->
             <Separator/>
             <Button onAction="#nextPlayer" mnemonicParsing="false" text="End turn"/>
-            <Label fx:id="label"/>
-            <Separator/>
             <Label fx:id="colorLabel"/>
+            <Label fx:id="turnLabel"/>
         </VBox>
     </right>
 
