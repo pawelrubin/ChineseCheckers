@@ -9,6 +9,8 @@ import layout.Board;
 import layout.Field;
 import layout.Pawn;
 
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.sqrt;
@@ -30,7 +32,7 @@ public class MainController {
   private String winner;
   private static String color;
   private static int numOfPlayers;
-  private static List<String> winners;
+  private static List<String> winners = new ArrayList<>();
   private static int xOfChosenPawn = 0;
   private static int yOfChosenPawn = 0;
   private static String currentPlayer;

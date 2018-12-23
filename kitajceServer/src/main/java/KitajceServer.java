@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class KitajceServer {
@@ -9,22 +11,16 @@ public class KitajceServer {
 
   public static void main(String[] args) throws Exception {
     KitajceServer server = new KitajceServer();
+    server.numOfPlayers = Integer.parseInt(args[0]);
+    if (server.numOfPlayers < 2 || server.numOfPlayers > 6 || server.numOfPlayers == 5 ) {
+      System.exit(1);
+    }
     server.start();
-  }
-
-  private void settings() {
-    Scanner scanner = new Scanner(System.in);
-    do {
-      System.out.println("Number of players: ");
-      numOfPlayers = scanner.nextInt();
-      System.out.println(numOfPlayers);
-    } while ((numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5));
   }
 
   private void start() throws IOException {
     try (ServerSocket listener = new ServerSocket(port)) {
       System.out.println("Kitajce Server is running.");
-      settings();
       new Game(numOfPlayers, listener);
     }
   }
