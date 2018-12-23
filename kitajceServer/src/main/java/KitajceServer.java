@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class KitajceServer {
 
   private static final int port = 2137;
-  private int numOfPlayers = 2;
+  private int numOfPlayers;
 
   public static void main(String[] args) throws Exception {
     KitajceServer server = new KitajceServer();

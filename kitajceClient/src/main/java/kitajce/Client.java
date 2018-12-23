@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-class Client  {
+class Client {
   private static final int port = 2137;
   private Socket socket;
   private BufferedReader in;
@@ -15,20 +15,18 @@ class Client  {
   Client(String serverAddress) throws Exception {
     // Setup networking
     socket = new Socket(serverAddress, port);
-    in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
+    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     out = new PrintWriter(socket.getOutputStream(), true);
   }
 
   void play() throws Exception {
     String response;
-    System.out.println("elo");
     try {
       while (true) {
         response = in.readLine();
         isValid = false;
         if (response != null) {
-          System.out.println("response from server: " + response);
+          System.out.println("Response from server: " + response);
           if (response.startsWith("WELCOME")) {
             MainController.setColor(response.split(" ")[1]);
             MainController.setNumOfPlayers(Integer.parseInt(response.split(" ")[2]));
@@ -36,7 +34,6 @@ class Client  {
             System.out.println("ELO");
           } else if (response.startsWith("VALID_MOVE")) {
             isValid = true;
-            System.out.println("dobry ruch kolego.");
             String words[] = response.split(" ");
             MainController.movePawn(Integer.parseInt(words[1]),
                     Integer.parseInt(words[2]), Integer.parseInt(words[3]),
