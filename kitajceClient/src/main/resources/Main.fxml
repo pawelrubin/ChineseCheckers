@@ -16,7 +16,7 @@
     </center>
     <right>
         <VBox>
-            <Button mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
+            <Button fx:id="startButton" disable="true" mnemonicParsing="false" onAction="#drawBoard" text="Start game"/>
             <Button onAction="#startClient" text="Connect"/>
             <!--
             <Label text="Number of players:"/>

@@ -1,6 +1,7 @@
 package kitajce;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -21,6 +22,8 @@ public class MainController {
   private BorderPane borderPane;
   @FXML
   private Label turnLabel;
+  @FXML
+  private Button startButton;
 
   private Client client;
 
@@ -179,6 +182,7 @@ public class MainController {
         System.out.println("Connection Error: " + ex);
       }
     }).start();
+    startButton.setDisable(false);
   }
 
   @FXML
