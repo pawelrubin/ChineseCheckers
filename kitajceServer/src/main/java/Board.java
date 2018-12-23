@@ -119,6 +119,10 @@ class Board {
     return pawns[x][y];
   }
 
+  public int getOffset(int i) {
+    return offset[i];
+  }
+
   void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
