@@ -18,14 +18,6 @@ public class Board extends Group {
     fields = new Field[height][height];
     pawns = new Pawn[height][height];
 
-    //nulling fields[] array
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < height; j++) {
-        fields[i][j] = null;
-        pawns[i][j] = null;
-      }
-    }
-
     // creating fields
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {

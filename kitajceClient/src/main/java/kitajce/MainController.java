@@ -30,7 +30,6 @@ public class MainController {
   private Label winningLabel;
 
   private Client client;
-  private final String serverAddress = "localhost";
   private String winnersMsg = "Winners:\n";
   private String color;
   private int numOfPlayers;
