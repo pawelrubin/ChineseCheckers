@@ -1,7 +1,6 @@
 package kitajce;
 
 import javafx.application.Platform;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,15 +12,9 @@ class Client {
   private Socket socket;
   private BufferedReader in;
   private PrintWriter out;
-  private boolean isValid;
   private MainController mainController;
-  private String serverAddress;
 
-  Client(String serverAddress) {
-    this.serverAddress = serverAddress;
-  }
-
-  void setConnection() throws IOException {
+  void setConnection(String serverAddress) throws IOException {
     // Setup networking
     socket = new Socket(serverAddress, port);
     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -36,44 +29,42 @@ class Client {
     try {
       while (true) {
         final String response = in.readLine();
-        isValid = false;
         if (response != null) {
           System.out.println("Response from server: " + response);
-          if (response.startsWith("WELCOME")) {
-            Platform.runLater(() -> {
-              mainController.setColor(response.split(" ")[1]);
-              mainController.setNumOfPlayers(Integer.parseInt(response.split(" ")[2]));
-              mainController.setCurrentPlayer(response.split(" ")[3]);
-            });
-            System.out.println("ELO");
-          } else if (response.startsWith("START_GAME")) {
-            Platform.runLater(() -> mainController.drawBoard());
-          } else if (response.startsWith("VALID_MOVE")) {
-            isValid = true;
-            String words[] = response.split(" ");
-            Platform.runLater(() -> mainController.movePawn(Integer.parseInt(words[1]),
-                    Integer.parseInt(words[2]), Integer.parseInt(words[3]),
-                    Integer.parseInt(words[4])));
-          } else if (response.startsWith("PLAYER_MOVED")) {
-            String words[] = response.split(" ");
-            Platform.runLater(() -> mainController.movePawn(Integer.parseInt(words[1]),
-                    Integer.parseInt(words[2]), Integer.parseInt(words[3]),
-                    Integer.parseInt(words[4])));
-          } else if (response.startsWith("NEXT")) {
-            Platform.runLater(() -> {
-              mainController.updateTurnLabel(response.split(" ")[1]);
-              mainController.setCurrentPlayer(response.split(" ")[1]);
-            });
-          } else if (response.startsWith("WINNER")) {
-            Platform.runLater(() -> mainController.addWinner(response.split(" ")[1]));
-          } else if (response.startsWith("QUIT")) {
-            break;
-          } else {
-            isValid = false;
+          String[] words = response.split(" ");
+          switch (words[0]) {
+            case "WELCOME":
+              Platform.runLater(() -> {
+                mainController.setColor(words[1]);
+                mainController.setNumOfPlayers(Integer.parseInt(words[2]));
+                mainController.setCurrentPlayer(words[3]);
+              });
+              break;
+            case "START_GAME":
+              Platform.runLater(() -> mainController.drawBoard());
+              break;
+            case "VALID_MOVE":
+              Platform.runLater(() -> mainController.movePawn(Integer.parseInt(words[1]),
+                      Integer.parseInt(words[2]), Integer.parseInt(words[3]),
+                      Integer.parseInt(words[4])));
+              break;
+            case "PLAYER_MOVED":
+              Platform.runLater(() -> mainController.movePawn(Integer.parseInt(words[1]),
+                      Integer.parseInt(words[2]), Integer.parseInt(words[3]),
+                      Integer.parseInt(words[4])));
+              break;
+            case "NEXT":
+              Platform.runLater(() -> {
+                mainController.updateTurnLabel(words[1]);
+                mainController.setCurrentPlayer(words[1]);
+              });
+              break;
+            case "WINNER":
+              Platform.runLater(() -> mainController.addWinner(words[1]));
+              break;
           }
         }
       }
-      out.println("QUIT");
     } finally {
       socket.close();
     }

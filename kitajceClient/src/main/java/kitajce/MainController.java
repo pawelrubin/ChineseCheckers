@@ -2,6 +2,7 @@ package kitajce;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import layout.Board;
@@ -15,6 +16,8 @@ import java.util.List;
 import static java.lang.Math.sqrt;
 
 public class MainController {
+  @FXML
+  private TextField textField;
   @FXML
   private Board board;
   @FXML
@@ -38,7 +41,7 @@ public class MainController {
 
   @FXML
   public void initialize() {
-    client = new Client(serverAddress);
+    client = new Client();
     client.setController(this);
   }
 
@@ -48,7 +51,7 @@ public class MainController {
     new Thread(() -> {
       System.out.println("Kitajce client started.");
       try {
-        client.setConnection();
+        client.setConnection(textField.getText());
         client.play();
       } catch (IOException ex) {
         System.out.println("Connection Error: " + ex);

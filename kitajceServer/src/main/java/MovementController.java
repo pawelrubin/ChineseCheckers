@@ -69,11 +69,8 @@ class MovementController {
       return true;
     }
 
-    if (jumpRecursiveValidation(oldX, oldY, 0, 0, oldX, oldY, field)) {
-      return true;
-    }
+    return jumpRecursiveValidation(oldX, oldY, 0, 0, oldX, oldY, field);
 
-    return false;
   }
 
   boolean gameOver() {
