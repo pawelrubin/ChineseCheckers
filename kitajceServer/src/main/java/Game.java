@@ -142,7 +142,7 @@ class Game {
           currentPlayer = players[moveCount % numOfPlayers];
           for (Player player : players) {
             player.protocol.next(colors[moveCount % numOfPlayers]);
-           }
+          }
         }
       }
     }
