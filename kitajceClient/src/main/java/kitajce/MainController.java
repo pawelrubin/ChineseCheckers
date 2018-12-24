@@ -68,6 +68,11 @@ public class MainController {
     borderPane.setCenter(board);
     turnLabel.setText(currentPlayer + "'s turn");
     colorLabel.setText("You are " + color + " player");
+    drawFields();
+    drawPawns();
+  }
+
+  private void drawFields() {
     for (int i = 0; i < board.getHeight(); i++) {
       double posY = ((i * 40) * sqrt(3) / 2 + 50);
       int offset = 0;
@@ -110,7 +115,6 @@ public class MainController {
         board.getChildren().addAll(field);
       }
     }
-    drawPawns();
   }
 
   private void drawPawns() {

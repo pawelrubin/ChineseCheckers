@@ -1,3 +1,5 @@
+import com.sun.security.ntlm.Server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -166,6 +168,35 @@ class Game {
           socket.close();
         } catch (IOException ignored) {
         }
+      }
+    }
+  }
+
+  public class Bot extends Thread {
+    String color;
+    Socket socket;
+    BufferedReader input;
+
+    public Bot(String color, Socket socket) {
+      this.color = color;
+      this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+      try {
+        while (true) {
+          String command = input.readLine();
+          if (command != null) {
+
+          }
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          socket.close();
+        } catch (IOException ignored) {}
       }
     }
   }
