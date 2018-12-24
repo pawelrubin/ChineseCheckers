@@ -82,7 +82,7 @@ class MovementController {
       return true;
     }
     if (yellowWinningCondition()) {
-      winner = "YELLOw";
+      winner = "YELLOW";
       return true;
     }
     if (blackWinningCondition()) {
