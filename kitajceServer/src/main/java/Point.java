@@ -23,7 +23,7 @@ class Point {
     } else {
       return false;
     }
-    
+
     return this.x == point.getX() && this.y == point.getY();
   }
 }

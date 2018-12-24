@@ -34,7 +34,7 @@ public class MainController {
   private String currentPlayer;
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     client = new Client(serverAddress);
     client.setController(this);
   }

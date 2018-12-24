@@ -7,9 +7,7 @@ class Board {
   private Pawn pawns[][];
   private final int height = 17;
   private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
-  //public int offset[] = {6,5,5,4,0,0,1,1,2,1,1,0,0,4,5,5,6};
   public int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
-  //offset for storing the board
   private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
   private int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   private List<Point> topCorner;
@@ -140,31 +138,31 @@ class Board {
     return pawns[x][y];
   }
 
-  public int getOffset(int i) {
+  int getOffset(int i) {
     return offset[i];
   }
 
-  public List<Point> getTopCorner() {
+  List<Point> getTopCorner() {
     return topCorner;
   }
 
-  public List<Point> getTopRightCorner() {
+  List<Point> getTopRightCorner() {
     return topRightCorner;
   }
 
-  public List<Point> getTopLeftCorner() {
+  List<Point> getTopLeftCorner() {
     return topLeftCorner;
   }
 
-  public List<Point> getBottomRightCorner() {
+  List<Point> getBottomRightCorner() {
     return bottomRightCorner;
   }
 
-  public List<Point> getBottomLeftCorner() {
+  List<Point> getBottomLeftCorner() {
     return bottomLeftCorner;
   }
 
-  public List<Point> getBottomCorner() {
+  List<Point> getBottomCorner() {
     return bottomCorner;
   }
 
