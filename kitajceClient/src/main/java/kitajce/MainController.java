@@ -23,12 +23,15 @@ public class MainController {
   private BorderPane borderPane;
   @FXML
   private Label turnLabel;
+  @FXML
+  private Label winningLabel;
+
   private Client client;
   private final String serverAddress = "localhost";
-  private String winner;
+  private String winnersMsg = "Winners:\n";
   private String color;
   private int numOfPlayers;
-  private List<String> winners = new ArrayList<>();
+  private List<String> winnersList = new ArrayList<>();
   private int xOfChosenPawn = 0;
   private int yOfChosenPawn = 0;
   private String currentPlayer;
@@ -188,7 +191,9 @@ public class MainController {
   }
 
   void addWinner(String s) {
-    winners.add(s);
+    winnersList.add(s);
+    winnersMsg += winnersList.size() + ". " + winnersList.get(winnersList.size() - 1) + "\n";
+    winningLabel.setText(winnersMsg);
   }
 
   void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {

@@ -18,6 +18,7 @@
             <Button onAction="#endTurn" mnemonicParsing="false" text="End turn"/>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
+            <Label fx:id="winningLabel"/>
         </VBox>
     </right>
 
