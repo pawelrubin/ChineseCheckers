@@ -15,7 +15,15 @@ class Point {
     return y;
   }
 
-  boolean equals(Point point) {
+  @Override
+  public boolean equals(Object object) {
+    Point point;
+    if (object instanceof Point) {
+      point = (Point) object;
+    } else {
+      return false;
+    }
+    
     return this.x == point.getX() && this.y == point.getY();
   }
 }
