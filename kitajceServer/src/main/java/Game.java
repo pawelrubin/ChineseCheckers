@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 class Game {
-  private final int numOfPlayers;
+  //private final int numOfPlayers;
+  private int numOfPlayers;
   private final Board board;
   private Player currentPlayer;
   private String currentColor;
@@ -19,30 +21,47 @@ class Game {
   private int moveCount;
   private Player[] players;
   private ServerSocket listener;
-  private String[] colors;
+  //private String[] colors;
+  private List<String> colors;
 
   Game(int numOfPlayers, ServerSocket listener) throws IOException {
     List<Integer> legalNumOfPLayers = Arrays.asList(2, 3, 4, 6);
     if (!legalNumOfPLayers.contains(numOfPlayers)) {
       throw new IllegalArgumentException("Illegal number of players");
     }
+    colors = new ArrayList<>();
     this.numOfPlayers = numOfPlayers;
     this.listener = listener;
     switch (numOfPlayers) {
       case 2: {
-        colors = new String[]{"GREEN", "YELLOW"};
+        //colors = new String[]{"GREEN", "YELLOW"};
+        colors.add("GREEN");
+        colors.add("YELLOW");
         break;
       }
       case 3: {
-        colors = new String[]{"GREEN", "RED", "BLACK"};
+        //colors = new String[]{"GREEN", "RED", "BLACK"};
+        colors.add("GREEN");
+        colors.add("RED");
+        colors.add("BLACK");
         break;
       }
       case 4: {
-        colors = new String[]{"BLUE", "WHITE", "RED", "BLACK"};
+        //colors = new String[]{"BLUE", "WHITE", "RED", "BLACK"};
+        colors.add("BLUE");
+        colors.add("WHITE");
+        colors.add("RED");
+        colors.add("BLACK");
         break;
       }
       case 6: {
-        colors = new String[]{"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+        //colors = new String[]{"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+        colors.add("GREEN");
+        colors.add("WHITE");
+        colors.add("RED");
+        colors.add("YELLOW");
+        colors.add("BLACK");
+        colors.add("BLUE");
         break;
       }
     }
@@ -50,7 +69,7 @@ class Game {
     controller = new MovementController(board);
     int randomIndex = new Random().nextInt(numOfPlayers);
     moveCount = randomIndex;
-    currentColor = colors[randomIndex];
+    currentColor = colors.get(randomIndex);
     addPlayers();
     runPlayers();
     currentPlayer = players[randomIndex];
@@ -62,7 +81,7 @@ class Game {
 
     for (int i = 0; i < numOfPlayers; i++) {
       System.out.println("adding player number " + String.valueOf(i + 1));
-      players[i] = new Player(colors[i], listener.accept());
+      players[i] = new Player(colors.get(i), listener.accept());
     }
   }
 
@@ -115,7 +134,7 @@ class Game {
             moveCount++;
             this.protocol.validMove(pawn, field);
             for (Player player : players) {
-              player.protocol.next(colors[moveCount % numOfPlayers]);
+              player.protocol.next(colors.get(moveCount % numOfPlayers));
               currentPlayer = players[moveCount % numOfPlayers];
             }
             for (Player player : players) {
@@ -130,6 +149,8 @@ class Game {
               for (Player player : players) {
                 player.protocol.winnerMessage(controller.winner);
               }
+              colors.remove(controller.winner);
+              numOfPlayers--;
             }
           } else {
             this.protocol.invalidMoveMessage();
@@ -143,8 +164,8 @@ class Game {
           moveCount++;
           currentPlayer = players[moveCount % numOfPlayers];
           for (Player player : players) {
-            player.protocol.next(colors[moveCount % numOfPlayers]);
-           }
+            player.protocol.next(colors.get(moveCount % numOfPlayers));
+          }
         }
       }
     }
