@@ -196,6 +196,15 @@ public class MainController {
     winnersList.add(s);
     winnersMsg += winnersList.size() + ". " + winnersList.get(winnersList.size() - 1) + "\n";
     winningLabel.setText(winnersMsg);
+
+    //disabling player's pawns
+    for (int i = 0; i < board.getHeight(); i++) {
+      for (int j = 0; j < board.getHeight(); j++) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals(s)) {
+          board.getPawn(i, j).setOnMouseClicked(null);
+        }
+      }
+    }
   }
 
   void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
