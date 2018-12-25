@@ -34,3 +34,4 @@ kitajceServer/src/main/java/.vscode/launch.json
 **/.idea/tasks.xml
 *.xml
 *.json
+**/out
