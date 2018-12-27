@@ -1,0 +1,19 @@
+package java;
+
+import org.junit.Before;
+import org.junit.Test;
+import server.Board;
+
+public class MovementControllerTest {
+  private Board board;
+
+  @Before
+  public void prepareBoard() {
+    this.board = new Board(6);
+  }
+
+  @Test
+  public void testMoveValidation() {
+
+  }
+}

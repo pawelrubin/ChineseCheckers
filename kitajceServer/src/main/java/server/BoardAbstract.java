@@ -1,4 +1,6 @@
-import javafx.scene.Group;
+package server;
+
+import server.Field;
 
 public abstract class BoardAbstract {
   //height of the board

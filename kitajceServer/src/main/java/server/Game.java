@@ -1,3 +1,9 @@
+package server;
+
+import server.Board;
+import server.Field;
+import server.Pawn;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -136,7 +142,7 @@ class Game {
         output.println("WELCOME " + this.color + " " + numOfPlayers + " " + currentColor);
         output.println("Waiting for your opponents to connect...");
       } catch (IOException ex) {
-        System.out.println("Game.Player error: " + ex);
+        System.out.println("server.Game.Player error: " + ex);
       }
     }
 
@@ -215,7 +221,7 @@ class Game {
           }
         }
       } catch (IOException ex) {
-        System.out.println("Game.Player error: " + ex);
+        System.out.println("server.Game.Player error: " + ex);
       } finally {
         try {
           socket.close();
@@ -251,15 +257,15 @@ class Game {
   }
 
 //  private void move() {
-//    Pawn pawn = chooseRandomPawn();
+//    server.Pawn pawn = chooseRandomPawn();
 //    while (controller.isValid(pawn.getX(), pawn.getY(),))
 //  }
 //
-//  private Pawn chooseRandomPawn() {
+//  private server.Pawn chooseRandomPawn() {
 //    return null;
 //  }
 //
-//  private Field destination(Pawn pawn) {
+//  private server.Field destination(server.Pawn pawn) {
 //    return board.getField()
 //  }
 }

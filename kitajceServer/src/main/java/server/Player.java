@@ -1,5 +1,7 @@
+package server;
+
 abstract class Player extends Thread {
   String color;
-//  Protocol protocol;
+//  server.Protocol protocol;
 //  abstract void handleCommand(String command);
 }

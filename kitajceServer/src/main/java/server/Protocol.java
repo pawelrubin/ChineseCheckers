@@ -1,3 +1,9 @@
+package server;
+
+import server.Field;
+import server.Game;
+import server.Pawn;
+
 import java.io.PrintWriter;
 
 class Protocol {

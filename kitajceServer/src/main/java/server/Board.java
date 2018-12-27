@@ -1,7 +1,9 @@
+package server;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class Board {
+public class Board {
   private int numOfPlayers;
   private Field fields[][];
   private Pawn pawns[][];
@@ -17,7 +19,7 @@ class Board {
   private List<Point> bottomLeftCorner;
   private List<Point> bottomCorner;
 
-  Board(int numOfPlayers) {
+  public Board(int numOfPlayers) {
     super();
     this.numOfPlayers = numOfPlayers;
     fields = new Field[height][height];
