@@ -214,7 +214,7 @@ public class MainController {
     disablePawns(color);
   }
 
-  void disablePawns(String color) {
+  private void disablePawns(String color) {
     for (int i = 0; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getHeight(); j++) {
         if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals(color)) {
