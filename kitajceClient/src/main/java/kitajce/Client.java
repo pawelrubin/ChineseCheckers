@@ -96,6 +96,8 @@ class Client {
       case "WINNER":
         Platform.runLater(() -> mainController.addWinner(words[1]));
         break;
+      case "TIE":
+        Platform.runLater(() -> mainController.addTie(words[1]));
     }
   }
 }

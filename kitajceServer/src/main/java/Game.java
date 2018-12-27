@@ -23,6 +23,7 @@ class Game {
   private ServerSocket listener;
   //private String[] colors;
   private List<String> colors;
+  private boolean tie = false;
 
   Game(int numOfHumans, int numOfBots, ServerSocket listener) throws IOException {
     List<Integer> legalNumOfPLayers = Arrays.asList(2, 3, 4, 6);
@@ -75,6 +76,10 @@ class Game {
     addPlayers();
     runPlayers();
     currentPlayer = players.get(randomIndex);
+  }
+
+  public void setTie(boolean tie) {
+    this.tie = tie;
   }
 
   private void addPlayers() throws IOException {
@@ -173,6 +178,9 @@ class Game {
               }
               colors.remove(controller.winner);
               numOfPlayers--;
+            }
+            else if (tie) {
+
             }
           } else {
             this.protocol.invalidMoveMessage();
