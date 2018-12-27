@@ -1,5 +1,3 @@
-import com.sun.security.ntlm.Server;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,25 +10,29 @@ import java.util.List;
 import java.util.Random;
 
 class Game {
-  //private final int numOfPlayers;
+  //private final int numOfHumans;
+  private int numOfHumans;
+  private int numOfBots;
   private int numOfPlayers;
   private final Board board;
   private Player currentPlayer;
   private String currentColor;
   private MovementController controller;
   private int moveCount;
-  private Player[] players;
+  private List<Player> players;
   private ServerSocket listener;
   //private String[] colors;
   private List<String> colors;
 
-  Game(int numOfPlayers, ServerSocket listener) throws IOException {
+  Game(int numOfHumans, int numOfBots, ServerSocket listener) throws IOException {
     List<Integer> legalNumOfPLayers = Arrays.asList(2, 3, 4, 6);
-    if (!legalNumOfPLayers.contains(numOfPlayers)) {
+    if (!legalNumOfPLayers.contains(numOfHumans + numOfBots)) {
       throw new IllegalArgumentException("Illegal number of players");
     }
     colors = new ArrayList<>();
-    this.numOfPlayers = numOfPlayers;
+    this.numOfHumans = numOfHumans;
+    this.numOfBots = numOfBots;
+    this.numOfPlayers = numOfBots + numOfHumans;
     this.listener = listener;
     switch (numOfPlayers) {
       case 2: {
@@ -72,19 +74,33 @@ class Game {
     currentColor = colors.get(randomIndex);
     addPlayers();
     runPlayers();
-    currentPlayer = players[randomIndex];
+    currentPlayer = players.get(randomIndex);
   }
 
-  // Adds players to the game.
   private void addPlayers() throws IOException {
-    players = new Player[numOfPlayers];
+    players = new ArrayList<>();
+    addHumans();
+    addBots();
+  }
 
-    for (int i = 0; i < numOfPlayers; i++) {
+  // Adds humans to the game.
+  private void addHumans() throws IOException {
+    int i = 0;
+    while (i < numOfHumans) {
       System.out.println("adding player number " + String.valueOf(i + 1));
-      players[i] = new Player(colors.get(i), listener.accept());
+      players.add(new Human(colors.get(i), listener.accept()));
+      i++;
     }
   }
 
+  private void addBots() {
+    int i = 0;
+    while (i < numOfBots) {
+      System.out.println("adding player (bot) number " + String.valueOf(i + numOfHumans + 1));
+      players.add(new Bot(colors.get(i + numOfHumans)));
+      i++;
+    }
+  }
   // Runs players threads.
   private void runPlayers() {
     for (Player player : players) {
@@ -92,14 +108,14 @@ class Game {
     }
   }
 
-  public class Player extends Thread {
+  public class Human extends Player {
     BufferedReader input;
     PrintWriter output;
     Protocol protocol;
-    private String color;
+//    private String color;
     private Socket socket;
 
-    Player(String color, Socket socket) {
+    Human(String color, Socket socket) {
       this.color = color;
       this.socket = socket;
 
@@ -134,12 +150,16 @@ class Game {
             moveCount++;
             this.protocol.validMove(pawn, field);
             for (Player player : players) {
-              player.protocol.next(colors.get(moveCount % numOfPlayers));
-              currentPlayer = players[moveCount % numOfPlayers];
+              if (player instanceof Human) {
+                ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+              }
             }
+            currentPlayer = players.get(moveCount % numOfPlayers);
             for (Player player : players) {
               if (player != this) {
-                player.protocol.playerMoved(pawn, field);
+                if (player instanceof Human) {
+                  ((Human) player).protocol.playerMoved(pawn, field);
+                }
               }
             }
             board.movePawn(pawnX, pawnY, fieldX, fieldY);
@@ -147,7 +167,9 @@ class Game {
             pawn.setY(fieldY);
             if (controller.gameOver()) {
               for (Player player : players) {
-                player.protocol.winnerMessage(controller.winner);
+                if (player instanceof Human) {
+                  ((Human) player).protocol.winnerMessage(controller.winner);
+                }
               }
               colors.remove(controller.winner);
               numOfPlayers--;
@@ -162,9 +184,11 @@ class Game {
         String words[] = command.split(" ");
         if (words[1].equals(currentPlayer.color)) {
           moveCount++;
-          currentPlayer = players[moveCount % numOfPlayers];
+          currentPlayer = players.get(moveCount % numOfPlayers);
           for (Player player : players) {
-            player.protocol.next(colors.get(moveCount % numOfPlayers));
+            if (player instanceof Human) {
+              ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+            }
           }
         }
       }
@@ -193,32 +217,41 @@ class Game {
     }
   }
 
-  public class Bot extends Thread {
-    String color;
-    Socket socket;
-    BufferedReader input;
+  public class Bot extends Player {
+    List<Pawn> pawns;
 
-    public Bot(String color, Socket socket) {
+    Bot(String color) {
       this.color = color;
-      this.socket = socket;
     }
 
     @Override
     public void run() {
-      try {
-        while (true) {
-          String command = input.readLine();
-          if (command != null) {
-
+      while(true) {
+        synchronized (this) {
+          if (currentPlayer == this) {
+            moveCount++;
+            for (Player player : players) {
+              if (player instanceof Human) {
+                ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+              }
+            }
+            currentPlayer = players.get(moveCount % numOfPlayers);
           }
         }
-      } catch (IOException e) {
-        e.printStackTrace();
-      } finally {
-        try {
-          socket.close();
-        } catch (IOException ignored) {}
       }
     }
   }
+
+//  private void move() {
+//    Pawn pawn = chooseRandomPawn();
+//    while (controller.isValid(pawn.getX(), pawn.getY(),))
+//  }
+//
+//  private Pawn chooseRandomPawn() {
+//    return null;
+//  }
+//
+//  private Field destination(Pawn pawn) {
+//    return board.getField()
+//  }
 }
