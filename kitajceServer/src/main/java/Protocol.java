@@ -60,6 +60,16 @@ class Protocol {
   }
 
   /**
+   * Sends "TIE color" message to a client,
+   * where color is passed String variable.
+   *
+   * @param color of "tied" player
+   */
+  void tie(String color) {
+    output.println("TIE " + color);
+  }
+
+  /**
    * Sends "WINNER color",
    * where color is a color of the winner.
    *
