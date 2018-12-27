@@ -240,12 +240,36 @@ class MovementController {
     return false;
   }
 
+  public void tie(String color) {
+    System.out.println("It's a tie for " + color + " player!");
+  }
+
   private boolean greenWinningCondition() {
     int counter = 0;
     for (int i = 13; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getWidth(i); j++) {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("GREEN")) {
           counter++;
+        }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(16, 12) != null && !board.getPawn(16, 12).getColor().equals("GREEN")) {
+            innerCounter++;
+          }
+          if (board.getPawn(15, 12) != null && !board.getPawn(15, 12).getColor().equals("GREEN")) {
+            innerCounter++;
+          }
+          if (board.getPawn(15, 11) != null && !board.getPawn(15, 11).getColor().equals("GREEN")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("GREEN");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(16, 12) != null && !board.getPawn(16, 12).getColor().equals("GREEN")) {
+          tie("GREEN");
+          return false;
         }
         if (counter == 10) {
           return true;
@@ -262,6 +286,26 @@ class MovementController {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("WHITE")) {
           counter++;
         }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(12, 4) != null && !board.getPawn(12, 4).getColor().equals("WHITE")) {
+            innerCounter++;
+          }
+          if (board.getPawn(11, 4) != null && !board.getPawn(11, 4).getColor().equals("WHITE")) {
+            innerCounter++;
+          }
+          if (board.getPawn(12, 5) != null && !board.getPawn(12, 5).getColor().equals("WHITE")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("WHITE");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(12, 4) != null && !board.getPawn(12, 4).getColor().equals("WHITE")) {
+          tie("WHITE");
+          return false;
+        }
         if (counter == 10) {
           return true;
         }
@@ -276,6 +320,26 @@ class MovementController {
       for (int j = 0; j < 8 - i; j++) {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("RED")) {
           counter++;
+        }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(4, 0) != null && !board.getPawn(4, 0).getColor().equals("RED")) {
+            innerCounter++;
+          }
+          if (board.getPawn(4, 1) != null && !board.getPawn(4, 1).getColor().equals("RED")) {
+            innerCounter++;
+          }
+          if (board.getPawn(5, 1) != null && !board.getPawn(5, 1).getColor().equals("RED")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("RED");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(4, 0) != null && !board.getPawn(4, 0).getColor().equals("RED")) {
+          tie("RED");
+          return false;
         }
         if (counter == 10) {
           return true;
@@ -292,6 +356,26 @@ class MovementController {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("YELLOW")) {
           counter++;
         }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(0, 4) != null && !board.getPawn(0, 4).getColor().equals("YELLOW")) {
+            innerCounter++;
+          }
+          if (board.getPawn(1, 4) != null && !board.getPawn(1, 4).getColor().equals("YELLOW")) {
+            innerCounter++;
+          }
+          if (board.getPawn(1, 5) != null && !board.getPawn(1, 5).getColor().equals("YELLOW")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("YELLOW");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(0, 4) != null && !board.getPawn(0, 4).getColor().equals("YELLOW")) {
+          tie("YELLOW");
+          return false;
+        }
         if (counter == 10) {
           return true;
         }
@@ -307,6 +391,26 @@ class MovementController {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("BLACK")) {
           counter++;
         }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(4, 12) != null && !board.getPawn(4, 12).getColor().equals("BLACK")) {
+            innerCounter++;
+          }
+          if (board.getPawn(4, 11) != null && !board.getPawn(4, 11).getColor().equals("BLACK")) {
+            innerCounter++;
+          }
+          if (board.getPawn(5, 12) != null && !board.getPawn(5, 12).getColor().equals("BLACK")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("BLACK");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(4, 12) != null && !board.getPawn(4, 12).getColor().equals("BLACK")) {
+          tie("BLACK");
+          return false;
+        }
         if (counter == 10) {
           return true;
         }
@@ -321,6 +425,26 @@ class MovementController {
       for (int j = 9; j < board.getWidth(i); j++) {
         if (board.getPawn(i, j + board.getOffset(i)) != null && board.getPawn(i, j + board.getOffset(i)).getColor().equals("BLUE")) {
           counter++;
+        }
+        if (counter == 7 || counter == 8) {
+          int innerCounter = 0;
+          if (board.getPawn(12, 16) != null && !board.getPawn(12, 16).getColor().equals("BLUE")) {
+            innerCounter++;
+          }
+          if (board.getPawn(12, 15) != null && !board.getPawn(12, 15).getColor().equals("BLUE")) {
+            innerCounter++;
+          }
+          if (board.getPawn(11, 15) != null && !board.getPawn(11, 15).getColor().equals("BLUE")) {
+            innerCounter++;
+          }
+          if ((counter == 7 && innerCounter == 3) || (counter == 8 && innerCounter == 2)) {
+            tie("BLUE");
+            return false;
+          }
+        }
+        if (counter == 9 && board.getPawn(12, 16) != null && !board.getPawn(12, 16).getColor().equals("BLUE")) {
+          tie("BLUE");
+          return false;
         }
         if (counter == 10) {
           return true;
