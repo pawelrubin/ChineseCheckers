@@ -218,6 +218,7 @@ class Game {
   }
 
   public class Bot extends Player {
+    List<Pawn> pawns;
 
     Bot(String color) {
       this.color = color;
@@ -240,4 +241,17 @@ class Game {
       }
     }
   }
+
+//  private void move() {
+//    Pawn pawn = chooseRandomPawn();
+//    while (controller.isValid(pawn.getX(), pawn.getY(),))
+//  }
+//
+//  private Pawn chooseRandomPawn() {
+//    return null;
+//  }
+//
+//  private Field destination(Pawn pawn) {
+//    return board.getField()
+//  }
 }
