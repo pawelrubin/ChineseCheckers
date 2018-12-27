@@ -16,6 +16,7 @@ class Board {
   private List<Point> bottomRightCorner;
   private List<Point> bottomLeftCorner;
   private List<Point> bottomCorner;
+  public static final int numOfPawns = 10;
 
   Board(int numOfPlayers) {
     super();
@@ -179,5 +180,45 @@ class Board {
 
   int getWidth(int i) {
     return widths[i];
+  }
+  
+  Field getDestination(String color) throws IllegalArgumentException {
+    switch (color) {
+      case "GREEN": {
+        return getField(16, 12);
+      }
+      case "WHITE": {
+        return getField(12, 4);
+      }
+      case "RED": {
+        return getField(4, 0);
+      }
+      case "YELLOW": {
+        return getField(0, 4);
+      }
+      case "BLACK": {
+        return getField(4, 12);
+      }
+      case "BLUE": {
+        return getField(12, 16);
+      }
+      default: {
+        throw new IllegalArgumentException("Wrong color");
+      }
+    }
+  }
+
+  List<Pawn> getPawnsByColor(String color) {
+    List<Pawn> pawnsByColor = new ArrayList<>();
+
+    for(Pawn[] row: pawns) {
+      for (Pawn pawn: row) {
+        if (pawn.getColor().equals(color)) {
+          pawnsByColor.add(pawn);
+        }
+      }
+    }
+
+    return pawnsByColor;
   }
 }

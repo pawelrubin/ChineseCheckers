@@ -218,10 +218,17 @@ class Game {
   }
 
   public class Bot extends Player {
-    List<Pawn> pawns;
+    private List<Pawn> pawns;
+    private Field destination;
 
     Bot(String color) {
       this.color = color;
+      setPawns();
+      setDestination();
+    }
+
+    private void setPawns() {
+      pawns = board.getPawnsByColor(color);
     }
 
     @Override
@@ -240,18 +247,23 @@ class Game {
         }
       }
     }
-  }
 
-//  private void move() {
-//    Pawn pawn = chooseRandomPawn();
-//    while (controller.isValid(pawn.getX(), pawn.getY(),))
-//  }
-//
-//  private Pawn chooseRandomPawn() {
-//    return null;
-//  }
-//
-//  private Field destination(Pawn pawn) {
-//    return board.getField()
-//  }
+    private void move() {
+      Pawn pawn = chooseRandomPawn();
+
+    }
+
+    private void setDestination() {
+      destination = board.getDestination(color);
+    }
+
+    private Pawn chooseRandomPawn() {
+      Pawn pawn;
+      do {
+        pawn = pawns.get(new Random().nextInt(Board.numOfPawns));
+      } while (pawn.getColor().equals(this.color));
+      return pawn;
+    }
+
+  }
 }
