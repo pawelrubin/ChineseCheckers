@@ -4,17 +4,20 @@ import java.net.ServerSocket;
 public class KitajceServer {
 
   private static final int port = 2137;
-  private int numOfPlayers;
+  private int numOfHumans;
+  private int numOfBots;
 
   public static void main(String[] args) {
     KitajceServer server = new KitajceServer();
-    if (args.length == 0) {
+    if (args.length <= 1) {
       System.out.println("Too few arguments.");
       System.exit(1);
     }
     try {
-      server.numOfPlayers = Integer.parseInt(args[0]);
-      if (server.numOfPlayers < 2 || server.numOfPlayers > 6 || server.numOfPlayers == 5) {
+      server.numOfHumans = Integer.parseInt(args[0]);
+      server.numOfBots = Integer.parseInt(args[1]);
+      int numOfPlayers = server.numOfBots + server.numOfHumans;
+      if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
         throw new IllegalArgumentException("Illegal number of players.");
       }
       server.start();
@@ -29,7 +32,7 @@ public class KitajceServer {
   private void start() throws IOException {
     try (ServerSocket listener = new ServerSocket(port)) {
       System.out.println("Kitajce Server is running.");
-      new Game(numOfPlayers, listener);
+      new Game(numOfHumans, numOfBots, listener);
     }
   }
 }

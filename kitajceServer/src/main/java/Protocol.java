@@ -3,8 +3,8 @@ import java.io.PrintWriter;
 class Protocol {
   private PrintWriter output;
 
-  Protocol(Game.Player player) {
-    output = player.output;
+  Protocol(Game.Human human) {
+    output = human.output;
     System.out.println("New protocol created.");
   }
 
