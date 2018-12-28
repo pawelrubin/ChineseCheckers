@@ -24,7 +24,7 @@ public class MovementControllerTest {
   public void testMoveValidation() {
     Pawn pawn = board.getPawn(3, 4);
     Field field = board.getField(4, 5);
-    assertTrue(controller.isValid(3, 4, field, pawn.getColor()));
+    assertTrue(controller.isValid(3, 4  , field, pawn.getColor()));
   }
 
   @Test

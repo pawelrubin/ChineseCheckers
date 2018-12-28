@@ -98,6 +98,7 @@ class Client {
         break;
       case "TIE":
         Platform.runLater(() -> mainController.addTie(words[1]));
+        break;
     }
   }
 }

@@ -172,8 +172,6 @@ public class Board {
   void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
-//    this.getPawn(newX, newY).setX(newX);
-//    this.getPawn(newX, newY).setY(newY);
   }
 
   int getHeight() {
@@ -229,7 +227,6 @@ public class Board {
   public Field[][] getFields() {
     return fields;
   }
-
 
   public double distance(Field a, Field b) {
     return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
