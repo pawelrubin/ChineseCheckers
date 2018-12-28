@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Board {
+class wBoard {
   private int numOfPlayers;
   private Field fields[][];
   private Pawn pawns[][];
@@ -213,12 +213,24 @@ class Board {
 
     for(Pawn[] row: pawns) {
       for (Pawn pawn: row) {
-        if (pawn.getColor().equals(color)) {
-          pawnsByColor.add(pawn);
+        if (pawn != null) {
+          if (pawn.getColor().equals(color)) {
+            pawnsByColor.add(pawn);
+          }
         }
       }
     }
 
     return pawnsByColor;
+  }
+
+  public Field[][] getFields() {
+    return fields;
+  }
+
+
+  public double distance(Field a, Field b) {
+    return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
+            Math.pow(Math.abs(a.getY() - b.getY()), 2));
   }
 }

@@ -224,7 +224,8 @@ class Game {
     Bot(String color) {
       this.color = color;
       setPawns();
-      setDestination();
+//      setDestination();
+      destination = board.getField(0, 4);
     }
 
     private void setPawns() {
@@ -233,24 +234,81 @@ class Game {
 
     @Override
     public void run() {
-      while(true) {
+      while (true) {
         synchronized (this) {
           if (currentPlayer == this) {
-            moveCount++;
-            for (Player player : players) {
-              if (player instanceof Human) {
-                ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
-              }
-            }
-            currentPlayer = players.get(moveCount % numOfPlayers);
+            move();
+//            endTurn();
           }
         }
       }
     }
 
-    private void move() {
-      Pawn pawn = chooseRandomPawn();
+    private void endTurn() {
+      moveCount++;
+      for (Player player : players) {
+        if (player instanceof Human) {
+          ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+        }
+      }
+      currentPlayer = players.get(moveCount % numOfPlayers);
+    }
 
+    private void move() {
+      Pawn pawn;
+      Field bestChoice = null;
+      int minDistance = Integer.MAX_VALUE;
+      double distance;
+      do {
+        pawn = chooseRandomPawn();
+        System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
+        distance = 0;
+        for (Field[] row : board.getFields()) {
+          for (Field field : row) {
+            if (field != null) {
+              if (board.getPawn(field.getX(), field.getY()) == null) {
+                if (controller.isValid(pawn.getX(), pawn.getY(), field, color)) {
+                  distance = board.distance(field, destination);
+                  if (distance < minDistance) {
+                    bestChoice = field;
+                  }
+                }
+              }
+            }
+          }
+        }
+      } while (distance == 0);
+
+      moveCount++;
+      for (Player player : players) {
+        if (player instanceof Human) {
+          ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+        }
+      }
+      currentPlayer = players.get(moveCount % numOfPlayers);
+      for (Player player : players) {
+        if (player != this) {
+          if (player instanceof Human) {
+            ((Human) player).protocol.playerMoved(pawn, bestChoice);
+          }
+        }
+      }
+      board.movePawn(pawn.getX(), pawn.getY(), bestChoice.getX(), bestChoice.getY());
+      pawn.setX(bestChoice.getX());
+      pawn.setY(bestChoice.getY());
+      if (controller.gameOver()) {
+        for (Player player : players) {
+          if (player instanceof Human) {
+            ((Human) player).protocol.winnerMessage(controller.winner);
+          }
+        }
+        colors.remove(controller.winner);
+        numOfPlayers--;
+      }
+    }
+
+    private void makeMove() {
+//      Pawn pawn = chooseRandomPawn();
     }
 
     private void setDestination() {
@@ -261,7 +319,7 @@ class Game {
       Pawn pawn;
       do {
         pawn = pawns.get(new Random().nextInt(Board.numOfPawns));
-      } while (pawn.getColor().equals(this.color));
+      } while (!pawn.getColor().equals(this.color));
       return pawn;
     }
 
