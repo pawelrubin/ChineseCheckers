@@ -271,7 +271,7 @@ class Game {
     private void move() {
       Pawn pawn;
       Field bestChoice = null;
-      int minDistance = Integer.MAX_VALUE;
+      double minDistance = Double.MAX_VALUE;
       double distance;
       do {
         pawn = chooseRandomPawn();
@@ -283,8 +283,10 @@ class Game {
               if (board.getPawn(field.getX(), field.getY()) == null) {
                 if (controller.isValid(pawn.getX(), pawn.getY(), field, color)) {
                   distance = board.distance(field, destination);
+                  System.out.println("distance: " + distance);
                   if (distance < minDistance) {
                     bestChoice = field;
+                    minDistance = distance;
                   }
                 }
               }
@@ -292,7 +294,7 @@ class Game {
           }
         }
       } while (distance == 0);
-
+      System.out.println("minDistance: " + minDistance);
       moveCount++;
       for (Player player : players) {
         if (player instanceof Human) {
