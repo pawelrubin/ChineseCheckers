@@ -1,3 +1,9 @@
+package server;
+
+import server.Field;
+import server.Game;
+import server.Pawn;
+
 import java.io.PrintWriter;
 
 class Protocol {
@@ -57,6 +63,16 @@ class Protocol {
    */
   void next(String color) {
     output.println("NEXT " + color);
+  }
+
+  /**
+   * Sends "TIE color" message to a client,
+   * where color is passed String variable.
+   *
+   * @param color of "tied" player
+   */
+  void tie(String color) {
+    output.println("TIE " + color);
   }
 
   /**

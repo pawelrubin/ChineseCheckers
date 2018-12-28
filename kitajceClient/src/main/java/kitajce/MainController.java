@@ -28,12 +28,16 @@ public class MainController {
   private Label turnLabel;
   @FXML
   private Label winningLabel;
+  @FXML
+  private Label tiesLabel;
 
   private Client client;
   private String winnersMsg = "Winners:\n";
+  private String tiesMsg = "Ties:\n";
   private String color;
   private int numOfPlayers;
   private List<String> winnersList = new ArrayList<>();
+  private List<String> tiesList = new ArrayList<>();
   private int xOfChosenPawn = 0;
   private int yOfChosenPawn = 0;
   private String currentPlayer;
@@ -200,11 +204,20 @@ public class MainController {
     winnersList.add(s);
     winnersMsg += winnersList.size() + ". " + winnersList.get(winnersList.size() - 1) + "\n";
     winningLabel.setText(winnersMsg);
+    disablePawns(s);
+  }
 
-    //disabling player's pawns
+  void addTie (String color) {
+    tiesList.add(color);
+    tiesMsg += "- " + tiesList.get((tiesList.size() - 1)) + "\n";
+    tiesLabel.setText(tiesMsg);
+    disablePawns(color);
+  }
+
+  private void disablePawns(String color) {
     for (int i = 0; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getHeight(); j++) {
-        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals(s)) {
+        if (board.getPawn(i, j) != null && board.getPawn(i, j).getColor().equals(color)) {
           board.getPawn(i, j).setOnMouseClicked(null);
         }
       }

@@ -1,3 +1,9 @@
+package server;
+
+import server.Board;
+import server.Field;
+import server.Pawn;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +29,7 @@ class Game {
   private ServerSocket listener;
   //private String[] colors;
   private List<String> colors;
+  private boolean tie = false;
 
   Game(int numOfHumans, int numOfBots, ServerSocket listener) throws IOException {
     List<Integer> legalNumOfPLayers = Arrays.asList(2, 3, 4, 6);
@@ -75,6 +82,10 @@ class Game {
     addPlayers();
     runPlayers();
     currentPlayer = players.get(randomIndex);
+  }
+
+  public void setTie(boolean tie) {
+    this.tie = tie;
   }
 
   private void addPlayers() throws IOException {
@@ -131,7 +142,7 @@ class Game {
         output.println("WELCOME " + this.color + " " + numOfPlayers + " " + currentColor);
         output.println("Waiting for your opponents to connect...");
       } catch (IOException ex) {
-        System.out.println("Game.Player error: " + ex);
+        System.out.println("server.Game.Player error: " + ex);
       }
     }
 
@@ -174,6 +185,9 @@ class Game {
               colors.remove(controller.winner);
               numOfPlayers--;
             }
+            else if (tie) {
+
+            }
           } else {
             this.protocol.invalidMoveMessage();
           }
@@ -207,7 +221,7 @@ class Game {
           }
         }
       } catch (IOException ex) {
-        System.out.println("Game.Player error: " + ex);
+        System.out.println("server.Game.Player error: " + ex);
       } finally {
         try {
           socket.close();

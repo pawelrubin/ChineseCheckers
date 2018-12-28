@@ -1,7 +1,9 @@
+package server;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class wBoard {
+public class Board {
   private int numOfPlayers;
   private Field fields[][];
   private Pawn pawns[][];
@@ -18,7 +20,7 @@ class wBoard {
   private List<Point> bottomCorner;
   public static final int numOfPawns = 10;
 
-  Board(int numOfPlayers) {
+  public Board(int numOfPlayers) {
     super();
     this.numOfPlayers = numOfPlayers;
     fields = new Field[height][height];

@@ -20,6 +20,7 @@
             <Label fx:id="colorLabel" />
             <Label fx:id="turnLabel" />
             <Label fx:id="winningLabel" />
+            <Label fx:id="tiesLabel" />
         </VBox>
     </right>
 
