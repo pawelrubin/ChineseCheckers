@@ -119,6 +119,13 @@ class Game {
     }
   }
 
+  public Human getHuman(int i) {
+//    while (!(players.get(i) instanceof Human)) {
+//      i++;
+//    }
+    return (Human) players.get(i);
+  }
+
   public class Human extends Player {
     BufferedReader input;
     PrintWriter output;
