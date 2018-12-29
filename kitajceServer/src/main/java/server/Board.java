@@ -3,13 +3,12 @@ package server;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+class Board {
   private int numOfPlayers;
   private Field fields[][];
   private Pawn pawns[][];
   private final int height = 17;
   private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
-  public int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
   private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
   private int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   private List<Point> topCorner;
@@ -18,10 +17,12 @@ public class Board {
   private List<Point> bottomRightCorner;
   private List<Point> bottomLeftCorner;
   private List<Point> bottomCorner;
-  public static final int numOfPawns = 10;
+  static final int numOfPawns = 10;
 
-  public Board(int numOfPlayers) {
-    super();
+  Board(int numOfPlayers) {
+    if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
+      throw new IllegalArgumentException("Illegal number of players");
+    }
     this.numOfPlayers = numOfPlayers;
     fields = new Field[height][height];
     pawns = new Pawn[height][height];
@@ -32,21 +33,20 @@ public class Board {
     bottomLeftCorner = new ArrayList<>();
     bottomCorner = new ArrayList<>();
 
-    //nulling fields[] array
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < height; j++) {
-        fields[i][j] = null;
-        pawns[i][j] = null;
-      }
-    }
+    addFields();
+    addPawns(numOfPlayers);
+  }
 
+  private void addFields() {
     // creating fields
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
         fields[i][j + offset[i]] = new Field(i, j + offset[i]);
       }
     }
+  }
 
+  private void addPawns(int numOfPlayers) {
     //creating pawns
     switch (numOfPlayers) {
       case 2: {
@@ -224,11 +224,11 @@ public class Board {
     return pawnsByColor;
   }
 
-  public Field[][] getFields() {
+  Field[][] getFields() {
     return fields;
   }
 
-  public double distance(Field a, Field b) {
+  double distance(Field a, Field b) {
     return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
             Math.pow(Math.abs(a.getY() - b.getY()), 2));
   }
