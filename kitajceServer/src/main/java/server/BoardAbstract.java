@@ -2,6 +2,7 @@ package server;
 
 import server.Field;
 
+@Deprecated
 public abstract class BoardAbstract {
   //height of the board
   private int height;

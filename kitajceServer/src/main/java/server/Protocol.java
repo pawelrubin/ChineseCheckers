@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 class Protocol {
   private PrintWriter output;
 
-  Protocol(Game.Human human) {
-    output = human.output;
+  Protocol(PrintWriter output) {
+    this.output = output;
     System.out.println("New protocol created.");
   }
 
@@ -15,6 +15,7 @@ class Protocol {
    */
   void allConnected() {
     output.println("MESSAGE All players connected.");
+    System.out.println("allConnected has been send.");
   }
 
   /**
@@ -22,7 +23,9 @@ class Protocol {
    */
   void startGame() {
     output.println("START_GAME");
+    System.out.println("startGame has been send.");
   }
+
 
   /**
    * Sends "VALID_MOVE" message to a client.
@@ -30,6 +33,7 @@ class Protocol {
   void validMove(Pawn pawn, Field field) {
     output.println("VALID_MOVE " + pawn.getX() + " " + pawn.getY() + " "
       + field.getX() + " " + field.getY());
+    System.out.println("validMove has been send.");
   }
 
   /**
@@ -42,6 +46,7 @@ class Protocol {
    */
   void playerMoved(Pawn pawn, Field field) {
     output.println("PLAYER_MOVED " + pawn.getX() + " " + pawn.getY() + " " + field.getX() + " " + field.getY());
+    System.out.println("playerMoved has been send.");
   }
 
   /**
@@ -49,6 +54,7 @@ class Protocol {
    */
   void invalidMoveMessage() {
     output.println("INVALID_MOVE");
+    System.out.println("invalidMoveMessage has been send.");
   }
 
   /**
@@ -59,7 +65,9 @@ class Protocol {
    */
   void next(String color) {
     output.println("NEXT " + color);
+    System.out.println("next has been send.");
   }
+
 
   /**
    * Sends "TIE color" message to a client,
@@ -79,5 +87,6 @@ class Protocol {
    */
   void winnerMessage(String winner) {
     output.println("WINNER " + winner);
+    System.out.println("winnerMessage has been send.");
   }
 }

@@ -19,4 +19,8 @@ public class PointTest {
   public void equals() {
     assertEquals(a, b);
   }
+
+  @Test
+  public void equals1() {
+  }
 }

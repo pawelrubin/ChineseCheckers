@@ -126,6 +126,12 @@ class Game {
     return (Human) players.get(i);
   }
 
+  public void endGame() {
+    for (Player player: players) {
+      player.stop();
+    }
+  }
+
   public class Human extends Player {
     BufferedReader input;
     PrintWriter output;
@@ -143,7 +149,7 @@ class Game {
         // PrintWriter with automatic line flushing
         output = new PrintWriter(socket.getOutputStream(), true);
 
-        protocol = new Protocol(this);
+        protocol = new Protocol(this.output);
 
         output.println("");
         output.println("WELCOME " + this.color + " " + numOfPlayers + " " + currentColor);
@@ -347,4 +353,6 @@ class Game {
     }
 
   }
+
+
 }
