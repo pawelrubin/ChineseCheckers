@@ -1,6 +1,6 @@
 package layout;
 
-public class Point {
+class Point {
   private int x;
   private int y;
 
@@ -9,7 +9,7 @@ public class Point {
     this.y = y;
   }
 
-  public int getX() {
+  private int getX() {
     return x;
   }
 
@@ -17,7 +17,7 @@ public class Point {
     this.x = x;
   }
 
-  public int getY() {
+  private int getY() {
     return y;
   }
 
@@ -26,10 +26,6 @@ public class Point {
   }
 
   public boolean equals(Point point) {
-    if (this.x == point.getX() && this.y == point.getY()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.x == point.getX() && this.y == point.getY();
   }
 }

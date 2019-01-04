@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board extends BoardAbstract{
-  //  private final int height = 17;
   private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> topCorner;
   private List<Point> topRightCorner;
@@ -142,10 +141,6 @@ public class Board extends BoardAbstract{
     }
   }
 
-  public Pawn getPawn(int x, int y) {
-    return pawns[x][y];
-  }
-
   List<Point> getTopCorner() {
     return topCorner;
   }
@@ -219,10 +214,5 @@ public class Board extends BoardAbstract{
 
   public Field[][] getFields() {
     return fields;
-  }
-
-  public double distance(Field a, Field b) {
-    return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
-            Math.pow(Math.abs(a.getY() - b.getY()), 2));
   }
 }

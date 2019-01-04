@@ -36,8 +36,8 @@ public class MainController {
   private String tiesMsg = "Ties:\n";
   private String color;
   private int numOfPlayers;
-  private List<String> winnersList = new ArrayList<>();
-  private List<String> tiesList = new ArrayList<>();
+  private final List<String> winnersList = new ArrayList<>();
+  private final List<String> tiesList = new ArrayList<>();
   private int xOfChosenPawn = 0;
   private int yOfChosenPawn = 0;
   private String currentPlayer;
@@ -207,7 +207,7 @@ public class MainController {
     disablePawns(s);
   }
 
-  void addTie (String color) {
+  void addTie(String color) {
     tiesList.add(color);
     tiesMsg += "- " + tiesList.get((tiesList.size() - 1)) + "\n";
     tiesLabel.setText(tiesMsg);

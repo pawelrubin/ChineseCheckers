@@ -3,7 +3,6 @@ package layout;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import kitajce.MainController;
 
 public class Pawn extends Circle {
 
@@ -11,7 +10,7 @@ public class Pawn extends Circle {
   // (X,Y) on board
   private int x;
   private int y;
-  private String color;
+  private final String color;
   private boolean isChosen = false;
 
   // TODO: no pionki musza byc tworzone na konktretnych wspolrzednych na planszy

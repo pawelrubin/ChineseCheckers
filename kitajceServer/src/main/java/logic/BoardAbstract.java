@@ -26,4 +26,13 @@ abstract class BoardAbstract {
   public Field getField(int x, int y) {
     return fields[x][y];
   }
+
+  public Pawn getPawn(int x, int y) {
+    return pawns[x][y];
+  }
+
+  public double distance(Field a, Field b) {
+    return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
+            Math.pow(Math.abs(a.getY() - b.getY()), 2));
+  }
 }

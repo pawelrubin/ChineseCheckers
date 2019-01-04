@@ -3,8 +3,6 @@ package kitajce;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class MainControllerTest {
 
   private static MainController instance;

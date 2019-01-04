@@ -2,35 +2,34 @@ package layout;
 
 import javafx.scene.Group;
 
-public abstract class BoardAbstract extends Group {
+abstract class BoardAbstract extends Group {
   //height of the board
-  private int height;
-  //offset for drawing the board
-  private int offsetDraw[];
+  int height;
   //offset for storing the board
-  private int offset[];
+  int offset[];
   //widths of particular rows
-  private int widths[];
+  int widths[];
   //array that holds fields
-  private Field fields[][];
+  Field fields[][];
+  Pawn pawns[][];
 
   public int getHeight() {
     return height;
-  }
-
-  public int getOffsetDraw(int i) {
-    return offsetDraw[i];
   }
 
   public int getOffset(int i) {
     return offset[i];
   }
 
-  public int getWidths(int i) {
+  public int getWidth(int i) {
     return widths[i];
   }
 
   public Field getField(int x, int y) {
     return fields[x][y];
+  }
+
+  public Pawn getPawn(int x, int y) {
+    return pawns[x][y];
   }
 }
