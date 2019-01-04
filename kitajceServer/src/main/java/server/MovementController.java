@@ -1,9 +1,5 @@
 package server;
 
-import server.Board;
-import server.Field;
-import server.Point;
-
 import java.util.ArrayList;
 import java.util.List;
 

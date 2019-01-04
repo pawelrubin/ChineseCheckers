@@ -3,14 +3,10 @@ package server;
 import java.util.ArrayList;
 import java.util.List;
 
-class Board {
+class Board extends BoardAbstract{
   private int numOfPlayers;
-  private Field fields[][];
-  private Pawn pawns[][];
-  private final int height = 17;
+//  private final int height = 17;
   private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
-  private int offset[] = {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-  private int widths[] = {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   private List<Point> topCorner;
   private List<Point> topRightCorner;
   private List<Point> topLeftCorner;
@@ -24,6 +20,9 @@ class Board {
       throw new IllegalArgumentException("Illegal number of players");
     }
     this.numOfPlayers = numOfPlayers;
+    setOffsets();
+    setHeight();
+    setWidths();
     fields = new Field[height][height];
     pawns = new Pawn[height][height];
     topCorner = new ArrayList<>();
@@ -35,6 +34,18 @@ class Board {
 
     addFields();
     addPawns(numOfPlayers);
+  }
+
+  private void setOffsets() {
+    offset = new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
+  }
+
+  private void setWidths() {
+    widths = new int[]{1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+  }
+
+  private void setHeight() {
+    height = 17;
   }
 
   private void addFields() {
@@ -133,16 +144,8 @@ class Board {
     }
   }
 
-  Field getField(int x, int y) {
-    return fields[x][y];
-  }
-
   Pawn getPawn(int x, int y) {
     return pawns[x][y];
-  }
-
-  int getOffset(int i) {
-    return offset[i];
   }
 
   List<Point> getTopCorner() {
@@ -174,14 +177,6 @@ class Board {
     pawns[oldX][oldY] = null;
   }
 
-  int getHeight() {
-    return height;
-  }
-
-  int getWidth(int i) {
-    return widths[i];
-  }
-  
   Field getDestination(String color) throws IllegalArgumentException {
     switch (color) {
       case "GREEN": {

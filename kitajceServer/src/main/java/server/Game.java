@@ -1,9 +1,5 @@
 package server;
 
-import server.Board;
-import server.Field;
-import server.Pawn;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -128,18 +124,18 @@ class Game {
 
   public void endGame() {
     for (Player player: players) {
-      player.stop();
+      player.kill();
     }
   }
 
-  public class Human extends Player {
+  public class Human extends Player  {
     BufferedReader input;
     PrintWriter output;
     Protocol protocol;
-//    private String color;
     private Socket socket;
 
     Human(String color, Socket socket) {
+      alive = true;
       this.color = color;
       this.socket = socket;
 
@@ -227,7 +223,7 @@ class Game {
         System.out.println("All players connected");
         protocol.allConnected();
         protocol.startGame();
-        while (true) {
+        while (alive) {
           String command = input.readLine();
           if (command != null) {
             handleCommand(command);
@@ -249,10 +245,11 @@ class Game {
     private Field destination;
 
     Bot(String color) {
+      alive = true;
       this.color = color;
       setPawns();
-//      setDestination();
-      destination = board.getField(0, 4);
+//      destination = board.getField(0, 4);
+      setDestination();
     }
 
     private void setPawns() {
@@ -261,7 +258,7 @@ class Game {
 
     @Override
     public void run() {
-      while (true) {
+      while (alive) {
         synchronized (this) {
           if (currentPlayer == this) {
             move();
@@ -285,17 +282,20 @@ class Game {
       Pawn pawn;
       Field bestChoice = null;
       double minDistance = Double.MAX_VALUE;
-      double distance;
+      double distance, current;
       do {
         pawn = chooseRandomPawn();
         System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
-        distance = 0;
+        distance = Double.MAX_VALUE;
+        current = board.distance(board.getField(pawn.getX(), pawn.getY()), destination);
         for (Field[] row : board.getFields()) {
           for (Field field : row) {
             if (field != null) {
               if (board.getPawn(field.getX(), field.getY()) == null) {
                 if (controller.isValid(pawn.getX(), pawn.getY(), field, color)) {
-                  distance = board.distance(field, destination);
+//                  if (board.distance(field, destination) < current) {
+                    distance = board.distance(field, destination);
+//                  }
                   System.out.println("distance: " + distance);
                   if (distance < minDistance) {
                     bestChoice = field;
@@ -306,7 +306,7 @@ class Game {
             }
           }
         }
-      } while (distance == 0);
+      } while (distance == Double.MAX_VALUE);
       System.out.println("minDistance: " + minDistance);
       moveCount++;
       for (Player player : players) {
@@ -336,10 +336,6 @@ class Game {
       }
     }
 
-    private void makeMove() {
-//      Pawn pawn = chooseRandomPawn();
-    }
-
     private void setDestination() {
       destination = board.getDestination(color);
     }
@@ -351,7 +347,6 @@ class Game {
       } while (!pawn.getColor().equals(this.color));
       return pawn;
     }
-
   }
 
 

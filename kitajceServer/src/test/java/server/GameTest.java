@@ -33,6 +33,12 @@ public class GameTest {
     game = new Game(1, 0, listener);
   }
 
+  @Test
+  public void botRuns() throws IOException {
+    listener = new ServerSocket(port);
+    game = new Game(0, 2, listener);
+  }
+
   @After
   public void cleanUp() throws IOException {
     if (listener != null)
