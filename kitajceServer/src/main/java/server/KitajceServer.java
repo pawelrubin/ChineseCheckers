@@ -6,8 +6,8 @@ import java.net.ServerSocket;
 public class KitajceServer {
 
   private static final int port = 2137;
-  private int numOfHumans;
-  private int numOfBots;
+  private final int numOfHumans;
+  private final int numOfBots;
 
   public KitajceServer(int numOfHumans, int numOfBots) {
     this.numOfHumans = numOfHumans;

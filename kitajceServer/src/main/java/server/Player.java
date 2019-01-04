@@ -2,7 +2,7 @@ package server;
 
 abstract class Player extends Thread {
   String color;
-  boolean alive;
+  volatile boolean alive;
 
   void kill() {
     alive = false;

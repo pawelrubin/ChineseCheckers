@@ -2,12 +2,8 @@ package logic;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import logic.Board;
-import logic.MovementController;
-import logic.Pawn;
-import logic.Field;
+import static org.junit.Assert.assertTrue;
 
 
 public class MovementControllerTest {

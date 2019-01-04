@@ -7,21 +7,15 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ProtocolTest {
   private Protocol protocol;
-  private Socket socket;
-  private Game game;
-  private PrintWriter output;
-  private ServerSocket serverSocket;
 
   @Before
   public void setProtocol() throws IOException {
-    serverSocket = new ServerSocket(2137);
-    socket = new Socket("localhost", 2137);
-    output = new PrintWriter(socket.getOutputStream(), true);
+    Socket socket = new Socket("localhost", 2137);
+    PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
     protocol = new Protocol(output);
   }
 

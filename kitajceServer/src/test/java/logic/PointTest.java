@@ -1,10 +1,9 @@
 package logic;
 
-import logic.Point;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PointTest {
 
@@ -21,7 +20,4 @@ public class PointTest {
     assertEquals(a, b);
   }
 
-  @Test
-  public void equals1() {
-  }
 }

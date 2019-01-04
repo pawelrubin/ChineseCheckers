@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovementController {
-  private Board board;
-  private List<Point> nodes = new ArrayList<>();
-  String winner;
+  private final Board board;
+  private final List<Point> nodes = new ArrayList<>();
+  private String winner;
 
   public MovementController(Board board) {
     this.board = board;
@@ -242,7 +242,7 @@ public class MovementController {
     return false;
   }
 
-  public void tie(String color) {
+  private void tie(String color) {
     System.out.println("It's a tie for " + color + " player!");
   }
 

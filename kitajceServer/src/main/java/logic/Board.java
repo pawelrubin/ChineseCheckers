@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board extends BoardAbstract{
-  private int numOfPlayers;
-//  private final int height = 17;
-  private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+  //  private final int height = 17;
+  private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> topCorner;
   private List<Point> topRightCorner;
   private List<Point> topLeftCorner;
@@ -19,7 +18,6 @@ public class Board extends BoardAbstract{
     if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
       throw new IllegalArgumentException("Illegal number of players");
     }
-    this.numOfPlayers = numOfPlayers;
     setOffsets();
     setHeight();
     setWidths();

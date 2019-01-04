@@ -3,19 +3,21 @@ package server;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 public class PlayerTest {
 
   private Player player;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     player = new Player() {
 
       @Override
       public void run() {
-        while(alive);
+        while(alive) {
+          System.out.println("I'm alive");
+        }
       }
     };
     player.start();

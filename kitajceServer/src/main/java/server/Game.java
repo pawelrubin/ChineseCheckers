@@ -137,7 +137,7 @@ class Game {
     BufferedReader input;
     PrintWriter output;
     Protocol protocol;
-    private Socket socket;
+    private final Socket socket;
 
     Human(String color, Socket socket) {
       alive = true;
@@ -245,7 +245,7 @@ class Game {
     }
   }
 
-  public class Bot extends Player {
+  class Bot extends Player {
     private List<Pawn> pawns;
     private Field destination;
 

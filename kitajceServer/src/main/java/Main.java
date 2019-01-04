@@ -2,7 +2,7 @@ import server.KitajceServer;
 
 import java.io.IOException;
 
-public class Main {
+class Main {
   public static void main(String[] args) {
 //    KitajceServer server = new KitajceServer();
     if (args.length <= 1) {

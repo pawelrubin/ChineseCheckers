@@ -6,7 +6,7 @@ import logic.Pawn;
 import java.io.PrintWriter;
 
 class Protocol {
-  private PrintWriter output;
+  private final PrintWriter output;
 
   Protocol(PrintWriter output) {
     this.output = output;
