@@ -1,6 +1,8 @@
-package server;
+package logic;
 
-import javafx.scene.Parent;
+import logic.Board;
+import logic.Field;
+import logic.Pawn;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,8 @@ public class BoardTest {
   @Test
   public void shouldBeOkay() {
     board = new Board(4);
+    board = new Board(3);
+    board = new Board(6);
   }
 
   @Test

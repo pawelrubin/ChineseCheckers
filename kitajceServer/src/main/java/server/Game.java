@@ -1,5 +1,10 @@
 package server;
 
+import logic.Board;
+import logic.Field;
+import logic.MovementController;
+import logic.Pawn;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -188,10 +193,10 @@ class Game {
             if (controller.gameOver()) {
               for (Player player : players) {
                 if (player instanceof Human) {
-                  ((Human) player).protocol.winnerMessage(controller.winner);
+                  ((Human) player).protocol.winnerMessage(controller.getWinner());
                 }
               }
-              colors.remove(controller.winner);
+              colors.remove(controller.getWinner());
               numOfPlayers--;
             }
             else if (tie) {
@@ -328,10 +333,10 @@ class Game {
       if (controller.gameOver()) {
         for (Player player : players) {
           if (player instanceof Human) {
-            ((Human) player).protocol.winnerMessage(controller.winner);
+            ((Human) player).protocol.winnerMessage(controller.getWinner());
           }
         }
-        colors.remove(controller.winner);
+        colors.remove(controller.getWinner());
         numOfPlayers--;
       }
     }

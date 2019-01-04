@@ -1,6 +1,4 @@
-package server;
-
-import server.Field;
+package logic;
 
 abstract class BoardAbstract {
   //height of the board
@@ -25,7 +23,7 @@ abstract class BoardAbstract {
     return widths[i];
   }
 
-  Field getField(int x, int y) {
+  public Field getField(int x, int y) {
     return fields[x][y];
   }
 }

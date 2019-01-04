@@ -1,33 +1,33 @@
-package server;
+package logic;
 
-class Pawn {
+public class Pawn {
   private int x;
   private int y;
   private String color;
 
-  Pawn (int x, int y, String color) {
+  public Pawn(int x, int y, String color) {
     this.x = x;
     this.y = y;
     this.color = color;
   }
 
-  int getX() {
+  public int getX() {
     return x;
   }
 
-  void setX(int x) {
+  public void setX(int x) {
     this.x = x;
   }
 
-  int getY() {
+  public int getY() {
     return y;
   }
 
-  void setY(int y) {
+  public void setY(int y) {
     this.y = y;
   }
 
-  String getColor() {
+  public String getColor() {
     return color;
   }
 }

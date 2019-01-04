@@ -1,5 +1,8 @@
 package server;
 
+import logic.Field;
+import logic.Pawn;
+
 import java.io.PrintWriter;
 
 class Protocol {

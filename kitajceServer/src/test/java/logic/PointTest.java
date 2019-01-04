@@ -1,5 +1,6 @@
-package server;
+package logic;
 
+import logic.Point;
 import org.junit.Before;
 import org.junit.Test;
 

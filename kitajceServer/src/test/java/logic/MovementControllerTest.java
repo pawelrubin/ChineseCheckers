@@ -1,13 +1,13 @@
-package server;
+package logic;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import server.Board;
-import server.MovementController;
-import server.Pawn;
-import server.Field;
+import logic.Board;
+import logic.MovementController;
+import logic.Pawn;
+import logic.Field;
 
 
 public class MovementControllerTest {

@@ -1,19 +1,19 @@
-package server;
+package logic;
 
-class Field {
+public class Field {
   private int x;
   private int y;
 
-  Field (int x, int y) {
+  public Field(int x, int y) {
     this.x = x;
     this.y = y;
   }
 
-  int getY() {
+  public int getY() {
     return y;
   }
 
-  int getX() {
+  public int getX() {
     return x;
   }
 }

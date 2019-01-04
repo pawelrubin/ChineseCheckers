@@ -37,6 +37,9 @@ public class GameTest {
   public void botRuns() throws IOException {
     listener = new ServerSocket(port);
     game = new Game(0, 2, listener);
+    game = new Game(0, 3, listener);
+    game = new Game(0, 4, listener);
+    game = new Game(0, 6, listener);
   }
 
   @After

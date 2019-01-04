@@ -1,18 +1,18 @@
-package server;
+package logic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class MovementController {
+public class MovementController {
   private Board board;
   private List<Point> nodes = new ArrayList<>();
   String winner;
 
-  MovementController(Board board) {
+  public MovementController(Board board) {
     this.board = board;
   }
 
-  boolean isValid(int oldX, int oldY, Field field, String color) {
+  public boolean isValid(int oldX, int oldY, Field field, String color) {
 
     nodes.clear();
 
@@ -75,7 +75,7 @@ class MovementController {
 
   }
 
-  boolean gameOver() {
+  public boolean gameOver() {
     if (greenWinningCondition()) {
       winner = "GREEN";
       return true;
@@ -454,5 +454,9 @@ class MovementController {
       }
     }
     return false;
+  }
+
+  public String getWinner() {
+    return winner;
   }
 }

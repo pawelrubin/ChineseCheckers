@@ -1,9 +1,9 @@
-package server;
+package logic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Board extends BoardAbstract{
+public class Board extends BoardAbstract{
   private int numOfPlayers;
 //  private final int height = 17;
   private static String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
@@ -13,9 +13,9 @@ class Board extends BoardAbstract{
   private List<Point> bottomRightCorner;
   private List<Point> bottomLeftCorner;
   private List<Point> bottomCorner;
-  static final int numOfPawns = 10;
+  public static final int numOfPawns = 10;
 
-  Board(int numOfPlayers) {
+  public Board(int numOfPlayers) {
     if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
       throw new IllegalArgumentException("Illegal number of players");
     }
@@ -144,7 +144,7 @@ class Board extends BoardAbstract{
     }
   }
 
-  Pawn getPawn(int x, int y) {
+  public Pawn getPawn(int x, int y) {
     return pawns[x][y];
   }
 
@@ -172,12 +172,12 @@ class Board extends BoardAbstract{
     return bottomCorner;
   }
 
-  void movePawn(int oldX, int oldY, int newX, int newY) {
+  public void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
   }
 
-  Field getDestination(String color) throws IllegalArgumentException {
+  public Field getDestination(String color) throws IllegalArgumentException {
     switch (color) {
       case "GREEN": {
         return getField(16, 12);
@@ -203,7 +203,7 @@ class Board extends BoardAbstract{
     }
   }
 
-  List<Pawn> getPawnsByColor(String color) {
+  public List<Pawn> getPawnsByColor(String color) {
     List<Pawn> pawnsByColor = new ArrayList<>();
 
     for(Pawn[] row: pawns) {
@@ -219,11 +219,11 @@ class Board extends BoardAbstract{
     return pawnsByColor;
   }
 
-  Field[][] getFields() {
+  public Field[][] getFields() {
     return fields;
   }
 
-  double distance(Field a, Field b) {
+  public double distance(Field a, Field b) {
     return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
             Math.pow(Math.abs(a.getY() - b.getY()), 2));
   }

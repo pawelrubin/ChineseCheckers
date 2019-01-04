@@ -1,5 +1,7 @@
 package server;
 
+import logic.Field;
+import logic.Pawn;
 import org.junit.Before;
 import org.junit.Test;
 
