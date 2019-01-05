@@ -6,16 +6,13 @@ import javafx.scene.shape.Circle;
 
 public class Pawn extends Circle {
 
-  private static final int radius = 15;
   // (X,Y) on board
   private int x;
   private int y;
   private final String color;
   private boolean isChosen = false;
 
-  // TODO: no pionki musza byc tworzone na konktretnych wspolrzednych na planszy
-
-  public Pawn(int x, int y, String color) {
+  Pawn(int x, int y, String color) {
     this.x = x;
     this.y = y;
     this.color = color;

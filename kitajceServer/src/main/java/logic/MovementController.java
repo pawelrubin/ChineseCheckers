@@ -132,6 +132,7 @@ public class MovementController {
       if (newX - oldX == 1) {
         return true;
       }
+      //noinspection RedundantIfStatement
       if (newX - oldX == 0) {
         return true;
       }

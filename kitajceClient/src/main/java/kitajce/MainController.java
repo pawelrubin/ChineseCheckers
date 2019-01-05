@@ -15,6 +15,7 @@ import java.util.List;
 
 import static java.lang.Math.sqrt;
 
+@SuppressWarnings("WeakerAccess")
 public class MainController {
   @FXML
   private TextField textField;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board extends BoardAbstract{
+  public static final int numOfPawns = 10;
   private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> topCorner;
   private List<Point> topRightCorner;
@@ -11,7 +12,6 @@ public class Board extends BoardAbstract{
   private List<Point> bottomRightCorner;
   private List<Point> bottomLeftCorner;
   private List<Point> bottomCorner;
-  public static final int numOfPawns = 10;
 
   public Board(int numOfPlayers) {
     if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
@@ -20,15 +20,6 @@ public class Board extends BoardAbstract{
     setOffsets();
     setHeight();
     setWidths();
-    fields = new Field[height][height];
-    pawns = new Pawn[height][height];
-    topCorner = new ArrayList<>();
-    topRightCorner = new ArrayList<>();
-    topLeftCorner = new ArrayList<>();
-    bottomRightCorner = new ArrayList<>();
-    bottomLeftCorner = new ArrayList<>();
-    bottomCorner = new ArrayList<>();
-
     addFields();
     addPawns(numOfPlayers);
   }
@@ -46,6 +37,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addFields() {
+    fields = new Field[height][height];
     // creating fields
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
@@ -55,6 +47,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addPawns(int numOfPlayers) {
+    pawns = new Pawn[height][height];
     //creating pawns
     switch (numOfPlayers) {
       case 2: {
@@ -88,6 +81,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addGreenPawns() {
+    topCorner = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < widths[i]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[0]);
@@ -97,6 +91,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addYellowPawns() {
+    bottomCorner = new ArrayList<>();
     for (int i = 13; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[3]);
@@ -106,6 +101,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addBluePawns() {
+    topLeftCorner = new ArrayList<>();
     for (int i = 4; i < 8; i++) {
       for (int j = 0; j < 8 - i; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[5]);
@@ -115,6 +111,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addWhitePawns() {
+    topRightCorner = new ArrayList<>();
     for (int i = 4; i < 8; i++) {
       for (int j = 9; j <= 16 - i; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[1]);
@@ -124,6 +121,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addBlackPawns() {
+    bottomLeftCorner = new ArrayList<>();
     for (int i = 9; i < 13; i++) {
       for (int j = 0; j < widths[i - 9]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[4]);
@@ -133,6 +131,7 @@ public class Board extends BoardAbstract{
   }
 
   private void addRedPawns() {
+    bottomRightCorner = new ArrayList<>();
     for (int i = 9; i < 13; i++) {
       for (int j = 9; j < widths[i]; j++) {
         pawns[i][j + offset[i]] = new Pawn(i, j + offset[i], colors[2]);

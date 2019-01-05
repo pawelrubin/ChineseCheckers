@@ -11,24 +11,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 class Game {
-  //private final int numOfHumans;
+  private final Board board;
   private int numOfHumans;
   private int numOfBots;
   private int numOfPlayers;
-  private final Board board;
   private Player currentPlayer;
   private String currentColor;
   private MovementController controller;
   private int moveCount;
   private List<Player> players;
   private ServerSocket listener;
-  //private String[] colors;
   private List<String> colors;
   private boolean tie = false;
 
@@ -37,11 +32,33 @@ class Game {
     if (!legalNumOfPLayers.contains(numOfHumans + numOfBots)) {
       throw new IllegalArgumentException("Illegal number of players");
     }
-    colors = new ArrayList<>();
     this.numOfHumans = numOfHumans;
     this.numOfBots = numOfBots;
     this.numOfPlayers = numOfBots + numOfHumans;
     this.listener = listener;
+    setColors(numOfPlayers);
+    board = new Board(numOfPlayers);
+    controller = new MovementController(board);
+    int randomIndex = new Random().nextInt(numOfPlayers);
+    moveCount = randomIndex;
+    currentColor = colors.get(randomIndex);
+    addPlayers();
+    runPlayers();
+    currentPlayer = players.get(randomIndex);
+  }
+
+  public void setTie(boolean tie) {
+    this.tie = tie;
+  }
+
+  private void addPlayers() throws IOException {
+    players = new ArrayList<>();
+    addHumans();
+    addBots();
+  }
+
+  private void setColors(int numOfPlayers) {
+    colors = new ArrayList<>();
     switch (numOfPlayers) {
       case 2: {
         //colors = new String[]{"GREEN", "YELLOW"};
@@ -75,26 +92,7 @@ class Game {
         break;
       }
     }
-    board = new Board(numOfPlayers);
-    controller = new MovementController(board);
-    int randomIndex = new Random().nextInt(numOfPlayers);
-    moveCount = randomIndex;
-    currentColor = colors.get(randomIndex);
-    addPlayers();
-    runPlayers();
-    currentPlayer = players.get(randomIndex);
   }
-
-  public void setTie(boolean tie) {
-    this.tie = tie;
-  }
-
-  private void addPlayers() throws IOException {
-    players = new ArrayList<>();
-    addHumans();
-    addBots();
-  }
-
   // Adds humans to the game.
   private void addHumans() throws IOException {
     int i = 0;
@@ -113,6 +111,7 @@ class Game {
       i++;
     }
   }
+
   // Runs players threads.
   private void runPlayers() {
     for (Player player : players) {
@@ -327,7 +326,7 @@ class Game {
           }
         }
       }
-      board.movePawn(pawn.getX(), pawn.getY(), bestChoice.getX(), bestChoice.getY());
+      board.movePawn(pawn.getX(), pawn.getY(), Objects.requireNonNull(bestChoice).getX(), bestChoice.getY());
       pawn.setX(bestChoice.getX());
       pawn.setY(bestChoice.getY());
       if (controller.gameOver()) {
@@ -353,6 +352,4 @@ class Game {
       return pawn;
     }
   }
-
-
 }

@@ -1,23 +1,44 @@
 package layout;
 
 public class Board extends BoardAbstract {
-//  private final int height = 17;
   private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   public final int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
 
   public Board(int numOfPlayers) {
+    if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
+      throw new IllegalArgumentException("Illegal number of players");
+    }
     setOffsets();
     setHeight();
     setWidths();
+    addFields();
+    addPawns(numOfPlayers);
+  }
+
+  private void setOffsets() {
+    offset = new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
+  }
+
+  private void setWidths() {
+    widths = new int[]{1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+  }
+
+  private void setHeight() {
+    height = 17;
+  }
+
+  private void addFields() {
     fields = new Field[height][height];
-    pawns = new Pawn[height][height];
     // creating fields
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < widths[i]; j++) {
         fields[i][j + offset[i]] = new Field(i, j + offset[i]);
       }
     }
+  }
 
+  private void addPawns(int numOfPlayers) {
+    pawns = new Pawn[height][height];
     //creating pawns
     switch (numOfPlayers) {
       case 2: {
@@ -48,18 +69,6 @@ public class Board extends BoardAbstract {
         break;
       }
     }
-  }
-
-  private void setOffsets() {
-    offset = new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-  }
-
-  private void setWidths() {
-    widths = new int[]{1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
-  }
-
-  private void setHeight() {
-    height = 17;
   }
 
   private void addGreenPawns() {
@@ -109,26 +118,6 @@ public class Board extends BoardAbstract {
       }
     }
   }
-
-//  public int getHeight() {
-//    return height;
-//  }
-//
-//  public int getOffset(int i) {
-//    return offset[i];
-//  }
-//
-//  public Field getField(int x, int y) {
-//    return fields[x][y];
-//  }
-
-//  public Pawn getPawn(int x, int y) {
-//    return pawns[x][y];
-//  }
-//
-//  public int getWidth(int i) {
-//    return widths[i];
-//  }
 
   @SuppressWarnings("AssignmentToNull")
   public void movePawn(int oldX, int oldY, int newX, int newY) {
