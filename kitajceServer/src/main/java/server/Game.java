@@ -1,9 +1,6 @@
 package server;
 
-import logic.Board;
-import logic.Field;
-import logic.MovementController;
-import logic.Pawn;
+import logic.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +22,7 @@ class Game {
   private List<Player> players;
   private ServerSocket listener;
   private List<String> colors;
-  private boolean tie = false;
+  // --Commented out by Inspection (06/01/2019 00:41):private boolean tie = false;
 
   Game(int numOfHumans, int numOfBots, ServerSocket listener) throws IOException {
     List<Integer> legalNumOfPLayers = Arrays.asList(2, 3, 4, 6);
@@ -43,13 +40,15 @@ class Game {
     moveCount = randomIndex;
     currentColor = colors.get(randomIndex);
     addPlayers();
-    runPlayers();
     currentPlayer = players.get(randomIndex);
+    runPlayers();
   }
 
-  public void setTie(boolean tie) {
-    this.tie = tie;
-  }
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  public void setTie(boolean tie) {
+//    this.tie = tie;
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
 
   private void addPlayers() throws IOException {
     players = new ArrayList<>();
@@ -119,20 +118,46 @@ class Game {
     }
   }
 
-  public Human getHuman(int i) {
-//    while (!(players.get(i) instanceof Human)) {
-//      i++;
-//    }
-    return (Human) players.get(i);
+  private void endTurn() {
+    moveCount++;
+    for (Player player : players) {
+      if (player instanceof Human) {
+        ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
+      }
+    }
+    currentPlayer = players.get(moveCount % numOfPlayers);
   }
 
-  public void endGame() {
-    for (Player player: players) {
-      player.kill();
+  private void checkForWinners() {
+    if (controller.someoneFinished()) {
+      for (Player player : players) {
+        if (player instanceof Human) {
+          ((Human) player).protocol.winnerMessage(controller.getWinner());
+        }
+      }
+      colors.remove(controller.getWinner());
+      numOfPlayers--;
     }
   }
 
-  public class Human extends Player  {
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  public Human getHuman(int i) {
+////    while (!(players.get(i) instanceof Human)) {
+////      i++;
+////    }
+//    return (Human) players.get(i);
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
+
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  public void endGame() {
+//    for (Player player: players) {
+//      player.kill();
+//    }
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
+
+  class Human extends Player  {
     BufferedReader input;
     PrintWriter output;
     Protocol protocol;
@@ -189,18 +214,7 @@ class Game {
             board.movePawn(pawnX, pawnY, fieldX, fieldY);
             pawn.setX(fieldX);
             pawn.setY(fieldY);
-            if (controller.gameOver()) {
-              for (Player player : players) {
-                if (player instanceof Human) {
-                  ((Human) player).protocol.winnerMessage(controller.getWinner());
-                }
-              }
-              colors.remove(controller.getWinner());
-              numOfPlayers--;
-            }
-            else if (tie) {
-
-            }
+            checkForWinners();
           } else {
             this.protocol.invalidMoveMessage();
           }
@@ -210,13 +224,7 @@ class Game {
       } else if (command.startsWith("END_TURN")) {
         String words[] = command.split(" ");
         if (words[1].equals(currentPlayer.color)) {
-          moveCount++;
-          currentPlayer = players.get(moveCount % numOfPlayers);
-          for (Player player : players) {
-            if (player instanceof Human) {
-              ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
-            }
-          }
+          endTurn();
         }
       }
     }
@@ -265,21 +273,15 @@ class Game {
       while (alive) {
         synchronized (this) {
           if (currentPlayer == this) {
-            move();
-//            endTurn();
+            try {
+              move();
+            } catch (NullPointerException ex) {
+              ex.printStackTrace();
+              System.out.println("BLĄD W: " + color);
+            }
           }
         }
       }
-    }
-
-    private void endTurn() {
-      moveCount++;
-      for (Player player : players) {
-        if (player instanceof Human) {
-          ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
-        }
-      }
-      currentPlayer = players.get(moveCount % numOfPlayers);
     }
 
     private void move() {
@@ -287,23 +289,42 @@ class Game {
       Field bestChoice = null;
       double minDistance = Double.MAX_VALUE;
       double distance, current;
+      List<Pawn> usedPawns = new ArrayList<>();
       do {
         pawn = chooseRandomPawn();
-        System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
         distance = Double.MAX_VALUE;
+        if (usedPawns.contains(pawn)) {
+          continue;
+        } else {
+          usedPawns.add(pawn);
+          if (usedPawns.size() == 10) {
+            endTurn();
+            return;
+          }
+        }
+        System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
         current = board.distance(board.getField(pawn.getX(), pawn.getY()), destination);
         for (Field[] row : board.getFields()) {
           for (Field field : row) {
             if (field != null) {
               if (board.getPawn(field.getX(), field.getY()) == null) {
                 if (controller.isValid(pawn.getX(), pawn.getY(), field, color)) {
-//                  if (board.distance(field, destination) < current) {
-                    distance = board.distance(field, destination);
-//                  }
-                  System.out.println("distance: " + distance);
-                  if (distance < minDistance) {
-                    bestChoice = field;
-                    minDistance = distance;
+                  if (board.getTargetCorner(color).contains(new Point(pawn.getX(), pawn.getY()))) {
+                    if (board.distance(field, destination) < current) {
+                      distance = board.distance(field, destination);
+                      if (distance < minDistance) {
+                        bestChoice = field;
+                        minDistance = distance;
+                      }
+                    }
+                  } else {
+                    Field target = board.getTarget(color);
+                    if (target == null) System.out.println("ELO NULLA MAMY");
+                    distance = board.distance(field, target);
+                    if (distance < minDistance) {
+                      bestChoice = field;
+                      minDistance = distance;
+                    }
                   }
                 }
               }
@@ -313,6 +334,11 @@ class Game {
       } while (distance == Double.MAX_VALUE);
       System.out.println("minDistance: " + minDistance);
       moveCount++;
+      try {
+        Thread.sleep(200);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       for (Player player : players) {
         if (player instanceof Human) {
           ((Human) player).protocol.next(colors.get(moveCount % numOfPlayers));
@@ -329,15 +355,7 @@ class Game {
       board.movePawn(pawn.getX(), pawn.getY(), Objects.requireNonNull(bestChoice).getX(), bestChoice.getY());
       pawn.setX(bestChoice.getX());
       pawn.setY(bestChoice.getY());
-      if (controller.gameOver()) {
-        for (Player player : players) {
-          if (player instanceof Human) {
-            ((Human) player).protocol.winnerMessage(controller.getWinner());
-          }
-        }
-        colors.remove(controller.getWinner());
-        numOfPlayers--;
-      }
+      checkForWinners();
     }
 
     private void setDestination() {

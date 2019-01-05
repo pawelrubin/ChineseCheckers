@@ -1,6 +1,6 @@
 package logic;
 
-class Point {
+public class Point {
   private final int x;
   private final int y;
 
@@ -9,11 +9,11 @@ class Point {
     this.y = y;
   }
 
-  private int getX() {
+  public int getX() {
     return x;
   }
 
-  private int getY() {
+  public int getY() {
     return y;
   }
 

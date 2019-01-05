@@ -3,7 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board extends BoardAbstract{
+public class Board extends BoardAbstract {
   public static final int numOfPawns = 10;
   private static final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
   private List<Point> topCorner;
@@ -59,6 +59,9 @@ public class Board extends BoardAbstract{
         addGreenPawns();
         addBlackPawns();
         addRedPawns();
+        setBottomCorner();
+        setTopLeftCorner();
+        setTopRightCorner();
         break;
       }
       case 4: {
@@ -140,7 +143,67 @@ public class Board extends BoardAbstract{
     }
   }
 
-  List<Point> getTopCorner() {
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  private void setTopCorner() {
+//    topCorner = new ArrayList<>();
+//    for (int i = 0; i < 4; i++) {
+//      for (int j = 0; j < widths[i]; j++) {
+//        topCorner.add(new Point(i, j + offset[i]));
+//      }
+//    }
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
+
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  private void setBottomLeftCorner() {
+//    bottomLeftCorner = new ArrayList<>();
+//    for (int i = 9; i < 13; i++) {
+//      for (int j = 0; j < widths[i - 9]; j++) {
+//        bottomLeftCorner.add(new Point(i, j + offset[i]));
+//      }
+//    }
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
+
+// --Commented out by Inspection START (06/01/2019 00:16):
+//  private void setBottomRightCorner() {
+//    bottomRightCorner = new ArrayList<>();
+//    for (int i = 9; i < 13; i++) {
+//      for (int j = 9; j < widths[i]; j++) {
+//        bottomRightCorner.add(new Point(i, j + offset[i]));
+//      }
+//    }
+//  }
+// --Commented out by Inspection STOP (06/01/2019 00:16)
+
+  private void setTopRightCorner() {
+    topRightCorner = new ArrayList<>();
+    for (int i = 4; i < 8; i++) {
+      for (int j = 9; j <= 16 - i; j++) {
+        topRightCorner.add(new Point(i, j + offset[i]));
+      }
+    }
+  }
+
+  private void setTopLeftCorner() {
+    topLeftCorner = new ArrayList<>();
+    for (int i = 4; i < 8; i++) {
+      for (int j = 0; j < 8 - i; j++) {
+        topLeftCorner.add(new Point(i, j + offset[i]));
+      }
+    }
+  }
+
+  private void setBottomCorner() {
+    bottomCorner = new ArrayList<>();
+    for (int i = 13; i < height; i++) {
+      for (int j = 0; j < widths[i]; j++) {
+        bottomCorner.add(new Point(i, j + offset[i]));
+      }
+    }
+  }
+
+  public List<Point> getTopCorner() {
     return topCorner;
   }
 
@@ -195,6 +258,25 @@ public class Board extends BoardAbstract{
     }
   }
 
+  public Field getTarget(String color) throws IllegalArgumentException {
+    double bestDistance = Double.MAX_VALUE;
+    Field target = null;
+    for (Point point: this.getTargetCorner(color)) {
+      if (this.getPawn(point.getX(), point.getY()) == null) {
+        double tempDistance = distance(new Field(point.getX(), point.getY()), getDestination(color));
+        if (tempDistance < bestDistance) {
+          bestDistance = tempDistance;
+          target = this.getField(point.getX(), point.getY());
+        }
+      }
+    }
+    if (target == null) {
+      return getDestination(color); // improvised fix, better than null which would be returned for some reason
+    } else {
+      return target;
+    }
+  }
+
   public List<Pawn> getPawnsByColor(String color) {
     List<Pawn> pawnsByColor = new ArrayList<>();
 
@@ -213,5 +295,29 @@ public class Board extends BoardAbstract{
 
   public Field[][] getFields() {
     return fields;
+  }
+
+  public List<Point> getTargetCorner(String color) {
+    switch (color) {
+      case "GREEN": {
+        return getBottomCorner();
+      }
+      case "WHITE": {
+        return getBottomLeftCorner();
+      }
+      case "BLUE": {
+        return getTopLeftCorner();
+      }
+      case "YELLOW": {
+        return getTopCorner();
+      }
+      case "BLACK": {
+        return getTopRightCorner();
+      }
+      case "RED": {
+        return getTopLeftCorner();
+      }
+    }
+    return null;
   }
 }

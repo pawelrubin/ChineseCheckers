@@ -6,6 +6,7 @@ import java.util.List;
 public class MovementController {
   private final Board board;
   private final List<Point> nodes = new ArrayList<>();
+  private final List<String> winners = new ArrayList<>();
   private String winner;
 
   public MovementController(Board board) {
@@ -75,28 +76,34 @@ public class MovementController {
 
   }
 
-  public boolean gameOver() {
-    if (greenWinningCondition()) {
+  public boolean someoneFinished() {
+    if (greenWinningCondition() && !winners.contains("GREEN")) {
+      winners.add("GREEN");
       winner = "GREEN";
       return true;
     }
-    if (yellowWinningCondition()) {
+    if (yellowWinningCondition() && !winners.contains("YELLOW")) {
+      winners.add("YELLOW");
       winner = "YELLOW";
       return true;
     }
-    if (blackWinningCondition()) {
+    if (blackWinningCondition() && !winners.contains("BLACK")) {
+      winners.add("BLACK");
       winner = "BLACK";
       return true;
     }
-    if (whiteWinningCondition()) {
+    if (whiteWinningCondition() && !winners.contains("WHITE")) {
+      winners.add("WHITE");
       winner = "WHITE";
       return true;
     }
-    if (redWinningCondition()) {
+    if (redWinningCondition() && !winners.contains("RED")) {
+      winners.add("RED");
       winner = "RED";
       return true;
     }
-    if (blueWinningCondition()) {
+    if (blueWinningCondition() && !winners.contains("BLUE")) {
+      winners.add("BLUE");
       winner = "BLUE";
       return true;
     }
