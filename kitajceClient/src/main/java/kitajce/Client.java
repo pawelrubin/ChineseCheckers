@@ -15,6 +15,10 @@ class Client {
   private PrintWriter out;
   private MainController mainController;
 
+  /**
+   * mainController setter.
+   * @param mainController Instance of the MainController to be set.
+   */
   void setController(MainController mainController) {
     this.mainController = mainController;
   }

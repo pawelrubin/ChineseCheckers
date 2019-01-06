@@ -1,10 +1,15 @@
 package layout;
 
 public class Board extends BoardAbstract {
-  private final String colors[] = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
-  public final int offsetDraw[] = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
+  private final String[] colors = {"GREEN", "WHITE", "RED", "YELLOW", "BLACK", "BLUE"};
+  public final int[] offsetDraw = {7, 6, 6, 5, 0, 0, 2, 2, 3, 2, 2, 0, 0, 5, 6, 6, 7};
 
-  public Board(int numOfPlayers) {
+  /**
+   * Board constructor
+   * @param numOfPlayers Number of players in a game
+   * @throws IllegalArgumentException Exception is thrown on wrong number of players
+   */
+  public Board(int numOfPlayers) throws IllegalArgumentException {
     if (numOfPlayers < 2 || numOfPlayers > 6 || numOfPlayers == 5) {
       throw new IllegalArgumentException("Illegal number of players");
     }
@@ -13,6 +18,19 @@ public class Board extends BoardAbstract {
     setWidths();
     addFields();
     addPawns(numOfPlayers);
+  }
+
+  /**
+   * This method moves a pawn in the pawns array
+   * @param oldX x coordinate of the old pawn
+   * @param oldY y coordinate of the old pawn
+   * @param newX x coordinate of the new pawn
+   * @param newY y coordinate of the new pawn
+   */
+  @SuppressWarnings("AssignmentToNull")
+  public void movePawn(int oldX, int oldY, int newX, int newY) {
+    pawns[newX][newY] = pawns[oldX][oldY];
+    pawns[oldX][oldY] = null;
   }
 
   private void setOffsets() {
@@ -27,6 +45,9 @@ public class Board extends BoardAbstract {
     height = 17;
   }
 
+  /**
+   *  This method fills up the fields array.
+   */
   private void addFields() {
     fields = new Field[height][height];
     // creating fields
@@ -37,6 +58,10 @@ public class Board extends BoardAbstract {
     }
   }
 
+  /**
+   * This method fills up the pawns array depending on the numOfPlayers
+   * @param numOfPlayers in a game
+   */
   private void addPawns(int numOfPlayers) {
     pawns = new Pawn[height][height];
     //creating pawns
@@ -119,9 +144,4 @@ public class Board extends BoardAbstract {
     }
   }
 
-  @SuppressWarnings("AssignmentToNull")
-  public void movePawn(int oldX, int oldY, int newX, int newY) {
-    pawns[newX][newY] = pawns[oldX][oldY];
-    pawns[oldX][oldY] = null;
-  }
 }

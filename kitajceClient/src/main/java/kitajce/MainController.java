@@ -37,20 +37,28 @@ public class MainController {
   private String tiesMsg = "Ties:\n";
   private String color;
   private int numOfPlayers;
-  private final List<String> winnersList = new ArrayList<>();
-  private final List<String> tiesList = new ArrayList<>();
+  private List<String> winnersList;
+  private List<String> tiesList;
   private int xOfChosenPawn = 0;
   private int yOfChosenPawn = 0;
   private String currentPlayer;
 
+  /**
+   * Initializes client object and sets controller.
+   */
   @FXML
   public void initialize() {
     client = new Client();
     client.setController(this);
+    winnersList = new ArrayList<>();
+    tiesList = new ArrayList<>();
   }
 
+  /**
+   * Method activated by the connect button.
+   */
   @FXML
-  private void startClient() {
+  public void startClient() {
     // create new thread to handle network communication
     new Thread(() -> {
       System.out.println("Kitajce client started.");
@@ -63,11 +71,17 @@ public class MainController {
     }).start();
   }
 
+  /**
+   * Method activated by the end turn button.
+   */
   @FXML
-  private void endTurn() {
+  public void endTurn() {
     client.sendMessage("END_TURN " + color);
   }
 
+  /**
+   * Draws the board in the BorderPane.
+   */
   void drawBoard() {
     board = new Board(numOfPlayers);
     borderPane.setCenter(board);
@@ -75,6 +89,77 @@ public class MainController {
     colorLabel.setText("You are " + color + " player");
     drawFields();
     drawPawns();
+  }
+
+  /**
+   * Adds a winner to the winners list, changes the label.
+   * @param color A color of the winner.
+   */
+  void addWinner(String color) {
+    winnersList.add(color);
+    winnersMsg += winnersList.size() + ". " + winnersList.get(winnersList.size() - 1) + "\n";
+    winningLabel.setText(winnersMsg);
+    disablePawns(color);
+  }
+
+  void addTie(String color) {
+    tiesList.add(color);
+    tiesMsg += "- " + tiesList.get((tiesList.size() - 1)) + "\n";
+    tiesLabel.setText(tiesMsg);
+    disablePawns(color);
+  }
+
+  /**
+   * Moves pawn.
+   * @param pawnX Pawn's x coordinate.
+   * @param pawnY Pawn's y coordinate.
+   * @param fieldX Target field x coordinate.
+   * @param fieldY Target field y coordinate.
+   */
+  void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
+    Pawn pawn = board.getPawn(pawnX, pawnY);
+    Field field = board.getField(fieldX, fieldY);
+    board.movePawn(pawnX, pawnY, fieldX, fieldY);
+    if (pawn != null) {
+      pawn.setX(field.getX());
+      pawn.setY(field.getY());
+      pawn.repaint(field);
+      pawn.setChosen(false);
+    }
+    xOfChosenPawn = 0;
+    yOfChosenPawn = 0;
+  }
+
+  /**
+   * Color setter.
+   * @param color A color to be set.
+   */
+  void setColor(String color) {
+    this.color = color;
+  }
+
+  /**
+   * NumOfPlayers setter.
+   * @param numOfPlayers A number of players to be set.
+   */
+  void setNumOfPlayers(int numOfPlayers) {
+    this.numOfPlayers = numOfPlayers;
+  }
+
+  /**
+   * currentPlayer setter.
+   * @param currentPlayer A color of a player to be set to the currentPlayer.
+   */
+  void setCurrentPlayer(String currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
+
+  /**
+   * Updates turnLabel
+   * @param color A color of one's turn.
+   */
+  void updateTurnLabel(String color) {
+    turnLabel.setText(color + "'s turn");
   }
 
   private void drawFields() {
@@ -201,20 +286,6 @@ public class MainController {
     }
   }
 
-  void addWinner(String s) {
-    winnersList.add(s);
-    winnersMsg += winnersList.size() + ". " + winnersList.get(winnersList.size() - 1) + "\n";
-    winningLabel.setText(winnersMsg);
-    disablePawns(s);
-  }
-
-  void addTie(String color) {
-    tiesList.add(color);
-    tiesMsg += "- " + tiesList.get((tiesList.size() - 1)) + "\n";
-    tiesLabel.setText(tiesMsg);
-    disablePawns(color);
-  }
-
   private void disablePawns(String color) {
     for (int i = 0; i < board.getHeight(); i++) {
       for (int j = 0; j < board.getHeight(); j++) {
@@ -223,33 +294,5 @@ public class MainController {
         }
       }
     }
-  }
-
-  void movePawn(int pawnX, int pawnY, int fieldX, int fieldY) {
-    Pawn pawn = board.getPawn(pawnX, pawnY);
-    Field field = board.getField(fieldX, fieldY);
-    board.movePawn(pawnX, pawnY, fieldX, fieldY);
-    pawn.setX(field.getX());
-    pawn.setY(field.getY());
-    pawn.repaint(field);
-    pawn.setChosen(false);
-    xOfChosenPawn = 0;
-    yOfChosenPawn = 0;
-  }
-
-  void setColor(String color) {
-    this.color = color;
-  }
-
-  void setNumOfPlayers(int numOfPlayers) {
-    this.numOfPlayers = numOfPlayers;
-  }
-
-  void setCurrentPlayer(String currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
-
-  void updateTurnLabel(String color) {
-    turnLabel.setText(color + "'s turn");
   }
 }

@@ -18,15 +18,28 @@ public class Pawn extends Circle {
     this.color = color;
   }
 
+  /**
+   * Repaints a pawn.
+   * @param field New location of the pawn.
+   */
   public void repaint(Field field) {
     this.setCenterX(field.getCenterX());
     this.setCenterY(field.getCenterY());
   }
 
+  /**
+   * color getter.
+   * @return this.color
+   */
   public String getColor() {
     return color;
   }
 
+  /**
+   * isChosen setter.
+   * Disables chosen stroke.
+   * @param chosen new isChosen value.
+   */
   public void setChosen(boolean chosen) {
     isChosen = chosen;
     if (!chosen) {
@@ -35,9 +48,14 @@ public class Pawn extends Circle {
     }
   }
 
+  /**
+   * isChosen getter.
+   * @return this.isChosen
+   */
   public boolean isChosen() {
     return isChosen;
   }
+
 
   public int getX() {
     return x;

@@ -92,6 +92,7 @@ class Game {
       }
     }
   }
+
   // Adds humans to the game.
   private void addHumans() throws IOException {
     int i = 0;
@@ -292,17 +293,18 @@ class Game {
       List<Pawn> usedPawns = new ArrayList<>();
       do {
         pawn = chooseRandomPawn();
+        System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
         distance = Double.MAX_VALUE;
         if (usedPawns.contains(pawn)) {
           continue;
         } else {
           usedPawns.add(pawn);
           if (usedPawns.size() == 10) {
+            System.out.println("10 pawns have been used, im sending endTurn()");
             endTurn();
             return;
           }
         }
-        System.out.println("Wybrany pionek " + pawn.getX() + ", " + pawn.getY());
         current = board.distance(board.getField(pawn.getX(), pawn.getY()), destination);
         for (Field[] row : board.getFields()) {
           for (Field field : row) {

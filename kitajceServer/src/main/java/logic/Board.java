@@ -24,6 +24,124 @@ public class Board extends BoardAbstract {
     addPawns(numOfPlayers);
   }
 
+  List<Point> getTopCorner() {
+    return topCorner;
+  }
+
+  List<Point> getTopRightCorner() {
+    return topRightCorner;
+  }
+
+  List<Point> getTopLeftCorner() {
+    return topLeftCorner;
+  }
+
+  List<Point> getBottomRightCorner() {
+    return bottomRightCorner;
+  }
+
+  List<Point> getBottomLeftCorner() {
+    return bottomLeftCorner;
+  }
+
+  List<Point> getBottomCorner() {
+    return bottomCorner;
+  }
+
+  public void movePawn(int oldX, int oldY, int newX, int newY) {
+    pawns[newX][newY] = pawns[oldX][oldY];
+    pawns[oldX][oldY] = null;
+  }
+
+  public Field getDestination(String color) throws IllegalArgumentException {
+    switch (color) {
+      case "GREEN": {
+        return getField(16, 12);
+      }
+      case "WHITE": {
+        return getField(12, 4);
+      }
+      case "RED": {
+        return getField(4, 0);
+      }
+      case "YELLOW": {
+        return getField(0, 4);
+      }
+      case "BLACK": {
+        return getField(4, 12);
+      }
+      case "BLUE": {
+        return getField(12, 16);
+      }
+      default: {
+        throw new IllegalArgumentException("Wrong color");
+      }
+    }
+  }
+
+  public Field getTarget(String color) throws IllegalArgumentException {
+    double bestDistance = Double.MAX_VALUE;
+    Field target = null;
+    for (Point point: this.getTargetCorner(color)) {
+      if (this.getPawn(point.getX(), point.getY()) == null) {
+        double tempDistance = distance(new Field(point.getX(), point.getY()), getDestination(color));
+        if (tempDistance < bestDistance) {
+          bestDistance = tempDistance;
+          target = this.getField(point.getX(), point.getY());
+        }
+      }
+    }
+    if (target == null) {
+      return getDestination(color); // improvised fix, better than null which would be returned for some reason
+    } else {
+      return target;
+    }
+  }
+
+  public List<Pawn> getPawnsByColor(String color) {
+    List<Pawn> pawnsByColor = new ArrayList<>();
+
+    for(Pawn[] row: pawns) {
+      for (Pawn pawn: row) {
+        if (pawn != null) {
+          if (pawn.getColor().equals(color)) {
+            pawnsByColor.add(pawn);
+          }
+        }
+      }
+    }
+
+    return pawnsByColor;
+  }
+
+  public Field[][] getFields() {
+    return fields;
+  }
+
+  public List<Point> getTargetCorner(String color) {
+    switch (color) {
+      case "GREEN": {
+        return getBottomCorner();
+      }
+      case "WHITE": {
+        return getBottomLeftCorner();
+      }
+      case "BLUE": {
+        return getTopLeftCorner();
+      }
+      case "YELLOW": {
+        return getTopCorner();
+      }
+      case "BLACK": {
+        return getTopRightCorner();
+      }
+      case "RED": {
+        return getTopLeftCorner();
+      }
+    }
+    return null;
+  }
+
   private void setOffsets() {
     offset = new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
   }
@@ -203,121 +321,4 @@ public class Board extends BoardAbstract {
     }
   }
 
-  public List<Point> getTopCorner() {
-    return topCorner;
-  }
-
-  List<Point> getTopRightCorner() {
-    return topRightCorner;
-  }
-
-  List<Point> getTopLeftCorner() {
-    return topLeftCorner;
-  }
-
-  List<Point> getBottomRightCorner() {
-    return bottomRightCorner;
-  }
-
-  List<Point> getBottomLeftCorner() {
-    return bottomLeftCorner;
-  }
-
-  List<Point> getBottomCorner() {
-    return bottomCorner;
-  }
-
-  public void movePawn(int oldX, int oldY, int newX, int newY) {
-    pawns[newX][newY] = pawns[oldX][oldY];
-    pawns[oldX][oldY] = null;
-  }
-
-  public Field getDestination(String color) throws IllegalArgumentException {
-    switch (color) {
-      case "GREEN": {
-        return getField(16, 12);
-      }
-      case "WHITE": {
-        return getField(12, 4);
-      }
-      case "RED": {
-        return getField(4, 0);
-      }
-      case "YELLOW": {
-        return getField(0, 4);
-      }
-      case "BLACK": {
-        return getField(4, 12);
-      }
-      case "BLUE": {
-        return getField(12, 16);
-      }
-      default: {
-        throw new IllegalArgumentException("Wrong color");
-      }
-    }
-  }
-
-  public Field getTarget(String color) throws IllegalArgumentException {
-    double bestDistance = Double.MAX_VALUE;
-    Field target = null;
-    for (Point point: this.getTargetCorner(color)) {
-      if (this.getPawn(point.getX(), point.getY()) == null) {
-        double tempDistance = distance(new Field(point.getX(), point.getY()), getDestination(color));
-        if (tempDistance < bestDistance) {
-          bestDistance = tempDistance;
-          target = this.getField(point.getX(), point.getY());
-        }
-      }
-    }
-    if (target == null) {
-      return getDestination(color); // improvised fix, better than null which would be returned for some reason
-    } else {
-      return target;
-    }
-  }
-
-  public List<Pawn> getPawnsByColor(String color) {
-    List<Pawn> pawnsByColor = new ArrayList<>();
-
-    for(Pawn[] row: pawns) {
-      for (Pawn pawn: row) {
-        if (pawn != null) {
-          if (pawn.getColor().equals(color)) {
-            pawnsByColor.add(pawn);
-          }
-        }
-      }
-    }
-
-    return pawnsByColor;
-  }
-
-  public Field[][] getFields() {
-    return fields;
-  }
-
-  public List<Point> getTargetCorner(String color) {
-    switch (color) {
-      case "GREEN": {
-        return getBottomCorner();
-      }
-      case "WHITE": {
-        return getBottomLeftCorner();
-      }
-      case "BLUE": {
-        return getTopLeftCorner();
-      }
-      case "YELLOW": {
-        return getTopCorner();
-      }
-      case "BLACK": {
-        return getTopRightCorner();
-      }
-      case "RED": {
-        return getTopLeftCorner();
-      }
-    }
-    return null;
-  }
 }
