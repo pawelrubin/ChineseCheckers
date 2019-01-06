@@ -31,6 +31,13 @@ abstract class BoardAbstract {
     return pawns[x][y];
   }
 
+  /**
+   * Calculates distance between two fields
+   *
+    * @param a First field
+   * @param b Second field
+   * @return Distance in double
+   */
   public double distance(Field a, Field b) {
     return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) +
             Math.pow(Math.abs(a.getY() - b.getY()), 2));

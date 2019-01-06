@@ -13,6 +13,14 @@ public class MovementController {
     this.board = board;
   }
 
+  /**
+   * Method for move validation.
+   * @param oldX a pawn's x coordinate
+   * @param oldY a pawn's y coordinate
+   * @param field a field that is target of the move
+   * @param color color of the pawn
+   * @return true if move is legal, false otherwise
+   */
   public boolean isValid(int oldX, int oldY, Field field, String color) {
 
     nodes.clear();
@@ -76,6 +84,11 @@ public class MovementController {
 
   }
 
+  /**
+   * Method that checks if someone finished his game.
+   * If so, it updates the List of winners
+   * @return true if the answer is yes, false otherwise xd
+   */
   public boolean someoneFinished() {
     if (greenWinningCondition() && !winners.contains("GREEN")) {
       winners.add("GREEN");
@@ -108,6 +121,14 @@ public class MovementController {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Getter for latest winner.
+   * @return latest winner
+   */
+  public String getWinner() {
+    return winner;
   }
 
   private boolean moveValidation(int oldX, int oldY, Field field) {
@@ -462,9 +483,5 @@ public class MovementController {
       }
     }
     return false;
-  }
-
-  public String getWinner() {
-    return winner;
   }
 }

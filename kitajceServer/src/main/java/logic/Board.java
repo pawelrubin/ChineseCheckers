@@ -24,35 +24,72 @@ public class Board extends BoardAbstract {
     addPawns(numOfPlayers);
   }
 
+  /**
+   * topCorner getter
+   * @return this.topCorner
+   */
   List<Point> getTopCorner() {
     return topCorner;
   }
 
+  /**
+   * topRightCorner getter
+   * @return this.topRightCorner
+   */
   List<Point> getTopRightCorner() {
     return topRightCorner;
   }
 
+  /**
+   * topLeftCorner getter
+   * @return this.topLeftCorner
+   */
   List<Point> getTopLeftCorner() {
     return topLeftCorner;
   }
 
+  /**
+   * bottomRightCorner getter
+   * @return this.bottomRightCorner
+   */
   List<Point> getBottomRightCorner() {
     return bottomRightCorner;
   }
 
+  /**
+   * bottomLeftCorner getter
+   * @return this.bottomLeftCorner
+   */
   List<Point> getBottomLeftCorner() {
     return bottomLeftCorner;
   }
 
+  /**
+   * bottomCorner getter
+   * @return this.bottomCorner
+   */
   List<Point> getBottomCorner() {
     return bottomCorner;
   }
 
+  /**
+   * This method moves a pawn in the pawns array
+   * @param oldX x coordinate of the old pawn
+   * @param oldY y coordinate of the old pawn
+   * @param newX x coordinate of the new pawn
+   * @param newY y coordinate of the new pawn
+   */
+  @SuppressWarnings("AssignmentToNull")
   public void movePawn(int oldX, int oldY, int newX, int newY) {
     pawns[newX][newY] = pawns[oldX][oldY];
     pawns[oldX][oldY] = null;
   }
 
+  /**
+   * @param color Color of a player
+   * @return The farthest field in the target cornetr
+   * @throws IllegalArgumentException Exception is thrown on wrong color value
+   */
   public Field getDestination(String color) throws IllegalArgumentException {
     switch (color) {
       case "GREEN": {
@@ -79,6 +116,13 @@ public class Board extends BoardAbstract {
     }
   }
 
+  /**
+   * Returns closest empty field to the farthest field in target corner.
+   *
+   * @param color Color of a player
+   * @return Field
+   * @throws IllegalArgumentException Exception is thrown on wrong color value
+   */
   public Field getTarget(String color) throws IllegalArgumentException {
     double bestDistance = Double.MAX_VALUE;
     Field target = null;
@@ -98,6 +142,12 @@ public class Board extends BoardAbstract {
     }
   }
 
+  /**
+   * Getter for all Pawns of passed color
+   *
+   * @param color Color of a player
+   * @return List of pawns
+   */
   public List<Pawn> getPawnsByColor(String color) {
     List<Pawn> pawnsByColor = new ArrayList<>();
 
@@ -114,46 +164,69 @@ public class Board extends BoardAbstract {
     return pawnsByColor;
   }
 
+  /**
+   * fields array getter
+   * @return this.fields
+   */
   public Field[][] getFields() {
     return fields;
   }
 
+  /**
+   * Getter for a target corner dependent on the color
+   * @param color Color of a player
+   * @return List of Points representing target corner
+   */
   public List<Point> getTargetCorner(String color) {
     switch (color) {
       case "GREEN": {
-        return getBottomCorner();
+        return bottomCorner;
       }
       case "WHITE": {
-        return getBottomLeftCorner();
+        return bottomLeftCorner;
       }
       case "BLUE": {
-        return getTopLeftCorner();
+        return topLeftCorner;
       }
       case "YELLOW": {
-        return getTopCorner();
+        return topCorner;
       }
       case "BLACK": {
-        return getTopRightCorner();
+        return topRightCorner;
       }
       case "RED": {
-        return getTopLeftCorner();
+        return topLeftCorner;
+      }
+      default: {
+        throw new IllegalArgumentException("Wrong color");
       }
     }
-    return null;
   }
 
+  /**
+   * offsets array setter
+   */
   private void setOffsets() {
     offset = new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
   }
 
+  /**
+   * widths array setter
+   */
   private void setWidths() {
     widths = new int[]{1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
   }
 
+  /**
+   * height setter
+   */
   private void setHeight() {
     height = 17;
   }
 
+  /**
+   *  This method fills up the fields array.
+   */
   private void addFields() {
     fields = new Field[height][height];
     // creating fields
@@ -164,6 +237,10 @@ public class Board extends BoardAbstract {
     }
   }
 
+  /**
+   * This method fills up the pawns array depending on the numOfPlayers
+   * @param numOfPlayers in a game
+   */
   private void addPawns(int numOfPlayers) {
     pawns = new Pawn[height][height];
     //creating pawns
