@@ -1,5 +1,3 @@
-package kitajce;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +7,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("../Main.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
     primaryStage.setTitle("Kitajce");
     primaryStage.setScene(new Scene(root));
     primaryStage.setMaximized(false);
